@@ -7,7 +7,7 @@ let PriceSchema = Price.schema
 
 let TransactionSchema = new Schema(
   {
-    _id: Number,
+    number: { type: Number, unique: true, required: true },
     gym: { type: String, ref: 'Gym', required: true },
     pos: { type: String, ref: 'Pos', required: true },
     user: { type: String, ref: 'User', required: true },
@@ -18,6 +18,14 @@ let TransactionSchema = new Schema(
   },
   { timestamps: true }
 )
+
+TransactionSchema.pre('validate', async function(next) {
+  if (this.isNew) {
+    let number = (await Transaction.findOne().sort({ number: 'desc' })).number || 0
+    this.number = number + 1
+  }
+  next()
+})
 
 let Transaction = mongoose.model('Transaction', TransactionSchema)
 

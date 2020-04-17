@@ -35,12 +35,12 @@ export default {
         .then(() => {
           this.$store
             .dispatch('loadPos', this.posUuid)
-            .then(pos => {
+            .then(async pos => {
               this.$store.commit('setGym', pos.gym)
               if (pos.gym.users) {
                 this.$store.commit('setUsers', pos.gym.users)
               }
-              this.$store.dispatch('loadPosData', pos)
+              await this.$store.dispatch('loadPosData', pos)
               this.$bvModal.show('loginModal')
             })
             .catch(error => {

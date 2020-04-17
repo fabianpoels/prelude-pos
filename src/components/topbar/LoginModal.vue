@@ -9,9 +9,7 @@
       </b-form-group>
     </b-form>
     <div slot="modal-footer">
-      <save-button :disabled="!(identifier.length > 0 && password.length > 0)" :saving="loggingIn" @click="login()" :savingText="$t('login.logging_in')">{{
-        $t('login.login')
-      }}</save-button>
+      <save-button :disabled="!(identifier.length > 0 && password.length > 0)" :saving="loggingIn" @click="login()" :savingText="$t('login.logging_in')">{{ $t('login.login') }}</save-button>
     </div>
   </b-modal>
 </template>
