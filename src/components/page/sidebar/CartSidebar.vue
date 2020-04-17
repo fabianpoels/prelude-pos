@@ -2,7 +2,7 @@
   <div class="sidebar pt-3 bg-light shadow-sm d-flex flex-column justify-content-between">
     <div class="cartItems h-100">
       <transition-group name="list" tag="div" class="prices">
-        <cart-item v-for="(cartItem, index) in cartItems" :key="index" :cartItem="cartItem" />
+        <cart-item v-for="cartItem in cartItems" :key="cartItem.priceId" :cartItem="cartItem" />
       </transition-group>
     </div>
     <div class="footer pb-3">
@@ -33,7 +33,7 @@
         </b-btn>
       </div>
     </div>
-    <single-checkout v-model="this.checkoutItems" />
+    <single-checkout @processed="processed()" :cartItems="cartItems" />
   </div>
 </template>
 <script>
@@ -48,14 +48,17 @@ export default {
 
   computed: {
     ...mapGetters(['gym', 'cartHasItems', 'cartHasBackup', 'cartItems', 'cartTotal', 'cartItemsCount']),
+  },
 
-    checkoutItems: {
-      get() {
-        return [...this.cartItems]
-      },
-      set(items) {
-        this.$store.commit('setCartItems', items)
-      },
+  methods: {
+    processed() {
+      this.$bvToast.toast(this.$i18n.t('checkout.processed'), {
+        title: this.$i18n.t('checkout.processed'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
+      this.$store.commit('setCart', [])
     },
   },
 }

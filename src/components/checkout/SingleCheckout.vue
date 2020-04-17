@@ -25,11 +25,6 @@ import { mapGetters } from 'vuex'
 import config from '@/config/config'
 import CheckoutItem from '@/components/checkout/_CheckoutItem'
 export default {
-  model: {
-    prop: 'cartItems',
-    event: 'updateCartItems',
-  },
-
   props: {
     cartItems: {
       type: Array,
@@ -67,7 +62,7 @@ export default {
     async createTransaction(paymentMethod) {
       this.saving = true
       await this.$store.dispatch('createTransactionFromCartItems', { cartItems: this.localCartItems, paymentMethod: paymentMethod })
-      this.$emit('updateCartItems', [])
+      this.$emit('processed')
       this.saving = false
       this.showModal = false
     },

@@ -1,6 +1,7 @@
 const en = {
   checkout: {
     checkout: 'Checkout',
+    processed: 'Processed',
   },
   datastructure: {
     add_business_unit: 'Add business unit',
