@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white shadow-sm rounded p-3" :class="{ 'h-100' : fullHeight }">
+  <div class="bg-white shadow-sm rounded p-3" :class="{ 'h-100': fullHeight }">
     <div class="row align-items-center justify-content-between" v-if="hasTitle">
       <div class="col-12 col-md-auto py-1">
         <div v-if="title != ''" class="h3 mb-1">{{ title }}</div>

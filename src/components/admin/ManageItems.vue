@@ -16,9 +16,7 @@
               <b-badge :id="`item-prices-badge-${data.item.item._id}`">{{ data.item.prices.length }}</b-badge>
               <b-tooltip :target="`item-prices-badge-${data.item.item._id}`" triggers="hover">
                 <template v-for="(price, index) in data.item.prices">
-                  <span
-                    :key="`span-${index}`"
-                  >{{ price.name }}: {{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</span>
+                  <span :key="`span-${index}`">{{ price.name }}: {{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</span>
                   <br :key="`br-${index}`" />
                 </template>
               </b-tooltip>

@@ -3,18 +3,8 @@
     <!-- <b-collapse id="nav-collapse" is-nav></b-collapse>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>-->
     <b-navbar-nav v-if="loggedIn">
-      <router-link
-        tag="b-nav-item"
-        v-for="page in pages"
-        :key="page._id"
-        :to="{ name: 'page-view', params: { pageId: page._id } }"
-        class="mr-3"
-      >
-        <font-awesome-icon
-          :icon="['fas', page.icon]"
-          size="2x"
-          v-if="page.icon && page.icon !== ''"
-        />
+      <router-link tag="b-nav-item" v-for="page in pages" :key="page._id" :to="{ name: 'page-view', params: { pageId: page._id } }" class="mr-3">
+        <font-awesome-icon :icon="['fas', page.icon]" size="2x" v-if="page.icon && page.icon !== ''" />
         <span class="ml-2">{{ page.name }}</span>
       </router-link>
     </b-navbar-nav>
@@ -30,16 +20,10 @@
         <template v-slot:button-content>
           <font-awesome-icon :icon="['fas', 'cog']" size="2x" />
         </template>
-        <router-link
-          tag="b-dropdown-item"
-          :to="{ name: 'manage-categories' }"
-        >{{ $t('topbar.categories') }}</router-link>
+        <router-link tag="b-dropdown-item" :to="{ name: 'manage-categories' }">{{ $t('topbar.categories') }}</router-link>
         <router-link tag="b-dropdown-item" :to="{ name: 'manage-items' }">{{ $t('topbar.items') }}</router-link>
         <b-dropdown-divider></b-dropdown-divider>
-        <router-link
-          tag="b-dropdown-item"
-          :to="{ name: 'gym-settings' }"
-        >{{ $t('topbar.settings') }}</router-link>
+        <router-link tag="b-dropdown-item" :to="{ name: 'gym-settings' }">{{ $t('topbar.settings') }}</router-link>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown right v-if="loggedIn" class="ml-2">
         <template v-slot:button-content>

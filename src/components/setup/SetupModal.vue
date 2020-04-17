@@ -20,12 +20,7 @@
         </b-form>
         <b-form v-else class="my-3">
           <b-form-group id="gym-name" label="Name" label-for="gym-name-input">
-            <b-form-input
-              id="gym-name-input"
-              v-model="newGym.name"
-              required
-              placeholder="Gym name"
-            />
+            <b-form-input id="gym-name-input" v-model="newGym.name" required placeholder="Gym name" />
           </b-form-group>
         </b-form>
       </b-tab>

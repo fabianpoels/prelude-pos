@@ -1,31 +1,10 @@
 <template>
-  <b-modal
-    v-model="showModal"
-    :id="`editItemButton-${page._id}-${x}-${y}`"
-    :title="$t('layout.edit_button')"
-    body-bg-variant="100"
-    no-close-on-backdrop
-  >
+  <b-modal v-model="showModal" :id="`editItemButton-${page._id}-${x}-${y}`" :title="$t('layout.edit_button')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="item" :label="$t('datastructure.item')" label-for="item-input">
-        <el-select
-          id="item-input"
-          v-model="editButton.item"
-          :placeholder="$t('datastructure.item')"
-          class="w-100"
-          filterable
-        >
-          <el-option-group
-            v-for="category in categories"
-            :key="category._id"
-            :label="category.name"
-          >
-            <el-option
-              v-for="item in itemsForCategory(category)"
-              :key="item._id"
-              :label="item.name"
-              :value="item._id"
-            >
+        <el-select id="item-input" v-model="editButton.item" :placeholder="$t('datastructure.item')" class="w-100" filterable>
+          <el-option-group v-for="category in categories" :key="category._id" :label="category.name">
+            <el-option v-for="item in itemsForCategory(category)" :key="item._id" :label="item.name" :value="item._id">
               <span>{{ item.name }}</span>
             </el-option>
           </el-option-group>
@@ -36,25 +15,12 @@
     <div slot="modal-footer">
       <template v-if="!confirmDelete">
         <b-btn variant="danger" @click="confirmDelete = true">{{ $t('form.delete') }}</b-btn>
-        <save-button
-          :disabled="!editButton.item || (editButton.item && editButton.item.length < 1)"
-          :saving="saving"
-          @click="updatePage()"
-        >{{ $t('form.save') }}</save-button>
+        <save-button :disabled="!editButton.item || (editButton.item && editButton.item.length < 1)" :saving="saving" @click="updatePage()">{{ $t('form.save') }}</save-button>
       </template>
       <template v-else>
         <span class="mr-2">{{ $t('form.are_you_sure') }}?</span>
-        <save-button
-          variant="danger"
-          :saving="deleting"
-          :saveText="$t('form.deleting')"
-          @click="deleteButton()"
-        >{{ $t('form.delete') }}</save-button>
-        <b-btn
-          variant="outline-secondary"
-          @click="confirmDelete = false"
-          :disabled="deleting"
-        >{{ $t('form.cancel') }}</b-btn>
+        <save-button variant="danger" :saving="deleting" :saveText="$t('form.deleting')" @click="deleteButton()">{{ $t('form.delete') }}</save-button>
+        <b-btn variant="outline-secondary" @click="confirmDelete = false" :disabled="deleting">{{ $t('form.cancel') }}</b-btn>
       </template>
     </div>
   </b-modal>

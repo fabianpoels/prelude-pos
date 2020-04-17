@@ -1,31 +1,10 @@
 <template>
-  <b-modal
-    v-model="showModal"
-    :id="`addItemButton-${page._id}-${x}-${y}`"
-    :title="$t('layout.add_button')"
-    body-bg-variant="100"
-    no-close-on-backdrop
-  >
+  <b-modal v-model="showModal" :id="`addItemButton-${page._id}-${x}-${y}`" :title="$t('layout.add_button')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="item" :label="$t('datastructure.item')" label-for="item-input">
-        <el-select
-          id="item-input"
-          v-model="newButton.item"
-          :placeholder="$t('datastructure.item')"
-          class="w-100"
-          filterable
-        >
-          <el-option-group
-            v-for="category in categories"
-            :key="category._id"
-            :label="category.name"
-          >
-            <el-option
-              v-for="item in itemsForCategory(category)"
-              :key="item._id"
-              :label="item.name"
-              :value="item._id"
-            >
+        <el-select id="item-input" v-model="newButton.item" :placeholder="$t('datastructure.item')" class="w-100" filterable>
+          <el-option-group v-for="category in categories" :key="category._id" :label="category.name">
+            <el-option v-for="item in itemsForCategory(category)" :key="item._id" :label="item.name" :value="item._id">
               <span>{{ item.name }}</span>
             </el-option>
           </el-option-group>
@@ -34,11 +13,7 @@
     </b-form>
 
     <div slot="modal-footer">
-      <save-button
-        :disabled="!newButton.item || (newButton.item && newButton.item.length < 1)"
-        :saving="saving"
-        @click="addButton()"
-      >{{ $t('form.save') }}</save-button>
+      <save-button :disabled="!newButton.item || (newButton.item && newButton.item.length < 1)" :saving="saving" @click="addButton()">{{ $t('form.save') }}</save-button>
     </div>
   </b-modal>
 </template>

@@ -1,11 +1,6 @@
 <template>
   <div class="buttonCell">
-    <b-btn
-      v-if="button"
-      variant="primary"
-      class="button"
-      @click="addToCart()"
-    >{{ itemById(button.item).name }}</b-btn>
+    <b-btn v-if="button" variant="primary" class="button" @click="addToCart()">{{ itemById(button.item).name }}</b-btn>
     <b-btn variant="outline-secondary" class="button" v-else disabled></b-btn>
     <price-selector :item="item" :position="position" @select="selectPrice" v-if="button" />
   </div>

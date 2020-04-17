@@ -11,15 +11,8 @@
             <font-awesome-icon :icon="['fas', 'ellipsis-v']" />
           </template>
           <b-dropdown-item v-b-modal="`editBusinessUnit-${businessUnit._id}`">{{ $t('form.edit') }}</b-dropdown-item>
-          <b-dropdown-item
-            v-b-modal="`deleteBusinessUnit-${businessUnit._id}`"
-            v-if="canDeleteBusinessUnit(businessUnit)"
-          >{{ $t('form.delete') }}</b-dropdown-item>
-          <b-dropdown-item
-            v-b-modal="`deleteBusinessUnit-${businessUnit._id}`"
-            v-else
-            :disabled="!canArchiveBusinessUnit(businessUnit)"
-          >{{ $t('form.archive') }}</b-dropdown-item>
+          <b-dropdown-item v-b-modal="`deleteBusinessUnit-${businessUnit._id}`" v-if="canDeleteBusinessUnit(businessUnit)">{{ $t('form.delete') }}</b-dropdown-item>
+          <b-dropdown-item v-b-modal="`deleteBusinessUnit-${businessUnit._id}`" v-else :disabled="!canArchiveBusinessUnit(businessUnit)">{{ $t('form.archive') }}</b-dropdown-item>
         </b-dropdown>
       </div>
     </template>
@@ -31,10 +24,7 @@
     </b-table>
     <add-category :businessUnit="businessUnit" />
     <edit-business-unit :businessUnit="businessUnit" />
-    <delete-business-unit
-      :businessUnit="businessUnit"
-      :archive="!canDeleteBusinessUnit(businessUnit)"
-    />
+    <delete-business-unit :businessUnit="businessUnit" :archive="!canDeleteBusinessUnit(businessUnit)" />
   </default-card>
 </template>
 <script>

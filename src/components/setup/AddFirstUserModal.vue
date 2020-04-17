@@ -1,11 +1,5 @@
 <template>
-  <b-modal
-    v-model="showModal"
-    id="AddFirstUserModal"
-    title="Setup"
-    body-bg-variant="100"
-    no-close-on-backdrop
-  >
+  <b-modal v-model="showModal" id="AddFirstUserModal" title="Setup" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="firstname" label="Firstname" label-for="firstname-input">
         <b-form-input id="firstname-input" v-model="newUser.firstname" required />
@@ -23,12 +17,7 @@
         <b-form-input id="password-input" v-model="newUser.password" required type="password" />
       </b-form-group>
       <b-form-group id="passwordConfirm" label="Confirm password" label-for="passwordConfirm-input">
-        <b-form-input
-          id="passwordConfirm-input"
-          v-model="newUser.passwordConfirm"
-          required
-          type="password"
-        />
+        <b-form-input id="passwordConfirm-input" v-model="newUser.passwordConfirm" required type="password" />
       </b-form-group>
     </b-form>
 
