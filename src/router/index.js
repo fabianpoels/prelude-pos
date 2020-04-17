@@ -1,30 +1,76 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Vue from 'vue'
+import Router from 'vue-router'
+import EmptyView from '@/components/EmptyView'
+import GymSettings from '@/components/admin/GymSettings'
+import ManageCategories from '@/components/admin/ManageCategories'
+import ManageItems from '@/components/admin/ManageItems'
+import PagesSetup from '@/components/admin/PagesSetup'
+import PageView from '@/components/page/PageView'
+import store from '@/store'
 
-Vue.use(VueRouter);
+Vue.use(Router)
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
-];
-
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
-});
-
-export default router;
+export default new Router({
+  routes: [
+    {
+      path: '',
+      name: 'root',
+      component: EmptyView,
+    },
+    {
+      path: '/page-view/:pageId',
+      name: 'page-view',
+      component: PageView,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.loggedIn) {
+          next()
+        }
+        next(false)
+      },
+    },
+    {
+      path: '/manage-categories',
+      name: 'manage-categories',
+      component: ManageCategories,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAdmin) {
+          next()
+        }
+        next(false)
+      },
+    },
+    {
+      path: '/manage-items',
+      name: 'manage-items',
+      component: ManageItems,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAdmin) {
+          next()
+        }
+        next(false)
+      },
+    },
+    {
+      path: '/gym-settings',
+      name: 'gym-settings',
+      component: GymSettings,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAdmin) {
+          next()
+        }
+        next(false)
+      },
+    },
+    {
+      path: '/pages-setup',
+      name: 'pages-setup',
+      component: PagesSetup,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAdmin) {
+          next()
+        }
+        next(false)
+      },
+    },
+  ],
+})

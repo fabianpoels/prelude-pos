@@ -1,32 +1,72 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <main-view @reconnect="startApplication()" />
   </div>
 </template>
 
+<script>
+import MainView from '@/components/MainView'
+export default {
+  name: 'prelude-pos',
+
+  props: {
+    mongo: { type: Object, required: true },
+    posUuid: { type: String, required: true },
+  },
+
+  components: {
+    MainView,
+  },
+
+  mounted() {
+    this.startApplication()
+  },
+
+  methods: {
+    startApplication() {
+      this.$store
+        .dispatch('initMongoConnection', {
+          mongoDbHost: this.mongo.host,
+          mongoDbUser: this.mongo.user,
+          mongoDbPassword: this.mongo.password,
+          mongoDbDatabase: this.mongo.database,
+          posUuid: this.posUuid,
+        })
+        .then(() => {
+          this.$store
+            .dispatch('loadPos', this.posUuid)
+            .then(pos => {
+              this.$store.commit('setGym', pos.gym)
+              if (pos.gym.users) {
+                this.$store.commit('setUsers', pos.gym.users)
+              }
+              this.$store.dispatch('loadPosData', pos)
+              this.$bvModal.show('loginModal')
+            })
+            .catch(error => {
+              console.log(error)
+              this.$store.dispatch('loadAllGyms').then(() => {
+                this.$store.commit('showSetupButton', true)
+              })
+            })
+        })
+        .catch(error => {
+          console.log(error)
+          this.$bvToast.toast('There was an error while connecting to the database', {
+            title: 'Connection error',
+            variant: 'danger',
+            solid: true,
+            toaster: 'b-toaster-top-center',
+          })
+        })
+    },
+  },
+}
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+body,
+html {
+  height: 100%;
+  background-color: #dee2e6 !important;
 }
 </style>

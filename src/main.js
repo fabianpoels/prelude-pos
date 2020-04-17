@@ -1,12 +1,111 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+import axios from 'axios'
+import BootstrapVue from 'bootstrap-vue'
+import PortalVue from 'portal-vue'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import App from '@/App'
+import router from '@/router'
+import store from '@/store'
+import messages from '@/translations'
+import helperPlugin from '@/helpers/helperPlugin'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  faBuilding,
+  faCandyCane,
+  faCashRegister,
+  faChalkboardTeacher,
+  faCog,
+  faEdit,
+  faEllipsisV,
+  faGlassCheers,
+  faMountain,
+  faPlus,
+  faReceipt,
+  faSave,
+  faTh,
+  faTimes,
+  faTrash,
+  faUser,
+  faUsers,
+  faUtensils,
+  faShoppingBasket,
+  faMinus,
+  faHandHoldingUsd,
+  faBan,
+  faAddressBook,
+  faUndo,
+  faMoneyBill,
+  faCreditCard,
+  faCoins,
+} from '@fortawesome/free-solid-svg-icons'
+import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
-Vue.config.productionTip = false;
+library.add(
+  faBuilding,
+  faCandyCane,
+  faCashRegister,
+  faChalkboardTeacher,
+  faCog,
+  faEdit,
+  faEllipsisV,
+  faGlassCheers,
+  faMountain,
+  faPlus,
+  faReceipt,
+  faSave,
+  faTh,
+  faTimes,
+  faTrash,
+  faUser,
+  faUsers,
+  faUtensils,
+  faShoppingBasket,
+  faMinus,
+  faHandHoldingUsd,
+  faBan,
+  faAddressBook,
+  faUndo,
+  faMoneyBill,
+  faCreditCard,
+  faCoins,
+  faCcVisa
+)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.use(BootstrapVue)
+Vue.use(PortalVue)
+Vue.use(VueI18n)
+Vue.use(ElementUI)
+
+Vue.use(helperPlugin)
+
+const i18n = new VueI18n({
+  locale: process.env.LOCALE || 'en',
+  messages,
+})
+
+if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+Vue.http = Vue.prototype.$http = axios
+Vue.config.productionTip = false
+
+let props = {
+  mongo: {
+    host: process.env.VUE_APP_MONGODB_HOST,
+    user: process.env.VUE_APP_MONGODB_USER,
+    password: process.env.VUE_APP_MONGODB_PW,
+    database: process.env.VUE_APP_MONGODB_DB,
+  },
+  posUuid: process.env.VUE_APP_POS_UUID,
+}
 
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount("#app");
+  i18n,
+  render: h => h(App, { props }),
+}).$mount('#app')
