@@ -7,7 +7,7 @@ let PriceSchema = Price.schema
 
 let TransactionSchema = new Schema(
   {
-    number: { type: Number, unique: true, required: true },
+    number: { type: Number, required: true },
     gym: { type: String, ref: 'Gym', required: true },
     pos: { type: String, ref: 'Pos', required: true },
     user: { type: String, ref: 'User', required: true },
