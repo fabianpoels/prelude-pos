@@ -6,6 +6,7 @@ import ManageCategories from '@/components/admin/ManageCategories'
 import ManageItems from '@/components/admin/ManageItems'
 import PagesSetup from '@/components/admin/PagesSetup'
 import PageView from '@/components/page/PageView'
+import TransactionPage from '@/components/transaction/TransactionPage'
 import store from '@/store'
 
 Vue.use(Router)
@@ -25,6 +26,15 @@ export default new Router({
         if (store.getters.loggedIn) {
           next()
         }
+        next(false)
+      },
+    },
+    {
+      path: '/transactions/',
+      name: 'transactions',
+      component: TransactionPage,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.loggedIn) next()
         next(false)
       },
     },

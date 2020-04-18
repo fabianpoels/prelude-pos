@@ -7,6 +7,10 @@
         <font-awesome-icon :icon="['fas', page.icon]" size="2x" v-if="page.icon && page.icon !== ''" />
         <span class="ml-2">{{ page.name }}</span>
       </router-link>
+      <router-link tag="b-nav-item" :to="{ name: 'transactions' }" class="ml-5 mr-3">
+        <font-awesome-icon :icon="['fas', 'receipt']" size="2x" />
+        <span class="ml-2">{{ $t('topbar.transactions') }}</span>
+      </router-link>
     </b-navbar-nav>
     <b-navbar-nav>
       <slot></slot>

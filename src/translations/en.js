@@ -111,6 +111,7 @@ const en = {
     retry_connection: 'Retry connection',
     settings: 'Settings',
     setup: 'Setup',
+    transactions: 'Transactions',
   },
 }
 

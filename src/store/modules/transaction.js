@@ -28,11 +28,16 @@ const TransactionStore = {
         paymentMethod: paymentMethod,
       })
       await transaction.save()
-      commit('addTransaction', transaction.toObject({ getters: true }))
+      let t = transaction.toObject({ getters: true })
+      commit('addTransaction', t)
+      return t
     },
   },
 
-  getters: {},
+  getters: {
+    transactions: state => state.transactions,
+    orderedTransactions: getters => [...getters.transactions].sort((a, b) => b.number - a.number),
+  },
 }
 
 export default TransactionStore

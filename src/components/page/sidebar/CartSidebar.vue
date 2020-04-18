@@ -33,7 +33,7 @@
         </b-btn>
       </div>
     </div>
-    <single-checkout @processed="processed()" :cartItems="cartItems" />
+    <single-checkout @processed="processed" :cartItems="cartItems" />
   </div>
 </template>
 <script>
@@ -51,8 +51,8 @@ export default {
   },
 
   methods: {
-    processed() {
-      this.$bvToast.toast(this.$i18n.t('checkout.processed'), {
+    processed(transaction) {
+      this.$bvToast.toast(`#${transaction.number}: ${this.$helpers.formatPrice(this.gym, transaction.totalAmount)}`, {
         title: this.$i18n.t('checkout.processed'),
         variant: 'success',
         solid: true,

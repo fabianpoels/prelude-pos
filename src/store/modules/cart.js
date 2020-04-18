@@ -63,10 +63,8 @@ const CartStore = {
     cartHasItems: getters => getters.cartItems.length > 0,
     cartHasBackup: getters => getters.cartBackup.length > 0,
     cartItemsCount: getters => getters.cartItems.reduce((sum, cartItem) => sum + cartItem.amount, 0),
-    cartTotal: (getters, rootGetters) =>
-      getters.cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
-    totalForCartItems: (getters, rootGetters) => cartItems =>
-      cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
+    cartTotal: (getters, rootGetters) => getters.cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
+    totalForCartItems: (getters, rootGetters) => cartItems => cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
   },
 }
 

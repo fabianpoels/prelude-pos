@@ -25,6 +25,7 @@
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
     "element-ui": "^2.13.1",
+    "luxon": "^1.23.0",
     "mongoose": "^5.9.9",
     "mongoose-uuid2": "^2.3.0",
     "portal-vue": "^2.1.7",

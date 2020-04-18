@@ -14,6 +14,7 @@ let TransactionSchema = new Schema(
     priceIds: [{ type: String, ref: 'Price', required: true }],
     prices: [PriceSchema],
     paymentMethod: { type: String, enum: Object.values(config.transaction.paymentMethods), required: true },
+    totalAmount: { type: Number },
     archived: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
@@ -24,6 +25,11 @@ TransactionSchema.pre('validate', async function(next) {
     let number = (await Transaction.findOne().sort({ number: 'desc' })).number || 0
     this.number = number + 1
   }
+  next()
+})
+
+TransactionSchema.pre('save', function(next) {
+  this.totalAmount = this.prices.reduce((sum, price) => sum + price.salesPrice, 0)
   next()
 })
 

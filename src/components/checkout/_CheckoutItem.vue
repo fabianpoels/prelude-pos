@@ -1,8 +1,14 @@
 <template>
   <b-list-group-item>
-    <span>{{ fullItemName }}</span>
-    <br />
-    <span class="mr-4">{{ cartItem.amount }}x {{ $helpers.formatPrice(gym.settings, price.salesPrice) }} = {{ totalAmount }}</span>
+    <b-row>
+      <b-col cols="9">
+        <div class="h6">{{ fullItemName }}</div>
+        <div class="ml-3">{{ cartItem.amount }} x {{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</div>
+      </b-col>
+      <b-col cols="3" class="d-flex justify-content-end">
+        <div class="align-self-end">{{ totalAmount }}</div>
+      </b-col>
+    </b-row>
   </b-list-group-item>
 </template>
 <script>

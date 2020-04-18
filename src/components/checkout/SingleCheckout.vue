@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" id="singleCheckout" :title="$t('checkout.checkout')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" id="singleCheckout" :title="$t('checkout.checkout')" body-bg-variant="100">
     <b-list-group>
       <checkout-item v-for="(cartItem, index) in localCartItems" :cartItem="cartItem" :key="index" />
     </b-list-group>
@@ -61,8 +61,8 @@ export default {
   methods: {
     async createTransaction(paymentMethod) {
       this.saving = true
-      await this.$store.dispatch('createTransactionFromCartItems', { cartItems: this.localCartItems, paymentMethod: paymentMethod })
-      this.$emit('processed')
+      let transaction = await this.$store.dispatch('createTransactionFromCartItems', { cartItems: this.localCartItems, paymentMethod: paymentMethod })
+      this.$emit('processed', transaction)
       this.saving = false
       this.showModal = false
     },
