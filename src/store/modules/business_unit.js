@@ -62,8 +62,7 @@ const BusinessUnitStore = {
   getters: {
     businessUnits: state => state.businessUnits.filter(bu => bu.archived === false),
     canArchiveBusinessUnit: (state, getters) => businessUnit => getters.categoriesForBusinessUnit(businessUnit).length === 0,
-    canDeleteBusinessUnit: (state, getters, rootState) => businessUnit =>
-      rootState.CategoryStore.categories.filter(c => c.businessUnit === businessUnit._id).length === 0,
+    canDeleteBusinessUnit: (state, getters, rootState) => businessUnit => rootState.CategoryStore.categories.filter(c => c.businessUnit === businessUnit._id).length === 0,
   },
 }
 

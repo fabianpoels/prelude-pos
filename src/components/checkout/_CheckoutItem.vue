@@ -1,5 +1,5 @@
 <template>
-  <b-list-group-item>
+  <div>
     <b-row>
       <b-col cols="9">
         <div class="h6">{{ fullItemName }}</div>
@@ -9,7 +9,7 @@
         <div class="align-self-end">{{ totalAmount }}</div>
       </b-col>
     </b-row>
-  </b-list-group-item>
+  </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'

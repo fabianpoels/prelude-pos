@@ -1,9 +1,9 @@
 <template>
   <b-modal v-model="showModal" id="singleCheckout" :title="$t('checkout.checkout')" body-bg-variant="100">
-    <b-list-group>
+    <div class="d-flex flex-column">
       <checkout-item v-for="(cartItem, index) in localCartItems" :cartItem="cartItem" :key="index" />
-    </b-list-group>
-    <span>{{ $t('sidebar.total') }}: {{ $helpers.formatPrice(gym.settings, totalForCartItems(localCartItems)) }}</span>
+      <div>{{ $t('sidebar.total') }}: {{ $helpers.formatPrice(gym.settings, totalForCartItems(localCartItems)) }}</div>
+    </div>
     <div slot="modal-footer" class="w-100">
       <b-overlay :show="saving" rounded="sm" class="w-100 d-flex flex-row">
         <b-btn variant="success" class="w-100 mr-2" @click="createTransaction(paymentMethods.creditCard)">

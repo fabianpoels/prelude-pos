@@ -1,9 +1,7 @@
 <template>
   <b-modal v-model="showModal" :id="`selectPrice-${position}`" :title="`${$t('page.select_price')}: ${item.name}`" body-bg-variant="100">
     <div class="pricesList">
-      <b-btn style="font-size: 120%;" variant="primary" v-for="price in pricesForItem(item)" :key="price._id" @click="selectPrice(price)" class="my-2 py-5"
-        >{{ price.name }} ({{ $helpers.formatPrice(gym.settings, price.salesPrice) }})</b-btn
-      >
+      <b-btn style="font-size: 120%;" variant="primary" v-for="price in pricesForItem(item)" :key="price._id" @click="selectPrice(price)" class="my-2 py-5">{{ price.name }} ({{ $helpers.formatPrice(gym.settings, price.salesPrice) }})</b-btn>
     </div>
     <div slot="modal-footer">
       <b-btn variant="secondary" @click="showModal = false">{{ $t('form.cancel') }}</b-btn>

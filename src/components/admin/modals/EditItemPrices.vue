@@ -1,11 +1,5 @@
 <template>
-  <b-modal
-    v-model="showModal"
-    :id="`editItemPrices-${item._id}`"
-    :title="`${$t('datastructure.edit_prices')}: ${item.name}`"
-    body-bg-variant="100"
-    no-close-on-backdrop
-  >
+  <b-modal v-model="showModal" :id="`editItemPrices-${item._id}`" :title="`${$t('datastructure.edit_prices')}: ${item.name}`" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <price-item v-for="price in pricesForItem(item)" :key="price._id" :price="price" class="mb-2" />
       <b-overlay :show="saving" rounded="sm" spinner-small class="mt-2">

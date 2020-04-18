@@ -8,14 +8,7 @@
         <b-form-input id="identifier-input" v-model="editItem.identifier" required />
       </b-form-group>
       <b-form-group id="category" :label="$t('datastructure.category')" label-for="category-input">
-        <el-select
-          id="category-input"
-          v-model="editItem.category"
-          @change="categoryChange"
-          :placeholder="$t('datastructure.category')"
-          class="w-100"
-          filterable
-        >
+        <el-select id="category-input" v-model="editItem.category" @change="categoryChange" :placeholder="$t('datastructure.category')" class="w-100" filterable>
           <el-option-group v-for="businessUnit in businessUnits" :key="businessUnit._id" :label="businessUnit.name">
             <el-option v-for="category in categoriesForBusinessUnit(businessUnit)" :key="category._id" :label="category.name" :value="category._id">
               <!-- <span style="display: inline-block; width: 10px; height: 10px;" :style="{ backgroundColor: category.color }"></span> -->

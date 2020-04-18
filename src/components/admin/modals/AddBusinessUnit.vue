@@ -1,37 +1,19 @@
 <template>
-  <b-modal
-    v-model="showModal"
-    id="addBusinessUnitModal"
-    :title="$t('datastructure.add_business_unit')"
-    body-bg-variant="100"
-    no-close-on-backdrop
-  >
+  <b-modal v-model="showModal" id="addBusinessUnitModal" :title="$t('datastructure.add_business_unit')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="name" :label="$t('form.name')" label-for="name-input">
         <b-form-input id="name-input" v-model="newBusinessUnit.name" required />
       </b-form-group>
-      <b-form-group
-        id="identifier"
-        :label="$t('datastructure.identifier')"
-        label-for="identifier-input"
-      >
+      <b-form-group id="identifier" :label="$t('datastructure.identifier')" label-for="identifier-input">
         <b-form-input id="identifier-input" v-model="newBusinessUnit.identifier" required />
       </b-form-group>
-      <b-form-group
-        id="vatRegime"
-        :label="$t('datastructure.vat_regime')"
-        label-for="vatRegime-input"
-      >
+      <b-form-group id="vatRegime" :label="$t('datastructure.vat_regime')" label-for="vatRegime-input">
         <b-form-select v-model="newBusinessUnit.vatRegime" :options="vatFormOptions"></b-form-select>
       </b-form-group>
     </b-form>
 
     <div slot="modal-footer">
-      <save-button
-        :disabled="newBusinessUnit.name && newBusinessUnit.name.length < 1"
-        :saving="saving"
-        @click="createBusinessUnit()"
-      >{{ $t('form.save') }}</save-button>
+      <save-button :disabled="newBusinessUnit.name && newBusinessUnit.name.length < 1" :saving="saving" @click="createBusinessUnit()">{{ $t('form.save') }}</save-button>
     </div>
   </b-modal>
 </template>
