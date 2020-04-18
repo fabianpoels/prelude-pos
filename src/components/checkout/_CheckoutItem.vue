@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="shadow-sm rounded p-3 border mb-2">
     <b-row>
-      <b-col cols="9">
+      <b-col cols="5">
         <div class="h6">{{ fullItemName }}</div>
-        <div class="ml-3">{{ cartItem.amount }} x {{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</div>
       </b-col>
-      <b-col cols="3" class="d-flex justify-content-end">
-        <div class="align-self-end">{{ totalAmount }}</div>
+      <b-col cols="4" class="d-flex justify-content-end">
+        <div>{{ cartItem.amount }} x {{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</div>
+      </b-col>
+      <b-col cols="3" class="d-flex justify-content-end border-left">
+        <div>{{ totalAmount }}</div>
       </b-col>
     </b-row>
   </div>

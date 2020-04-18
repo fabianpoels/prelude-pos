@@ -1,6 +1,9 @@
 const en = {
   checkout: {
+    card: 'Card',
+    cash: 'Cash',
     checkout: 'Checkout',
+    credit_card: 'Credit card',
     processed: 'Processed',
   },
   datastructure: {
