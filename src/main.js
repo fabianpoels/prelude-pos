@@ -10,6 +10,7 @@ import router from '@/router'
 import store from '@/store'
 import messages from '@/translations'
 import helperPlugin from '@/helpers/helperPlugin'
+import config from '@/config/config'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -42,6 +43,10 @@ import {
   faMoneyBill,
   faCreditCard,
   faCoins,
+  faAngleRight,
+  faAngleLeft,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
@@ -73,7 +78,11 @@ library.add(
   faMoneyBill,
   faCreditCard,
   faCoins,
-  faCcVisa
+  faCcVisa,
+  faAngleRight,
+  faAngleLeft,
+  faAngleDoubleLeft,
+  faAngleDoubleRight
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -107,5 +116,6 @@ new Vue({
   router,
   store,
   i18n,
+  config,
   render: h => h(App, { props }),
 }).$mount('#app')

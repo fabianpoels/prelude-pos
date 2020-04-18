@@ -23,7 +23,7 @@
         <b-btn variant="primary" class="w-100 mr-2" :disabled="!cartHasItems">
           <font-awesome-icon :icon="['fas', 'address-book']" size="2x" />
         </b-btn>
-        <b-btn variant="success" class="w-100 mr-2" :disabled="!cartHasItems || cartItemsCount < 2">
+        <b-btn variant="success" class="w-100 mr-2" :disabled="!cartHasItems || cartItemsCount < 2" v-b-modal.splitCheckout>
           <font-awesome-icon :icon="['fas', 'hand-holding-usd']" size="2x" />
           <font-awesome-icon :icon="['fas', 'users']" size="2x" />
         </b-btn>
@@ -34,20 +34,32 @@
       </div>
     </div>
     <single-checkout @processed="processed" :cartItems="cartItems" />
+    <split-checkout v-model="splitCartItems" />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import CartItem from '@/components/page/sidebar/_CartItem'
 import SingleCheckout from '@/components/checkout/SingleCheckout'
+import SplitCheckout from '@/components/checkout/SplitCheckout'
 export default {
   components: {
     CartItem,
     SingleCheckout,
+    SplitCheckout,
   },
 
   computed: {
     ...mapGetters(['gym', 'cartHasItems', 'cartHasBackup', 'cartItems', 'cartTotal', 'cartItemsCount']),
+
+    splitCartItems: {
+      get() {
+        return this.cartItems
+      },
+      set(items) {
+        this.$store.commit('setCart', items)
+      },
+    },
   },
 
   methods: {
