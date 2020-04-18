@@ -87,7 +87,7 @@ const SplitCheckoutStore = {
 
     moveOneLeft({ commit, getters, dispatch }, cartItem) {
       if (cartItem.amount === 1) {
-        dispatch('moveAllLeft', cartItem)
+        dispatch('moveFullItemLeft', cartItem)
       } else if (cartItem.amount > 1) {
         let rightCartItems = [...getters.rightCartItems]
         let index = rightCartItems.findIndex(i => i.priceId === cartItem.priceId)
@@ -103,7 +103,7 @@ const SplitCheckoutStore = {
 
     moveOneRight({ commit, getters, dispatch }, cartItem) {
       if (cartItem.amount === 1) {
-        dispatch('moveAllRight', cartItem)
+        dispatch('moveFullItemRight', cartItem)
       } else if (cartItem.amount > 1) {
         let leftCartItems = [...getters.leftCartItems]
         let index = leftCartItems.findIndex(i => i.priceId === cartItem.priceId)
