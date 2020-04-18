@@ -4,11 +4,16 @@ import Category from '@/models/category'
 const PosStore = {
   state: {
     pos: {},
+    dataLoaded: false,
   },
 
   mutations: {
     setPos(state, pos) {
       state.pos = pos
+    },
+
+    setDataLoaded(state, loaded) {
+      state.dataLoaded = loaded
     },
   },
 
@@ -42,6 +47,7 @@ const PosStore = {
       await dispatch('loadPages', pos)
       await dispatch('loadItems', categories)
       await dispatch('loadPrices', getters.items)
+      commit('setDataLoaded', true)
     },
 
     createPos(data) {
@@ -82,6 +88,7 @@ const PosStore = {
 
   getters: {
     pos: state => state.pos,
+    dataLoaded: state => state.dataLoaded,
   },
 }
 

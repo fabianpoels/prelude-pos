@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MainView from '@/components/MainView'
+import MainView from '@/MainView'
 export default {
   name: 'prelude-pos',
 

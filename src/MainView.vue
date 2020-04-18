@@ -16,9 +16,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import TopBar from './topbar/TopBar'
-import SetupModal from './setup/SetupModal'
-import AddFirstUserModal from './setup/AddFirstUserModal'
+import TopBar from '@/components/topbar/TopBar'
+import SetupModal from '@/components/setup/SetupModal'
+import AddFirstUserModal from '@/components/setup/AddFirstUserModal'
 export default {
   name: 'main-view',
 

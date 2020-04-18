@@ -34,9 +34,9 @@ const ApplicationStore = {
 
   actions: {
     initMongoConnection({ commit }, { mongoDbHost, mongoDbUser, mongoDbPassword, mongoDbDatabase, posUuid }) {
+      commit('setConnecting', true)
       commit('setPosUuid', posUuid)
       return new Promise((resolve, reject) => {
-        commit('setConnecting', true)
         mongoose
           .connect(`mongodb://${mongoDbUser}:${mongoDbPassword}@${mongoDbHost}/${mongoDbDatabase}`, {
             useNewUrlParser: true,

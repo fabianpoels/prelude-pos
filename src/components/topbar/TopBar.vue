@@ -31,7 +31,7 @@
         </template>
         <b-dropdown-item @click="logout()">{{ $t('topbar.logout') }}</b-dropdown-item>
       </b-nav-item-dropdown>
-      <b-nav-item right v-else>
+      <b-nav-item right v-if="!loggedIn && connected && dataLoaded">
         <font-awesome-icon :icon="['fas', 'user']" size="2x" v-b-modal.loginModal />
       </b-nav-item>
     </b-navbar-nav>
@@ -50,7 +50,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'pages']),
+    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'pages', 'connected', 'dataLoaded']),
   },
 
   methods: {
