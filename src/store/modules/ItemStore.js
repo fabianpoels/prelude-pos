@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Item from '@/models/item'
 
-const PosStore = {
+const ItemStore = {
   state: {
     items: [],
   },
@@ -77,4 +77,4 @@ const PosStore = {
   },
 }
 
-export default PosStore
+export default ItemStore

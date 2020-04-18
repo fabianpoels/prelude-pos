@@ -10,7 +10,6 @@ import router from '@/router'
 import store from '@/store'
 import messages from '@/translations'
 import helperPlugin from '@/helpers/helperPlugin'
-import config from '@/config/config'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -116,6 +115,5 @@ new Vue({
   router,
   store,
   i18n,
-  config,
   render: h => h(App, { props }),
 }).$mount('#app')

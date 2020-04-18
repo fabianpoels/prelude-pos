@@ -1,30 +1,18 @@
 <template>
-  <b-modal v-model="showModal" id="splitCheckout" :title="$t('checkout.checkout')" size="xl" scrollable class="h-100">
+  <b-modal v-model="showModal" id="splitCheckout" :title="$t('checkout.checkout')" size="xl" scrollable>
     <b-row class="h-100">
-      <b-col cols="5" class="d-flex flex-column justify-content-between">
-        <div class="d-flex flex-column">
-          <split-checkout-item v-for="(cartItem, index) in localCartItems" :key="index" :cartItem="cartItem" direction="right" />
-        </div>
-        <div>
-          <checkout-total :totalAmount="totalForCartItems(localCartItems)" />
-        </div>
-      </b-col>
-      <b-col cols="2" class="d-flex flex-column px-4 border-left border-right justify-content-center h-100">
-        <b-btn variant="primary" class="mb-3" @click="moveAllRight()" :disabled="localCartItems.length === 0">
-          <font-awesome-icon :icon="['fas', 'angle-double-right']" size="2x" />
-        </b-btn>
-        <b-btn variant="primary" @click="moveAllLeft()" :disabled="splitCartItems.length === 0">
-          <font-awesome-icon :icon="['fas', 'angle-double-left']" size="2x" />
-        </b-btn>
-      </b-col>
-      <b-col cols="5" class="d-flex flex-column justify-content-between">
-        <div class="d-flex flex-column">
-          <split-checkout-item v-for="(cartItem, index) in splitCartItems" :key="index" :cartItem="cartItem" direction="left" />
-        </div>
-        <div>
-          <checkout-total :totalAmount="totalForCartItems(splitCartItems)" />
+      <split-checkout-column :cartItems="leftCartItems" direction="right" />
+      <b-col cols="2">
+        <div class="d-flex flex-column px-4 border-left border-right justify-content-center h-100">
+          <b-btn variant="primary" class="mb-3" @click="moveAllRight()" :disabled="leftCartItems.length === 0">
+            <font-awesome-icon :icon="['fas', 'angle-double-right']" size="2x" />
+          </b-btn>
+          <b-btn variant="primary" @click="moveAllLeft()" :disabled="rightCartItems.length === 0">
+            <font-awesome-icon :icon="['fas', 'angle-double-left']" size="2x" />
+          </b-btn>
         </div>
       </b-col>
+      <split-checkout-column :cartItems="rightCartItems" direction="left" />
     </b-row>
     <div slot="modal-footer" class="w-50 pl-5">
       <b-overlay :show="saving" rounded="sm" class="w-100 d-flex flex-row">
@@ -47,8 +35,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import CheckoutTotal from '@/components/checkout/_CheckoutTotal'
-import SplitCheckoutItem from '@/components/checkout/_SplitCheckoutItem'
+import SplitCheckoutColumn from '@/components/checkout/_SplitCheckoutColumn'
 import config from '@/config/config'
 export default {
   model: {
@@ -64,15 +51,13 @@ export default {
   },
 
   components: {
-    CheckoutTotal,
-    SplitCheckoutItem,
+    SplitCheckoutColumn,
   },
 
   watch: {
     showModal(value) {
       if (value) {
-        this.localCartItems = [...this.cartItems]
-        this.splitCartItems = []
+        this.$store.dispatch('initializeSplitCheckout', this.cartItems)
       }
     },
   },
@@ -80,14 +65,12 @@ export default {
   data() {
     return {
       showModal: false,
-      localCartItems: this.cartItems,
-      splitCartItems: [],
       saving: false,
     }
   },
 
   computed: {
-    ...mapGetters(['gym', 'totalForCartItems']),
+    ...mapGetters(['leftCartItems', 'rightCartItems']),
 
     paymentMethods() {
       return config.transaction.paymentMethods
@@ -95,14 +78,12 @@ export default {
   },
 
   methods: {
-    moveAllRight() {
-      this.splitCartItems = [...this.splitCartItems, ...this.localCartItems]
-      this.localCartItems = []
+    moveAllLeft() {
+      this.$store.dispatch('moveAllLeft')
     },
 
-    moveAllLeft() {
-      this.localCartItems = [...this.localCartItems, ...this.splitCartItems]
-      this.splitCartItems = []
+    moveAllRight() {
+      this.$store.dispatch('moveAllRight')
     },
 
     async createTransaction(cartItems, paymentMethod) {
