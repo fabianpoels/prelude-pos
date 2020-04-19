@@ -54,6 +54,7 @@ const UserStore = {
   getters: {
     users: state => state.users,
     userByIdentifier: state => identifier => state.users.find(u => u.identifier === identifier),
+    userById: getters => id => getters.users.find(u => u._id === id),
     isAdmin: state => state.currentUser.role && state.currentUser.role === 'admin',
     currentUser: state => state.currentUser,
   },

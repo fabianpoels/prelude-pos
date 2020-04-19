@@ -74,8 +74,8 @@ const PriceStore = {
 
   getters: {
     prices: state => state.prices.filter(p => p.archived === false),
-    priceById: getters => id => getters.prices.find(p => p._id === id),
-    pricesForItem: (state, getters) => item => getters.prices.filter(p => p.item === item._id),
+    priceById: state => id => state.prices.find(p => p._id === id),
+    pricesForItem: getters => item => getters.prices.filter(p => p.item === item._id),
   },
 }
 

@@ -46,6 +46,9 @@ import {
   faAngleLeft,
   faAngleDoubleLeft,
   faAngleDoubleRight,
+  faChevronLeft,
+  faChevronDown,
+  faChevronUp,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
@@ -81,7 +84,10 @@ library.add(
   faAngleRight,
   faAngleLeft,
   faAngleDoubleLeft,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faChevronLeft,
+  faChevronDown,
+  faChevronUp
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

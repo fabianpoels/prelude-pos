@@ -2,9 +2,7 @@
   <base-layout>
     <b-row class="justify-content-lg-center py-4">
       <b-col cols="12" lg="8">
-        <div v-for="(transaction, index) in orderedTransactions" :key="index" class="mb-3">
-          {{ transaction }}
-        </div>
+        <transaction-card v-for="(transaction, index) in orderedTransactions" :key="index" :transaction="transaction" accordion="transaction-accordion" />
       </b-col>
     </b-row>
   </base-layout>
@@ -12,9 +10,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import BaseLayout from '@/components/shared/BaseLayout'
+import TransactionCard from '@/components/transaction/TransactionCard'
 export default {
   components: {
     BaseLayout,
+    TransactionCard,
   },
 
   computed: {

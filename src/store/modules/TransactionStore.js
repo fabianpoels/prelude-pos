@@ -1,4 +1,5 @@
 import Transaction from '@/models/transaction'
+import { DateTime } from 'luxon'
 
 const TransactionStore = {
   state: {
@@ -18,6 +19,12 @@ const TransactionStore = {
   },
 
   actions: {
+    async loadDailyTransactions({ commit }) {
+      let startOfDay = DateTime.local().startOf('day')
+      let transactions = await Transaction.find({ createdAt: { $gte: startOfDay.toJSDate() } }).lean()
+      commit('setTransactions', transactions)
+    },
+
     async createTransactionFromCartItems({ commit, rootGetters }, { cartItems, paymentMethod }) {
       let transaction = new Transaction({
         gym: rootGetters.gym._id,

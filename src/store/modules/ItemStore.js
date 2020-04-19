@@ -70,7 +70,7 @@ const ItemStore = {
 
   getters: {
     items: state => state.items.filter(i => i.archived === false),
-    itemById: getters => id => getters.items.find(i => i._id === id),
+    itemById: state => id => state.items.find(i => i._id === id),
     itemsForCategory: (state, getters) => category => getters.items.filter(i => i.category === category._id),
     canArchiveItem: (state, getters) => item => getters.pricesForItem(item).length === 0,
     canDeleteItem: (state, getters, rootState) => item => rootState.PriceStore.prices.filter(p => p.item === item._id).length === 0,

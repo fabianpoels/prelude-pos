@@ -116,6 +116,10 @@ const en = {
     setup: 'Setup',
     transactions: 'Transactions',
   },
+  transaction: {
+    amount: 'Amount',
+    total: 'Total',
+  },
 }
 
 export default en

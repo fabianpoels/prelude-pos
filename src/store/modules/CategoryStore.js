@@ -60,7 +60,7 @@ const CategoryStore = {
 
   getters: {
     categories: state => state.categories.filter(c => c.archived === false),
-    categoryById: getters => id => getters.categories.find(c => c._id === id),
+    categoryById: state => id => state.categories.find(c => c._id === id),
     categoriesForBusinessUnit: (state, getters) => businessUnit => getters.categories.filter(c => c.businessUnit === businessUnit._id),
     canArchiveCategory: (state, getters) => category => getters.itemsForCategory(category).length === 0,
     canDeleteCategory: (state, getters, rootState) => category => rootState.ItemStore.items.filter(i => i.category === category._id).length === 0,

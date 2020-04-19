@@ -4,6 +4,7 @@ import Category from '@/models/category'
 const PosStore = {
   state: {
     pos: {},
+    poss: [],
     dataLoaded: false,
   },
 
@@ -12,31 +13,38 @@ const PosStore = {
       state.pos = pos
     },
 
+    setPoss(state, poss) {
+      state.poss = poss
+    },
+
     setDataLoaded(state, loaded) {
       state.dataLoaded = loaded
     },
   },
 
   actions: {
-    loadCurrentPos({ getters, dispatch }) {
-      return dispatch('loadPos', getters.pos)
-    },
-
-    loadPos({ commit }, uuid) {
-      return new Promise((resolve, reject) => {
-        Pos.findOne({ _id: uuid })
-          .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
-          .lean()
-          .exec((err, pos) => {
-            if (err) reject(err)
-            if (pos === null) {
-              reject(new Error('no pos found'))
-            } else {
-              commit('setPos', pos)
-              resolve(pos)
-            }
-          })
-      })
+    async loadPos({ commit }, uuid) {
+      let poss = await Pos.find()
+        .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
+        .lean()
+      commit('setPoss', poss)
+      let pos = poss.find(p => p._id === uuid)
+      commit('setPos', pos)
+      return pos
+      // return new Promise((resolve, reject) => {
+      //   Pos.findOne({ _id: uuid })
+      //     .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
+      //     .lean()
+      //     .exec((err, pos) => {
+      //       if (err) reject(err)
+      //       if (pos === null) {
+      //         reject(new Error('no pos found'))
+      //       } else {
+      //         commit('setPos', pos)
+      //         resolve(pos)
+      //       }
+      //     })
+      // })
     },
 
     async loadPosData({ commit, dispatch, getters }, pos) {
@@ -47,6 +55,7 @@ const PosStore = {
       await dispatch('loadPages', pos)
       await dispatch('loadItems', categories)
       await dispatch('loadPrices', getters.items)
+      await dispatch('loadDailyTransactions')
       commit('setDataLoaded', true)
     },
 
@@ -89,6 +98,7 @@ const PosStore = {
   getters: {
     pos: state => state.pos,
     dataLoaded: state => state.dataLoaded,
+    posById: state => id => state.poss.find(p => p._id === id),
   },
 }
 

@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 let helpers = {
   formatPrice(settings, amount, currencyAsText = false, precision = 2) {
     const negativeSign = amount < 0 ? '-' : ''
@@ -42,6 +44,36 @@ let helpers = {
             .slice(2)
         : '')
     )
+  },
+
+  formatDate(settings, dateTime) {
+    if (!dateTime) return ''
+    if (DateTime.isDateTime(dateTime)) {
+      if (settings.dateFormat) return dateTime.toFormat(settings.dateFormat)
+      return dateTime.toFormat('dd/MM/yyyy')
+    } else {
+      console.error('Using deprecated date obj in formatDate()', dateTime)
+    }
+  },
+
+  formatDateTime(settings, dateTime) {
+    if (!dateTime) return ''
+    if (DateTime.isDateTime(dateTime)) {
+      if (settings.dateTimeFormat) return dateTime.toFormat(settings.dateTimeFormat)
+      return dateTime.toFormat('dd/MM/yyyy HH:mm:ss')
+    } else {
+      console.error('Using deprecated date obj in formatDate()', dateTime)
+    }
+  },
+
+  formatTime(settings, dateTime) {
+    if (!dateTime) return ''
+    if (DateTime.isDateTime(dateTime)) {
+      if (settings.dateTimeFormat) return dateTime.toFormat(settings.dateTimeFormat)
+      return dateTime.toFormat('HH:mm:ss')
+    } else {
+      console.error('Using deprecated date obj in formatDate()', dateTime)
+    }
   },
 
   formatVat(vat) {
