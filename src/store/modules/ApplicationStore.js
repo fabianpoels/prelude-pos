@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import * as mongoose from 'mongoose'
 import config from '@/config/config'
+import Store from 'electron-store'
 const ApplicationStore = {
   state: {
     loggedIn: false,
@@ -8,9 +9,14 @@ const ApplicationStore = {
     connected: false,
     posUuid: '',
     showSetupButton: false,
+    fileStore: undefined,
   },
 
   mutations: {
+    setupFileStore(state) {
+      state.fileStore = new Store()
+    },
+
     setLoggedIn(state, loggedIn) {
       state.loggedIn = loggedIn
     },
@@ -33,6 +39,10 @@ const ApplicationStore = {
   },
 
   actions: {
+    loadConfiguration({ commit }) {
+      commit('setupFileStore')
+    },
+
     initMongoConnection({ commit }, { mongoDbHost, mongoDbUser, mongoDbPassword, mongoDbDatabase, posUuid }) {
       commit('setConnecting', true)
       commit('setPosUuid', posUuid)

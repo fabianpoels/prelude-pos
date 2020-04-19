@@ -23,7 +23,8 @@ export default {
   },
 
   methods: {
-    startApplication() {
+    async startApplication() {
+      await this.$store.dispatch('loadConfiguration')
       this.$store
         .dispatch('initMongoConnection', {
           mongoDbHost: this.mongo.host,
