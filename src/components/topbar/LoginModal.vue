@@ -38,7 +38,6 @@ export default {
 
   methods: {
     async login() {
-      console.log('login')
       this.loggingIn = true
       let loggedIn = await this.$store.dispatch('login', { identifier: this.identifier, password: this.password })
       if (loggedIn) {
