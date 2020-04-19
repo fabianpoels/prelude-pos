@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="info" id="top-nav-bar" sticky>
+  <b-navbar toggleable="lg" type="dark" variant="secondary" id="top-nav-bar" sticky>
     <!-- <b-collapse id="nav-collapse" is-nav></b-collapse>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>-->
     <b-navbar-nav v-if="loggedIn">

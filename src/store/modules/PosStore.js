@@ -29,22 +29,25 @@ const PosStore = {
         .lean()
       commit('setPoss', poss)
       let pos = poss.find(p => p._id === uuid)
-      commit('setPos', pos)
-      return pos
-      // return new Promise((resolve, reject) => {
-      //   Pos.findOne({ _id: uuid })
-      //     .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
-      //     .lean()
-      //     .exec((err, pos) => {
-      //       if (err) reject(err)
-      //       if (pos === null) {
-      //         reject(new Error('no pos found'))
-      //       } else {
-      //         commit('setPos', pos)
-      //         resolve(pos)
-      //       }
-      //     })
-      // })
+      return new Promise((resolve, reject) => {
+        if (pos) {
+          commit('setPos', pos)
+          resolve(pos)
+        } else {
+          reject(new Error('no pos found'))
+        }
+        // Pos.findOne({ _id: uuid })
+        //   .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
+        //   .lean()
+        //   .exec((err, pos) => {
+        //     if (err) reject(err)
+        //     if (pos === null) {
+        //       reject(new Error('no pos found'))
+        //     } else {
+        //       resolve(pos)
+        //     }
+        //   })
+      })
     },
 
     async loadPosData({ commit, dispatch, getters }, pos) {
