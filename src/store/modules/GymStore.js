@@ -60,7 +60,7 @@ const GymStore = {
       })
     },
 
-    createGym(data) {
+    createGym(context, data) {
       let gym = new Gym(data)
       return new Promise((resolve, reject) => {
         gym.save((err, savedGym) => {

@@ -22,8 +22,12 @@ let TransactionSchema = new Schema(
 
 TransactionSchema.pre('validate', async function(next) {
   if (this.isNew) {
-    let number = (await Transaction.findOne().sort({ number: 'desc' })).number || 0
-    this.number = number + 1
+    let t = await Transaction.findOne().sort({ number: 'desc' })
+    if (t && t.number && t.number > 0) {
+      this.number = t.number + 1
+    } else {
+      this.number = 1
+    }
   }
   next()
 })

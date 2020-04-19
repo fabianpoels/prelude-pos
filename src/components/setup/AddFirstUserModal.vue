@@ -7,9 +7,6 @@
       <b-form-group id="lastname" label="Lastname" label-for="lastname-input">
         <b-form-input id="lastname-input" v-model="newUser.lastname" required />
       </b-form-group>
-      <b-form-group id="displayname" label="Display name" label-for="displayname-input">
-        <b-form-input id="displayname-input" v-model="newUser.displayname" required />
-      </b-form-group>
       <b-form-group id="identifier" label="Identifier" label-for="identifier-input">
         <b-form-input id="identifier-input" v-model="newUser.identifier" required />
       </b-form-group>
@@ -22,7 +19,7 @@
     </b-form>
 
     <div slot="modal-footer">
-      <save-button :saving="saving" @click="createNewUser()">{{ $t('form.save') }}</save-button>
+      <save-button :disabled="!validInput" :saving="saving" @click="createNewUser()">{{ $t('form.save') }}</save-button>
     </div>
   </b-modal>
 </template>
@@ -53,6 +50,17 @@ export default {
 
   computed: {
     ...mapGetters(['gym', 'gyms']),
+
+    validInput() {
+      return (
+        this.newUser.identifier &&
+        this.newUser.identifier.length > 0 &&
+        this.newUser.password &&
+        this.newUser.password.length > 0 &&
+        this.newUser.passwordConfirm &&
+        this.newUser.password === this.newUser.passwordConfirm
+      )
+    },
   },
 
   methods: {
@@ -60,6 +68,7 @@ export default {
       return {
         firstname: '',
         lastname: '',
+        identifier: '',
       }
     },
 

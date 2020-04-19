@@ -105,7 +105,7 @@ export default {
       let prices = [...this.transaction.prices]
       let priceIds = [...new Set(prices.map(p => p._id))]
       priceIds.forEach(priceId => {
-        let price = this.priceById(priceId)
+        let price = prices.find(p => p._id === priceId)
         let item = this.itemById(price.item)
         let amount = prices.filter(p => p._id === priceId).length
         items.push({
