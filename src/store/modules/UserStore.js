@@ -41,6 +41,7 @@ const UserStore = {
       let user = getters.userByIdentifier(identifier)
       if (user) {
         let dbUser = await User.findOne({ _id: user._id })
+        console.log(dbUser)
         if (await dbUser.validPassword(password)) {
           commit('setCurrentUser', user)
           commit('setLoggedIn', true)

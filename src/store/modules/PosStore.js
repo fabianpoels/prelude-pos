@@ -62,7 +62,7 @@ const PosStore = {
       commit('setDataLoaded', true)
     },
 
-    createPos(data) {
+    createPos(context, data) {
       return new Promise((resolve, reject) => {
         let pos = new Pos(data)
         pos.save((err, savedPos) => {
