@@ -6,6 +6,7 @@ import ManageCategories from '@/components/admin/ManageCategories'
 import ManageItems from '@/components/admin/ManageItems'
 import PagesSetup from '@/components/admin/PagesSetup'
 import PageView from '@/components/page/PageView'
+import SetupView from '@/components/setup/SetupView'
 import TransactionPage from '@/components/transaction/TransactionPage'
 import store from '@/store'
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '',
       name: 'root',
       component: EmptyView,
+    },
+    {
+      path: '/setup',
+      name: 'setup',
+      component: SetupView,
     },
     {
       path: '/page-view/:pageId',

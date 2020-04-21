@@ -1,65 +1,47 @@
 <template>
   <div id="app">
-    <main-view @reconnect="startApplication()" />
+    <login-modal />
+    <top-bar />
+    <router-view />
   </div>
 </template>
 
 <script>
-import MainView from '@/MainView'
+import { mapGetters } from 'vuex'
+import LoginModal from '@/components/LoginModal'
+import TopBar from '@/components/topbar/TopBar'
 export default {
-  name: 'prelude-pos',
-
-  props: {
-    mongo: { type: Object, required: true },
-    posUuid: { type: String, required: true },
-  },
+  name: 'Prelude-App',
 
   components: {
-    MainView,
+    LoginModal,
+    TopBar,
   },
 
   mounted() {
     this.startApplication()
   },
 
+  computed: {
+    ...mapGetters(['connected']),
+  },
+
   methods: {
     async startApplication() {
-      await this.$store.dispatch('loadConfiguration')
-      this.$store
-        .dispatch('initMongoConnection', {
-          mongoDbHost: this.mongo.host,
-          mongoDbUser: this.mongo.user,
-          mongoDbPassword: this.mongo.password,
-          mongoDbDatabase: this.mongo.database,
-          posUuid: this.posUuid,
-        })
-        .then(() => {
-          this.$store
-            .dispatch('loadPos', this.posUuid)
-            .then(async pos => {
-              this.$store.commit('setGym', pos.gym)
-              if (pos.gym.users) {
-                this.$store.commit('setUsers', pos.gym.users)
-              }
-              await this.$store.dispatch('loadPosData', pos)
-              this.$bvModal.show('loginModal')
-            })
-            .catch(error => {
-              console.log(error)
-              this.$store.dispatch('loadAllGyms').then(() => {
-                this.$store.commit('showSetupButton', true)
-              })
-            })
-        })
-        .catch(error => {
-          console.log(error)
-          this.$bvToast.toast('There was an error while connecting to the database', {
-            title: 'Connection error',
+      let started = await this.$store.dispatch('startApplication')
+      if (started) {
+        this.$bvModal.show('loginModal')
+      } else {
+        if (!this.connected) {
+          this.$bvToast.toast(this.$i18n.t('setup.connection_error_detailed'), {
+            title: this.$i18n.t('setup.connection_error'),
             variant: 'danger',
             solid: true,
             toaster: 'b-toaster-top-center',
           })
-        })
+        }
+        if (this.$route.name !== 'setup') this.$router.push({ name: 'setup' })
+      }
     },
   },
 }

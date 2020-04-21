@@ -15,6 +15,10 @@ const GymStore = {
       state.gyms = gyms
     },
 
+    addGym(state, gym) {
+      state.gyms.push(gym)
+    },
+
     updateGym(state, gym) {
       Vue.set(
         state.gyms,
@@ -28,49 +32,26 @@ const GymStore = {
   },
 
   actions: {
-    loadGym({ commit }, pos) {
-      return new Promise((resolve, reject) => {
-        Gym.findOne({ _id: pos.gym }, (err, gym) => {
-          if (err) reject(err)
-          commit('setGym', gym._id)
-          resolve(gym)
-        })
-      })
+    async loadGymById({ commit }, gymId) {
+      let gym = await Gym.findById(gymId).lean()
+      if (gym) {
+        commit('setGym', gym)
+      }
     },
 
-    loadAllGyms({ commit }) {
-      return new Promise((resolve, reject) => {
-        Gym.find()
-          .populate('user')
-          .lean()
-          .exec((err, gyms) => {
-            if (err) reject(err)
-            commit('setGyms', gyms)
-            resolve(gyms)
-          })
-      })
+    async loadAllGyms({ commit }) {
+      let gyms = await Gym.find().lean()
+      if (Array.isArray(gyms)) {
+        commit('setGyms', gyms)
+      }
     },
 
-    loadGymById(context, id) {
-      return new Promise((resolve, reject) => {
-        Gym.findOne({ _id: id }, (err, gym) => {
-          if (err) reject(err)
-          resolve(gym)
-        })
-      })
-    },
-
-    createGym(context, data) {
+    async createGym({ commit }, data) {
       let gym = new Gym(data)
-      return new Promise((resolve, reject) => {
-        gym.save((err, savedGym) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(savedGym.toObject({ getters: true }))
-          }
-        })
-      })
+      await gym.save()
+      gym = gym.toObject({ getters: true })
+      commit('addGym', gym)
+      return gym
     },
 
     async updateGym({ commit }, gym) {
@@ -95,6 +76,7 @@ const GymStore = {
     gym: state => state.gym,
     gymById: state => id => state.gyms.find(gym => gym._id === id),
     gyms: state => state.gyms,
+    gymLoaded: state => state.gym && state.gym._id,
   },
 }
 

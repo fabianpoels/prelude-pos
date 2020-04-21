@@ -3,7 +3,9 @@
     <div>{{ category.name }}</div>
 
     <div slot="modal-footer">
-      <save-button :variant="archive ? 'warning' : 'danger'" :saving="deleting" :savingText="archive ? $t('form.archiving') : $t('form.deleting')" @click="remove()">{{ archive ? $t('form.archive') : $t('form.delete') }}</save-button>
+      <save-button :variant="archive ? 'warning' : 'danger'" :saving="deleting" :savingText="archive ? $t('form.archiving') : $t('form.deleting')" @click="remove()">
+        {{ archive ? $t('form.archive') : $t('form.delete') }}
+      </save-button>
     </div>
   </b-modal>
 </template>

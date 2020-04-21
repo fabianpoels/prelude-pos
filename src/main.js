@@ -49,6 +49,8 @@ import {
   faChevronLeft,
   faChevronDown,
   faChevronUp,
+  faLongArrowAltDown,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
@@ -87,7 +89,9 @@ library.add(
   faAngleDoubleRight,
   faChevronLeft,
   faChevronDown,
-  faChevronUp
+  faChevronUp,
+  faLongArrowAltDown,
+  faCheck
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -107,19 +111,9 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
-let props = {
-  mongo: {
-    host: process.env.VUE_APP_MONGODB_HOST,
-    user: process.env.VUE_APP_MONGODB_USER,
-    password: process.env.VUE_APP_MONGODB_PW,
-    database: process.env.VUE_APP_MONGODB_DB,
-  },
-  posUuid: process.env.VUE_APP_POS_UUID,
-}
-
 new Vue({
   router,
   store,
   i18n,
-  render: h => h(App, { props }),
+  render: h => h(App, {}),
 }).$mount('#app')

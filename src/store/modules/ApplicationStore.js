@@ -1,22 +1,15 @@
 import Vue from 'vue'
 import * as mongoose from 'mongoose'
 import config from '@/config/config'
-import Store from 'electron-store'
+
 const ApplicationStore = {
   state: {
     loggedIn: false,
-    connecting: true,
+    connecting: false,
     connected: false,
-    posUuid: '',
-    showSetupButton: false,
-    fileStore: undefined,
   },
 
   mutations: {
-    setupFileStore(state) {
-      state.fileStore = new Store()
-    },
-
     setLoggedIn(state, loggedIn) {
       state.loggedIn = loggedIn
     },
@@ -28,27 +21,31 @@ const ApplicationStore = {
     setConnected(state, connected) {
       state.connected = connected
     },
-
-    setPosUuid(state, uuid) {
-      state.posUuid = uuid
-    },
-
-    showSetupButton(state, show) {
-      state.showSetupButton = show
-    },
   },
 
   actions: {
-    loadConfiguration({ commit }) {
-      commit('setupFileStore')
+    async startApplication({ dispatch, getters }) {
+      await dispatch('loadConfig')
+      if (getters.configLoaded) {
+        await dispatch('connectMongoose', getters.dbConfig)
+        if (getters.connected) {
+          await dispatch('loadAllGyms')
+          let pos = await dispatch('loadPos', getters.posUuid)
+          if (pos && pos._id === getters.posUuid) {
+            await dispatch('loadGymById', pos.gym._id)
+            await dispatch('loadPosData')
+            return true
+          }
+        }
+      }
+      return false
     },
 
-    initMongoConnection({ commit }, { mongoDbHost, mongoDbUser, mongoDbPassword, mongoDbDatabase, posUuid }) {
+    connectMongoose({ commit }, { host, db, user, password, connectionString, connectionMode }) {
       commit('setConnecting', true)
-      commit('setPosUuid', posUuid)
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         mongoose
-          .connect(`mongodb://${mongoDbUser}:${mongoDbPassword}@${mongoDbHost}/${mongoDbDatabase}`, {
+          .connect(connectionMode === 'custom' ? connectionString : `mongodb://${user}:${password}@${host}/${db}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
@@ -61,8 +58,9 @@ const ApplicationStore = {
             },
             error => {
               console.log(`connection error: ${error}`)
+              console.error(error)
               commit('setConnecting', false)
-              reject(error)
+              resolve(error)
             }
           )
       })
@@ -76,13 +74,8 @@ const ApplicationStore = {
 
   getters: {
     loggedIn: state => state.loggedIn,
-
     connecting: state => state.connecting,
-
     connected: state => state.connected,
-
-    showSetupButton: state => state.showSetupButton,
-
     vatFormOptions: () =>
       config.vatRegimes.map(x => {
         return {

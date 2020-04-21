@@ -29,52 +29,28 @@ const PosStore = {
         .lean()
       commit('setPoss', poss)
       let pos = poss.find(p => p._id === uuid)
-      return new Promise((resolve, reject) => {
-        if (pos) {
-          commit('setPos', pos)
-          resolve(pos)
-        } else {
-          reject(new Error('no pos found'))
-        }
-        // Pos.findOne({ _id: uuid })
-        //   .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
-        //   .lean()
-        //   .exec((err, pos) => {
-        //     if (err) reject(err)
-        //     if (pos === null) {
-        //       reject(new Error('no pos found'))
-        //     } else {
-        //       resolve(pos)
-        //     }
-        //   })
-      })
+      if (pos) {
+        commit('setPos', pos)
+      }
     },
 
-    async loadPosData({ commit, dispatch, getters }, pos) {
-      let businessUnits = await BusinessUnit.find({ gym: pos.gym._id }).lean()
+    async loadPosData({ commit, dispatch, getters }) {
+      let businessUnits = await BusinessUnit.find({ gym: getters.pos.gym._id }).lean()
       commit('setBusinessUnits', businessUnits)
       let categories = await Category.find({ businessUnit: { $in: businessUnits.map(bu => bu._id) } }).lean()
       commit('setCategories', categories)
-      await dispatch('loadPages', pos)
+      await dispatch('loadPages', getters.pos)
       await dispatch('loadItems', categories)
       await dispatch('loadPrices', getters.items)
       await dispatch('loadDailyTransactions')
       commit('setDataLoaded', true)
     },
 
-    createPos(context, data) {
-      return new Promise((resolve, reject) => {
-        let pos = new Pos(data)
-        pos.save((err, savedPos) => {
-          if (err) reject(err)
-          Pos.findOne({ _id: savedPos._id })
-            .lean()
-            .exec((err, pos) => {
-              if (err) reject(err)
-              resolve(pos)
-            })
-        })
-      })
+    async createPos({ commit }, data) {
+      let pos = new Pos(data)
+      await pos.save()
+      pos = pos.toObject({ getters: true })
+      commit('setPos', pos)
     },
 
     async updatePos({ commit }, pos) {
@@ -102,6 +78,7 @@ const PosStore = {
     pos: state => state.pos,
     dataLoaded: state => state.dataLoaded,
     posById: state => id => state.poss.find(p => p._id === id),
+    posLoaded: state => state.pos && state.pos._id,
   },
 }
 

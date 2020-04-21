@@ -1,6 +1,6 @@
 <template>
   <b-button :size="size" :variant="variant" :disabled="saving || disabled" @click="$emit('click')">
-    <b-spinner small v-if="saving"></b-spinner>
+    <b-spinner small v-if="saving" class="mr-2"></b-spinner>
     <template v-if="saving">{{ savingText }}</template>
     <slot v-else></slot>
   </b-button>

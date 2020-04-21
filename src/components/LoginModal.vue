@@ -14,7 +14,7 @@
   </b-modal>
 </template>
 <script>
-import SaveButton from './../shared/SaveButton'
+import SaveButton from '@/components/shared/SaveButton'
 export default {
   components: {
     SaveButton,

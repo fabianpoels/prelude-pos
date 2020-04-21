@@ -2,6 +2,7 @@
   <b-navbar toggleable="lg" type="dark" variant="info" id="top-nav-bar" sticky>
     <!-- <b-collapse id="nav-collapse" is-nav></b-collapse>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>-->
+    <b-spinner v-if="connecting" />
     <b-navbar-nav v-if="loggedIn">
       <router-link tag="b-nav-item" v-for="page in pages" :key="page._id" :to="{ name: 'page-view', params: { pageId: page._id } }" class="mr-3">
         <font-awesome-icon :icon="['fas', page.icon]" size="2x" v-if="page.icon && page.icon !== ''" />
@@ -39,27 +40,20 @@
         <font-awesome-icon :icon="['fas', 'user']" size="2x" v-b-modal.loginModal />
       </b-nav-item>
     </b-navbar-nav>
-    <login-modal />
   </b-navbar>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import LoginModal from './LoginModal'
 export default {
-  name: 'top-bar',
-
-  components: {
-    LoginModal,
-  },
-
   computed: {
-    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'pages', 'connected', 'dataLoaded']),
+    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'pages', 'connected', 'connecting', 'dataLoaded']),
   },
 
   methods: {
     logout() {
       this.$store.dispatch('logout')
+      this.$router.push({ name: 'root' })
     },
   },
 }
