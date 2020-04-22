@@ -21,6 +21,11 @@ const UserStore = {
         state.users.push(user)
       }
     },
+
+    clearUserStore(state) {
+      state.currentUser = {}
+      state.users = []
+    },
   },
 
   actions: {

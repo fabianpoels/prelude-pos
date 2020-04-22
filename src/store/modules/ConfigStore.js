@@ -49,9 +49,14 @@ const ConfigStore = {
       }
     },
 
-    saveConfig({ commit, getters }, config) {
+    saveDbConfig({ commit, getters }, config) {
       getters.fileStore.set('dbConfig', config)
       commit('setDbConfig', config)
+    },
+
+    savePosUuid({ commit, getters }, posUuid) {
+      getters.fileStore.set('posUuid', posUuid)
+      commit('setPosUuid', posUuid)
     },
   },
 

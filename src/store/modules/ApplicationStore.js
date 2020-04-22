@@ -25,6 +25,7 @@ const ApplicationStore = {
 
   actions: {
     async startApplication({ dispatch, getters }) {
+      await dispatch('clearStores')
       await dispatch('loadConfig')
       if (getters.configLoaded) {
         await dispatch('connectMongoose', getters.dbConfig)
@@ -34,7 +35,7 @@ const ApplicationStore = {
           if (pos && pos._id === getters.posUuid) {
             await dispatch('loadGymById', pos.gym._id)
             await dispatch('loadPosData')
-            return true
+            return getters.users.length > 0
           }
         }
       }
@@ -64,6 +65,20 @@ const ApplicationStore = {
             }
           )
       })
+    },
+
+    clearStores({ commit }) {
+      commit('setBusinessUnits', [])
+      commit('clearCartStore')
+      commit('setCategories', [])
+      commit('clearGymStore')
+      commit('setItems', [])
+      commit('setPages', [])
+      commit('clearPosStore')
+      commit('setPrices', [])
+      commit('clearSplitCheckoutStore')
+      commit('setTransactions', [])
+      commit('clearUserStore')
     },
 
     logout({ commit }) {

@@ -29,18 +29,28 @@ const GymStore = {
         state.gym = gym
       }
     },
+
+    clearGymStore(state) {
+      state.gym = {}
+      state.gyms = []
+    },
   },
 
   actions: {
     async loadGymById({ commit }, gymId) {
-      let gym = await Gym.findById(gymId).lean()
+      let gym = await Gym.findById(gymId)
+        .populate({ path: 'users', model: 'User' })
+        .lean()
       if (gym) {
         commit('setGym', gym)
+        commit('setUsers', gym.users)
       }
     },
 
     async loadAllGyms({ commit }) {
-      let gyms = await Gym.find().lean()
+      let gyms = await Gym.find()
+        .populate({ path: 'users', model: 'User' })
+        .lean()
       if (Array.isArray(gyms)) {
         commit('setGyms', gyms)
       }
@@ -76,7 +86,7 @@ const GymStore = {
     gym: state => state.gym,
     gymById: state => id => state.gyms.find(gym => gym._id === id),
     gyms: state => state.gyms,
-    gymLoaded: state => state.gym && state.gym._id,
+    gymLoaded: state => state.gym && state.gym._id !== '',
   },
 }
 

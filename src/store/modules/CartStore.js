@@ -53,6 +53,11 @@ const CartStore = {
       state.cartItems = state.cartBackup
       state.cartBackup = []
     },
+
+    clearCartStore(state) {
+      state.cartItems = []
+      state.cartBackup = []
+    },
   },
 
   actions: {},

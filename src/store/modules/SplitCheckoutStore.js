@@ -37,6 +37,11 @@ const SplitCheckoutStore = {
         console.error('invalid split checkout add operation')
       }
     },
+
+    clearSplitCheckoutStore(state) {
+      state.leftCartItems = []
+      state.rightCartItems = []
+    },
   },
 
   actions: {

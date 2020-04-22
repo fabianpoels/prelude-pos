@@ -41,6 +41,7 @@ export default {
       this.loggingIn = true
       let loggedIn = await this.$store.dispatch('login', { identifier: this.identifier, password: this.password })
       if (loggedIn) {
+        if (this.$route.name !== 'root') this.$router.push({ name: 'root' })
         this.loggingIn = false
         this.showModal = false
       } else {

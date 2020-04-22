@@ -29,6 +29,7 @@
         <router-link tag="b-dropdown-item" :to="{ name: 'manage-items' }">{{ $t('topbar.items') }}</router-link>
         <b-dropdown-divider></b-dropdown-divider>
         <router-link tag="b-dropdown-item" :to="{ name: 'gym-settings' }">{{ $t('topbar.settings') }}</router-link>
+        <router-link tag="b-dropdown-item" :to="{ name: 'setup' }">{{ $t('setup.setup') }}</router-link>
       </b-nav-item-dropdown>
       <b-nav-item-dropdown right v-if="loggedIn" class="ml-2">
         <template v-slot:button-content>

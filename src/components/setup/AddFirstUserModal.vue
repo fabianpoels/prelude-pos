@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" id="AddFirstUserModal" title="Setup" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" id="addFirstUserModal" :title="$t('setup.create_first_user')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="firstname" label="Firstname" label-for="firstname-input">
         <b-form-input id="firstname-input" v-model="newUser.firstname" required />

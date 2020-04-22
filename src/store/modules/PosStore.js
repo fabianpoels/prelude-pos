@@ -1,6 +1,8 @@
+import { v4 as uuidv4 } from 'uuid'
 import Pos from '@/models/pos'
 import BusinessUnit from '@/models/businessUnit'
 import Category from '@/models/category'
+
 const PosStore = {
   state: {
     pos: {},
@@ -20,6 +22,12 @@ const PosStore = {
     setDataLoaded(state, loaded) {
       state.dataLoaded = loaded
     },
+
+    clearPosStore(state) {
+      state.pos = {}
+      state.poss = []
+      state.dataLoaded = false
+    },
   },
 
   actions: {
@@ -31,6 +39,7 @@ const PosStore = {
       let pos = poss.find(p => p._id === uuid)
       if (pos) {
         commit('setPos', pos)
+        return pos
       }
     },
 
@@ -51,6 +60,7 @@ const PosStore = {
       await pos.save()
       pos = pos.toObject({ getters: true })
       commit('setPos', pos)
+      return pos
     },
 
     async updatePos({ commit }, pos) {
@@ -78,7 +88,8 @@ const PosStore = {
     pos: state => state.pos,
     dataLoaded: state => state.dataLoaded,
     posById: state => id => state.poss.find(p => p._id === id),
-    posLoaded: state => state.pos && state.pos._id,
+    posLoaded: state => state.pos && state.pos._id !== '',
+    newUuid: () => uuidv4(),
   },
 }
 

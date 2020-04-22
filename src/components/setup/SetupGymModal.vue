@@ -80,7 +80,9 @@ export default {
     async save() {
       this.saving = true
       if (!this.creatingNewGym && this.gymId !== '') {
-        this.$store.commit('setGym', this.gymById(this.gymId))
+        let selectedGym = this.gymById(this.gymId)
+        this.$store.commit('setGym', selectedGym)
+        this.$store.commit('setUsers', selectedGym.users)
         this.$bvToast.toast(this.gymById(this.gymId).name, {
           title: this.$i18n.t('setup.gym_selected'),
           variant: 'success',

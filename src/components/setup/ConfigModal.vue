@@ -86,7 +86,7 @@ export default {
   methods: {
     async saveConfig() {
       this.saving = true
-      this.$store.dispatch('saveConfig', this.localDbConfig)
+      this.$store.dispatch('saveDbConfig', this.localDbConfig)
       if (this.restartOnSave) {
         await this.$store.dispatch('startApplication')
         this.$bvToast.toast(this.$i18n.t('setup.connected_to', { database: this.dbConfig.db }), {
