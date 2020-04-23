@@ -64,6 +64,12 @@ const ApplicationStore = {
               resolve(error)
             }
           )
+          .catch(error => {
+            console.log(`connection error: ${error}`)
+            console.error(error)
+            commit('setConnecting', false)
+            resolve(error)
+          })
       })
     },
 
