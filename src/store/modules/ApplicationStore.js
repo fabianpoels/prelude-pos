@@ -46,7 +46,7 @@ const ApplicationStore = {
       commit('setConnecting', true)
       return new Promise(resolve => {
         mongoose
-          .connect(connectionMode === 'custom' ? connectionString : `mongodb://${user}:${password}@${host}/${db}`, {
+          .connect(connectionMode === 'custom' ? `mongodb://${connectionString}` : `mongodb://${user}:${password}@${host}/${db}`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
