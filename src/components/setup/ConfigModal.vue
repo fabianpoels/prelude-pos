@@ -69,17 +69,21 @@ export default {
     ...mapGetters(['dbConfig']),
 
     formComplete() {
-      return (
-        this.localDbConfig &&
-        this.localDbConfig.host &&
-        this.localDbConfig.host.length > 0 &&
-        this.localDbConfig.db &&
-        this.localDbConfig.db.length > 0 &&
-        this.localDbConfig.password &&
-        this.localDbConfig.password.length > 0 &&
-        this.localDbConfig.user &&
-        this.localDbConfig.user.length > 0
-      )
+      if (this.localDbConfig.connectionMode === 'standard') {
+        return (
+          this.localDbConfig &&
+          this.localDbConfig.host &&
+          this.localDbConfig.host.length > 0 &&
+          this.localDbConfig.db &&
+          this.localDbConfig.db.length > 0 &&
+          this.localDbConfig.password &&
+          this.localDbConfig.password.length > 0 &&
+          this.localDbConfig.user &&
+          this.localDbConfig.user.length > 0
+        )
+      } else {
+        return this.localDbConfig.connectionString && this.localDbConfig.connectionString.length > 0
+      }
     },
   },
 
