@@ -10,23 +10,27 @@
           </el-option-group>
         </el-select>
       </b-form-group>
+      <b-form-group id="color" :label="$t('form.color')" label-for="color-input">
+        <color-picker class="mr-2" showPalette v-model="editButton.color" />
+      </b-form-group>
     </b-form>
 
     <div slot="modal-footer">
       <template v-if="!confirmDelete">
-        <b-btn variant="danger" @click="confirmDelete = true">{{ $t('form.delete') }}</b-btn>
+        <b-btn variant="danger" @click="confirmDelete = true" class="mr-2">{{ $t('form.delete') }}</b-btn>
         <save-button :disabled="!editButton.item || (editButton.item && editButton.item.length < 1)" :saving="saving" @click="updatePage()">{{ $t('form.save') }}</save-button>
       </template>
       <template v-else>
         <span class="mr-2">{{ $t('form.are_you_sure') }}?</span>
         <save-button variant="danger" :saving="deleting" :saveText="$t('form.deleting')" @click="deleteButton()">{{ $t('form.delete') }}</save-button>
-        <b-btn variant="outline-secondary" @click="confirmDelete = false" :disabled="deleting">{{ $t('form.cancel') }}</b-btn>
+        <b-btn variant="outline-secondary" @click="confirmDelete = false" :disabled="deleting" class="ml-2">{{ $t('form.cancel') }}</b-btn>
       </template>
     </div>
   </b-modal>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import ColorPicker from '@/components/shared/ColorPicker'
 import SaveButton from '@/components/shared/SaveButton'
 export default {
   props: {
@@ -49,6 +53,7 @@ export default {
   },
 
   components: {
+    ColorPicker,
     SaveButton,
   },
 
@@ -62,8 +67,15 @@ export default {
     }
   },
 
+  watch: {
+    'editButton.item'(id) {
+      let category = this.categoryById(this.itemById(id).category)
+      this.newButton.color = category.color
+    },
+  },
+
   computed: {
-    ...mapGetters(['categories', 'itemsForCategory']),
+    ...mapGetters(['categories', 'itemsForCategory', 'itemById', 'categoryById']),
   },
 
   methods: {

@@ -10,6 +10,9 @@
           </el-option-group>
         </el-select>
       </b-form-group>
+      <b-form-group id="color" :label="$t('form.color')" label-for="color-input">
+        <color-picker class="mr-2" showPalette v-model="newButton.color" />
+      </b-form-group>
     </b-form>
 
     <div slot="modal-footer">
@@ -19,6 +22,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import ColorPicker from '@/components/shared/ColorPicker'
 import SaveButton from '@/components/shared/SaveButton'
 export default {
   props: {
@@ -37,6 +41,7 @@ export default {
   },
 
   components: {
+    ColorPicker,
     SaveButton,
   },
 
@@ -48,8 +53,15 @@ export default {
     }
   },
 
+  watch: {
+    'newButton.item'(id) {
+      let category = this.categoryById(this.itemById(id).category)
+      this.newButton.color = category.color
+    },
+  },
+
   computed: {
-    ...mapGetters(['categories', 'itemsForCategory']),
+    ...mapGetters(['categories', 'itemsForCategory', 'itemById', 'categoryById']),
   },
 
   methods: {

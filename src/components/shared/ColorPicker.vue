@@ -29,6 +29,18 @@ export default {
     },
   },
 
+  data() {
+    return {
+      componentValue: this.value,
+    }
+  },
+
+  watch: {
+    value(value) {
+      this.componentValue = value
+    },
+  },
+
   computed: {
     palette() {
       return config.defaultColors
@@ -36,9 +48,10 @@ export default {
 
     localValue: {
       get() {
-        return this.value
+        return this.componentValue
       },
       set(value) {
+        this.componentValue = value
         this.$emit('input', value)
       },
     },
