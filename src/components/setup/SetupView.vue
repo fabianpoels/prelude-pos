@@ -23,7 +23,7 @@
         </b-btn>
       </b-col>
     </b-row>
-    <config-modal />
+    <config-modal @reconnect="reconnect()" />
     <setup-gym-modal />
     <create-pos v-if="gymLoaded" />
     <add-first-user-modal />
@@ -50,6 +50,25 @@ export default {
 
     userPresent() {
       return this.users.length > 0
+    },
+  },
+
+  methods: {
+    async reconnect() {
+      let started = await this.$store.dispatch('startApplication')
+      if (started) {
+        this.$bvModal.show('loginModal')
+      } else {
+        if (!this.connected) {
+          this.$bvToast.toast(this.$i18n.t('setup.connection_error_detailed'), {
+            title: this.$i18n.t('setup.connection_error'),
+            variant: 'danger',
+            solid: true,
+            toaster: 'b-toaster-top-center',
+          })
+        }
+        if (this.$route.name !== 'setup') this.$router.push({ name: 'setup' })
+      }
     },
   },
 }

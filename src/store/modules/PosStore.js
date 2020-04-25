@@ -88,7 +88,7 @@ const PosStore = {
     pos: state => state.pos,
     dataLoaded: state => state.dataLoaded,
     posById: state => id => state.poss.find(p => p._id === id),
-    posLoaded: state => state.pos && state.pos._id !== '',
+    posLoaded: state => !!state.pos && !!state.pos._id && state.pos._id !== '',
     newUuid: () => uuidv4(),
   },
 }

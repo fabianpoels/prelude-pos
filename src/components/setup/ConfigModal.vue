@@ -90,16 +90,8 @@ export default {
   methods: {
     async saveConfig() {
       this.saving = true
-      this.$store.dispatch('saveDbConfig', this.localDbConfig)
-      if (this.restartOnSave) {
-        await this.$store.dispatch('startApplication')
-        this.$bvToast.toast(this.$i18n.t('setup.connected_to', { database: this.dbConfig.db }), {
-          title: this.$i18n.t('setup.connected'),
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-top-center',
-        })
-      }
+      await this.$store.dispatch('saveDbConfig', this.localDbConfig)
+      if (this.restartOnSave) this.$emit('reconnect')
       this.saving = false
       this.showModal = false
     },

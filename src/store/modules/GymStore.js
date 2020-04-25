@@ -86,7 +86,7 @@ const GymStore = {
     gym: state => state.gym,
     gymById: state => id => state.gyms.find(gym => gym._id === id),
     gyms: state => state.gyms,
-    gymLoaded: state => state.gym && state.gym._id !== '',
+    gymLoaded: state => !!state.gym && !!state.gym._id && state.gym._id !== '',
   },
 }
 
