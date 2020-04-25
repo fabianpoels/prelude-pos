@@ -1,7 +1,9 @@
 <template>
-  <b-modal v-model="showModal" id="singleCheckout" :title="$t('checkout.checkout')" scrollable>
+  <b-modal v-model="showModal" id="singleCheckout" :title="$t('checkout.checkout')" scrollable size="lg">
     <div class="d-flex flex-column">
-      <checkout-item v-for="(cartItem, index) in localCartItems" :cartItem="cartItem" :key="index" />
+      <div class="shadow-sm rounded p-3 border mb-2">
+        <checkout-item v-for="(cartItem, index) in localCartItems" :cartItem="cartItem" :key="index" />
+      </div>
       <checkout-total :totalAmount="totalForCartItems(localCartItems)" />
     </div>
     <div slot="modal-footer" class="w-100">
