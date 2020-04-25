@@ -35,6 +35,8 @@ const en = {
     archiving: 'Archiving',
     are_you_sure: 'Are you sure',
     cancel: 'Cancel',
+    clear: 'Clear',
+    color: 'Color',
     delete: 'Delete',
     deleting: 'Deleting',
     done: 'Done',

@@ -10,6 +10,9 @@
       <b-form-group id="vatRegime" :label="$t('datastructure.vat_regime')" label-for="vatRegime-input">
         <b-form-select v-model="editCategory.vatRegime" :options="vatFormOptions"></b-form-select>
       </b-form-group>
+      <b-form-group id="color" :label="$t('form.color')" label-for="color-input">
+        <color-picker class="mr-2" showPalette v-model="editCategory.color" />
+      </b-form-group>
     </b-form>
 
     <div slot="modal-footer">
@@ -20,6 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ColorPicker from '@/components/shared/ColorPicker'
 import SaveButton from '@/components/shared/SaveButton'
 export default {
   props: {
@@ -38,6 +42,7 @@ export default {
   },
 
   components: {
+    ColorPicker,
     SaveButton,
   },
 

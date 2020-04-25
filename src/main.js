@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import VueI18n from 'vue-i18n'
 import axios from 'axios'
 import BootstrapVue from 'bootstrap-vue'
 import PortalVue from 'portal-vue'
@@ -8,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from '@/App'
 import router from '@/router'
 import store from '@/store'
-import messages from '@/translations'
+import i18n from '@/helpers/localeHelper'
 import helperPlugin from '@/helpers/helperPlugin'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -99,15 +98,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(BootstrapVue)
 Vue.use(PortalVue)
-Vue.use(VueI18n)
 Vue.use(ElementUI)
-
 Vue.use(helperPlugin)
-
-const i18n = new VueI18n({
-  locale: process.env.LOCALE || 'en',
-  messages,
-})
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios

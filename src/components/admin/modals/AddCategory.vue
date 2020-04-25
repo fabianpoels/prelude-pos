@@ -10,6 +10,9 @@
       <b-form-group id="vatRegime" :label="$t('datastructure.vat_regime')" label-for="vatRegime-input">
         <b-form-select v-model="newCategory.vatRegime" :options="vatFormOptions"></b-form-select>
       </b-form-group>
+      <b-form-group id="color" :label="$t('form.color')" label-for="color-input">
+        <color-picker class="mr-2" showPalette v-model="newCategory.color" />
+      </b-form-group>
     </b-form>
 
     <div slot="modal-footer">

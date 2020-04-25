@@ -8,6 +8,7 @@ let CategorySchema = new Schema(
     name: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
     identifier: { type: String, trim: true },
+    color: { type: String, trim: true },
     gym: { type: String, ref: 'Gym' },
     businessUnit: { type: String, ref: 'BusinessUnit' },
     vatRegime: { type: Number, required: true },
