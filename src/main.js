@@ -51,6 +51,7 @@ import {
   faChevronUp,
   faLongArrowAltDown,
   faCheck,
+  faGripLines,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
@@ -91,7 +92,8 @@ library.add(
   faChevronDown,
   faChevronUp,
   faLongArrowAltDown,
-  faCheck
+  faCheck,
+  faGripLines
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

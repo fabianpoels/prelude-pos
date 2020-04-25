@@ -90,6 +90,8 @@ const en = {
     icon: 'Icon',
     layout: 'Layout',
     pages: 'Pages',
+    pages_reordered: 'Pages reordered',
+    reorder_pages: 'Reorder pages',
     rows: 'Rows',
   },
   login: {

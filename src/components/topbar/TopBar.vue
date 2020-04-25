@@ -4,7 +4,7 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>-->
     <b-spinner v-if="connecting" />
     <b-navbar-nav v-if="loggedIn">
-      <router-link tag="b-nav-item" v-for="page in pages" :key="page._id" :to="{ name: 'page-view', params: { pageId: page._id } }" class="mr-3">
+      <router-link tag="b-nav-item" v-for="page in orderedPages" :key="page._id" :to="{ name: 'page-view', params: { pageId: page._id } }" class="mr-3">
         <font-awesome-icon :icon="['fas', page.icon]" size="2x" v-if="page.icon && page.icon !== ''" />
         <span class="ml-2">{{ page.name }}</span>
       </router-link>
@@ -48,7 +48,7 @@
 import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'pages', 'connected', 'connecting', 'dataLoaded']),
+    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'orderedPages', 'connected', 'connecting', 'dataLoaded']),
   },
 
   methods: {

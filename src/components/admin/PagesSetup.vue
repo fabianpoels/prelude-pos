@@ -8,14 +8,20 @@
               <font-awesome-icon :icon="['fas', 'plus']" />
               {{ $t('layout.add_page') }}
             </b-btn>
+            <b-dropdown class="ml-1" variant="link-secondary" no-caret>
+              <template v-slot:button-content>
+                <font-awesome-icon :icon="['fas', 'ellipsis-v']" />
+              </template>
+              <b-dropdown-item v-b-modal.reorderPages>{{ $t('layout.reorder_pages') }}</b-dropdown-item>
+            </b-dropdown>
           </template>
-          <b-table :fields="fields" :items="pages" class="my-2" v-if="pages.length > 0" :tbody-tr-class="rowClass">
+          <b-table :fields="fields" :items="orderedPages" class="my-2" v-if="orderedPages.length > 0" :tbody-tr-class="rowClass">
             <template v-slot:cell(icon)="data">
               <font-awesome-icon :icon="['fas', data.item.icon]" v-if="data.item.icon" />
             </template>
             <template v-slot:cell(buttons)="data">{{ data.item.buttons.length }}</template>
             <template v-slot:cell(page)="data">
-              <page-dropdown :page="data.item" @delete="pageDeleted(data.item)" @editLayout="editLayout(pages.find(p => p._id === data.item._id))" />
+              <page-dropdown :page="data.item" @delete="pageDeleted(data.item)" @editLayout="editLayout(orderedPages.find(p => p._id === data.item._id))" />
             </template>
           </b-table>
         </default-card>
@@ -25,6 +31,7 @@
       </b-col>
     </b-row>
     <add-page />
+    <reorder-pages />
   </base-layout>
 </template>
 <script>
@@ -34,6 +41,7 @@ import BaseLayout from '@/components/shared/BaseLayout'
 import DefaultCard from '@/components/shared/DefaultCard'
 import PageDropdown from '@/components/admin/_PageDropdown'
 import PageLayout from '@/components/admin/PageLayout'
+import ReorderPages from '@/components/admin/modals/ReorderPages'
 import config from '@/config/config'
 export default {
   components: {
@@ -42,6 +50,7 @@ export default {
     DefaultCard,
     PageDropdown,
     PageLayout,
+    ReorderPages,
   },
 
   data() {
@@ -52,10 +61,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['gym', 'pos', 'pages']),
+    ...mapGetters(['gym', 'pos', 'orderedPages']),
 
     addPageAllowed() {
-      return this.pages.length < config.layout.maxPages
+      return this.orderedPages.length < config.layout.maxPages
     },
 
     fields() {
@@ -68,7 +77,7 @@ export default {
     },
 
     tableItems() {
-      return this.pages.map(page => {
+      return this.orderedPages.map(page => {
         return {
           icon: page.icon,
           name: page.name,
