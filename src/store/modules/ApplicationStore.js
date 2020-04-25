@@ -42,7 +42,7 @@ const ApplicationStore = {
       return false
     },
 
-    connectMongoose({ commit }, { host, db, user, password, connectionString, connectionMode }) {
+    connectMongoose({ commit, dispatch }, { host, db, user, password, connectionString, connectionMode }) {
       commit('setConnecting', true)
       return new Promise(resolve => {
         mongoose
@@ -70,6 +70,10 @@ const ApplicationStore = {
             commit('setConnecting', false)
             resolve(error)
           })
+        mongoose.connection.on('disconnected', () => {
+          commit('setConnected', false)
+          dispatch('logout')
+        })
       })
     },
 
