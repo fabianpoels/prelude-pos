@@ -1,6 +1,6 @@
 <template>
   <div class="buttonCell">
-    <b-btn v-if="button" variant="primary" class="button" v-b-modal="`editItemButton-${page._id}-${x}-${y}`" :style="{ backgroundColor: button.color, borderColor: button.color }">
+    <b-btn v-if="button" variant="secondary" class="button" v-b-modal="`editItemButton-${page._id}-${x}-${y}`" :style="{ backgroundColor: button.color, borderColor: button.color }">
       {{ itemById(button.item).name }}
     </b-btn>
     <b-btn variant="outline-secondary" class="button" v-else v-b-modal="`addItemButton-${page._id}-${x}-${y}`">
