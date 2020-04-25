@@ -1,6 +1,6 @@
 <template>
   <div class="p-3 mt-3">
-    <b-row>
+    <b-row class="p-2">
       <b-col cols="9" class="d-flex justify-content-end">
         <div class="h6">{{ $t('sidebar.total') }}</div>
       </b-col>

@@ -1,5 +1,5 @@
 <template>
-  <b-row class="p-1">
+  <b-row class="p-2">
     <b-col cols="6">
       <div class="h6">{{ cartItem.amount }} x {{ fullItemName }}</div>
     </b-col>
