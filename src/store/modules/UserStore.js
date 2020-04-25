@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import User from '@/models/user'
 import Gym from '@/models/gym'
 import config from '@/config/config'
@@ -22,6 +23,15 @@ const UserStore = {
       }
     },
 
+    updateUser(state, user) {
+      Vue.set(
+        state.users,
+        state.users.findIndex(c => c._id === user._id),
+        user
+      )
+      if (user._id === state.currentUser._id) state.currentUser = user
+    },
+
     clearUserStore(state) {
       state.currentUser = {}
       state.users = []
@@ -38,21 +48,44 @@ const UserStore = {
       let createdUser = await newUser.save()
       commit('addUser', createdUser.toObject({ getters: true }))
       dbGym.users.push(createdUser._id)
-      await dbGym.save()
+      dbGym = await dbGym.save()
+      commit('updateGym', dbGym.toObject({ getters: true }))
+    },
+
+    async createUser({ commit }, { user, gym }) {
+      user.password = await User.getHashedPassword(user.password)
+      let dbGym = await Gym.findOne({ _id: gym._id })
+      let newUser = new User(user)
+      newUser.gym = gym._id
+      let createdUser = await newUser.save()
+      commit('addUser', createdUser.toObject({ getters: true }))
+      dbGym.users.push(createdUser._id)
+      dbGym = await dbGym.save()
+      commit('updateGym', dbGym.toObject({ getters: true }))
+    },
+
+    async updateUser({ commit }, user) {
+      let dbUser = await User.findByIdAndUpdate(user._id, user, { new: true })
+      commit('updateUser', dbUser.toObject({ getters: true }))
+    },
+
+    async changePassword({ dispatch }, user) {
+      user.password = await User.getHashedPassword(user.password)
+      dispatch('updateUser', user)
     },
 
     async login({ commit, getters }, { identifier, password }) {
-      let login = false
+      let loggedIn = false
       let user = getters.userByIdentifier(identifier)
       if (user) {
         let dbUser = await User.findOne({ _id: user._id })
-        if (await dbUser.validPassword(password)) {
+        if ((await dbUser.validPassword(password)) && dbUser.enabled) {
           commit('setCurrentUser', user)
           commit('setLoggedIn', true)
-          login = true
+          loggedIn = true
         }
       }
-      return Promise.resolve(login)
+      return loggedIn
     },
   },
 

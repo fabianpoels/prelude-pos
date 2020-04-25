@@ -4,6 +4,7 @@ import EmptyView from '@/components/EmptyView'
 import GymSettings from '@/components/admin/GymSettings'
 import ManageCategories from '@/components/admin/ManageCategories'
 import ManageItems from '@/components/admin/ManageItems'
+import ManageUsers from '@/components/admin/users/ManageUsers'
 import PagesSetup from '@/components/admin/PagesSetup'
 import PageView from '@/components/page/PageView'
 import SetupView from '@/components/setup/SetupView'
@@ -59,6 +60,17 @@ export default new Router({
       path: '/manage-items',
       name: 'manage-items',
       component: ManageItems,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAdmin) {
+          next()
+        }
+        next(false)
+      },
+    },
+    {
+      path: '/manage-users',
+      name: 'manage-users',
+      component: ManageUsers,
       beforeEnter: (to, from, next) => {
         if (store.getters.isAdmin) {
           next()

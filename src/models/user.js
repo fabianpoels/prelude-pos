@@ -15,6 +15,8 @@ let UserSchema = new Schema(
     identifier: { type: String, required: true, trim: true },
     gym: { type: String, ref: 'Gym' },
     role: { type: String, enum: Object.values(config.user.roles), required: true },
+    enabled: { type: Boolean, default: true },
+    archived: { type: Boolean, default: false },
   },
   { timestamps: true }
 )

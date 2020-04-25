@@ -15,12 +15,9 @@
     </b-navbar-nav>
     <b-navbar-nav>
       <slot></slot>
-      <b-nav-item-dropdown right v-if="loggedIn && isAdmin">
-        <template v-slot:button-content>
-          <font-awesome-icon :icon="['fas', 'th']" size="2x" />
-        </template>
-        <router-link tag="b-dropdown-item" :to="{ name: 'pages-setup' }">{{ $t('topbar.setup') }}</router-link>
-      </b-nav-item-dropdown>
+      <router-link tag="b-nav-item" :to="{ name: 'pages-setup' }" v-if="loggedIn && isAdmin">
+        <font-awesome-icon :icon="['fas', 'th']" size="2x" />
+      </router-link>
       <b-nav-item-dropdown right v-if="loggedIn && isAdmin" class="ml-2">
         <template v-slot:button-content>
           <font-awesome-icon :icon="['fas', 'cog']" size="2x" />
@@ -31,6 +28,9 @@
         <router-link tag="b-dropdown-item" :to="{ name: 'gym-settings' }">{{ $t('topbar.settings') }}</router-link>
         <router-link tag="b-dropdown-item" :to="{ name: 'setup' }">{{ $t('setup.setup') }}</router-link>
       </b-nav-item-dropdown>
+      <router-link tag="b-nav-item" :to="{ name: 'manage-users' }" class="ml-2" v-if="loggedIn && isAdmin">
+        <font-awesome-icon :icon="['fas', 'users']" size="2x" />
+      </router-link>
       <b-nav-item-dropdown right v-if="loggedIn" class="ml-2">
         <template v-slot:button-content>
           <font-awesome-icon :icon="['fas', 'user']" size="2x" />

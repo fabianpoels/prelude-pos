@@ -145,6 +145,27 @@ const en = {
     amount: 'Amount',
     total: 'Total',
   },
+  user: {
+    active: 'Active',
+    add_user: 'Add user',
+    admin: 'Admin',
+    confirm_password: 'Confirm password',
+    disable: 'Disable',
+    edit_user: 'Edit user',
+    employee: 'Employee',
+    enable: 'Enable',
+    firstname: 'Firstname',
+    inactive_users: 'Inactive users',
+    lastname: 'Lastname',
+    login: 'Login',
+    name: 'Name',
+    password: 'Password',
+    password_changed: 'Password changed',
+    reset_password: 'Reset password',
+    role: 'Role',
+    user_updated: 'User updated',
+    users: 'Users',
+  },
 }
 
 export default en
