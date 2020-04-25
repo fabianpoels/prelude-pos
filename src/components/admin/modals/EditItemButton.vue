@@ -70,7 +70,7 @@ export default {
   watch: {
     'editButton.item'(id) {
       let category = this.categoryById(this.itemById(id).category)
-      this.newButton.color = category.color
+      this.editButton.color = category.color
     },
   },
 
