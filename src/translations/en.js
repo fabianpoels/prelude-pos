@@ -42,9 +42,11 @@ const en = {
     done: 'Done',
     edit: 'Edit',
     name: 'Name',
+    no: 'No',
     ok: 'Ok',
     save: 'Save',
     saving: 'Saving',
+    yes: 'Yes',
   },
   forms: {
     business_unit: {
@@ -83,6 +85,7 @@ const en = {
   layout: {
     add_button: 'Add button',
     add_page: 'Add page',
+    button: 'Button',
     buttons: 'Buttons',
     choose_icon: 'Choose icon',
     columns: 'Columns',

@@ -21,6 +21,10 @@
                 </template>
               </b-tooltip>
             </template>
+            <template v-slot:cell(button)="data">
+              <b-badge variant="success" v-if="data.item.button">{{ $t('form.yes') }}</b-badge>
+              <b-badge variant="danger" v-else>{{ $t('form.no') }}</b-badge>
+            </template>
             <template v-slot:cell(item)="data">
               <item-dropdown :item="data.value" />
             </template>
@@ -46,12 +50,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['businessUnits', 'categories', 'gym', 'items', 'pricesForItem']),
+    ...mapGetters(['businessUnits', 'categories', 'gym', 'items', 'pricesForItem', 'itemHasButton']),
 
     fields() {
       return [
         { key: 'name', label: this.$i18n.t('datastructure.name'), sortable: true },
         { key: 'prices', label: this.$i18n.t('datastructure.prices') },
+        { key: 'button', label: this.$i18n.t('layout.button') },
         { key: 'identifier', label: this.$i18n.t('datastructure.identifier') },
         { key: 'category', label: this.$i18n.t('datastructure.category'), sortable: true },
         { key: 'businessUnit', label: this.$i18n.t('datastructure.business_unit'), sortable: true },
@@ -66,6 +71,7 @@ export default {
         return {
           name: item.name,
           prices: this.pricesForItem(item),
+          button: this.itemHasButton(item),
           identifier: item.identifier,
           category: category.name,
           businessUnit: businessUnit.name,
