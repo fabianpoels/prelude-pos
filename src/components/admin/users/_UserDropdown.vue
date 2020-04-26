@@ -8,7 +8,7 @@
       <template v-if="user.enabled">
         <b-dropdown-item v-b-modal="`editUser-${user._id}`">{{ $t('form.edit') }}</b-dropdown-item>
         <b-dropdown-item v-b-modal="`resetPassword-${user._id}`">{{ $t('user.reset_password') }}</b-dropdown-item>
-        <b-dropdown-item @click="enable(false)">{{ $t('user.disable') }}</b-dropdown-item>
+        <b-dropdown-item @click="enable(false)" v-if="!self">{{ $t('user.disable') }}</b-dropdown-item>
       </template>
       <b-dropdown-item v-if="!user.enabled" @click="enable(true)">{{ $t('user.enable') }}</b-dropdown-item>
       <template v-if="showDelete">
@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import EditUser from '@/components/admin/users/EditUser'
 import ResetPassword from '@/components/admin/users/ResetPassword'
 export default {
@@ -44,6 +45,14 @@ export default {
     return {
       saving: false,
     }
+  },
+
+  computed: {
+    ...mapGetters(['currentUser']),
+
+    self() {
+      return this.user._id === this.currentUser._id
+    },
   },
 
   methods: {
