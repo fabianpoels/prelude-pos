@@ -18,7 +18,7 @@
     </template>
     <b-table :fields="fields" :items="categories" class="my-2" v-if="categories.length > 0">
       <template v-slot:cell(name)="data">
-        <span class="task-dot" :style="{ backgroundColor: data.item.color }" />
+        <span class="category-dot" :style="{ backgroundColor: data.item.color }" />
         <span class="ml-2">{{ data.item.name }}</span>
       </template>
       <template v-slot:cell(vatRegime)="data">{{ $helpers.formatVat(data.value) }}</template>
@@ -73,7 +73,7 @@ export default {
 }
 </script>
 <style scoped>
-.task-dot {
+.category-dot {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   border-collapse: collapse;

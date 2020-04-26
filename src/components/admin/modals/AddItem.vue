@@ -11,8 +11,8 @@
         <el-select id="category-input" v-model="newItem.category" :placeholder="$t('datastructure.category')" class="w-100" filterable>
           <el-option-group v-for="businessUnit in businessUnits" :key="businessUnit._id" :label="businessUnit.name">
             <el-option v-for="category in categoriesForBusinessUnit(businessUnit)" :key="category._id" :label="category.name" :value="category._id">
-              <!-- <span style="display: inline-block; width: 10px; height: 10px;" :style="{ backgroundColor: category.color }"></span> -->
-              <span>{{ category.name }}</span>
+              <span class="category-dot" :style="{ backgroundColor: category.color }"></span>
+              <span class="ml-2">{{ category.name }}</span>
             </el-option>
           </el-option-group>
         </el-select>
@@ -88,3 +88,16 @@ export default {
   },
 }
 </script>
+<style scoped>
+.category-dot {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-collapse: collapse;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  box-sizing: content-box;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+</style>
