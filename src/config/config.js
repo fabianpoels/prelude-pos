@@ -38,7 +38,7 @@ let config = {
   layout: {
     defaultRows: 6,
     defaultCols: 8,
-    maxPages: 3,
+    maxPages: 10,
     maxRows: 8,
     maxCols: 10,
   },
