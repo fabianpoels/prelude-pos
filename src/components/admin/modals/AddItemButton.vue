@@ -3,7 +3,9 @@
     <b-form class="my-3">
       <b-form-group id="item" :label="$t('datastructure.item')" label-for="item-input">
         <el-select id="item-input" v-model="newButton.item" :placeholder="$t('datastructure.item')" class="w-100" filterable>
-          <el-option-group v-for="category in categories" :key="category._id" :label="category.name">
+          <el-option-group v-for="category in categories" :key="category._id">
+            <span class="category-dot ml-2" :style="{ backgroundColor: category.color }"></span>
+            <span class="ml-2">{{ category.name }}</span>
             <el-option v-for="item in itemsForCategory(category)" :key="item._id" :label="item.name" :value="item._id">
               <span>{{ item.name }}</span>
             </el-option>
@@ -81,3 +83,16 @@ export default {
   },
 }
 </script>
+<style scoped>
+.category-dot {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-collapse: collapse;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  box-sizing: content-box;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+</style>
