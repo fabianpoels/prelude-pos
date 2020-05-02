@@ -52,6 +52,7 @@ const PosStore = {
       await dispatch('loadItems', categories)
       await dispatch('loadPrices', getters.items)
       await dispatch('loadDailyTransactions')
+      await dispatch('loadCustomers')
       commit('setDataLoaded', true)
     },
 

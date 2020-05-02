@@ -1,0 +1,59 @@
+<template>
+  <base-layout>
+    <b-row class="py-4">
+      <b-col cols="4" lg="2">
+        <b-btn variant="outline-primary" v-b-modal.addCustomerModal>
+          <font-awesome-icon :icon="['fas', 'plus']" />
+          {{ $t('customer.add_customer') }}
+        </b-btn>
+      </b-col>
+      <b-col cols="8">
+        <default-card :title="$t('topbar.customers')" class="my-3">
+          <b-table :fields="fields" :items="tableCustomers" class="my-2" v-if="customers.length > 0">
+            <template v-slot:cell(customer)></template>
+          </b-table>
+        </default-card>
+      </b-col>
+    </b-row>
+    <add-customer />
+  </base-layout>
+</template>
+<script>
+import { mapGetters } from 'vuex'
+import AddCustomer from '@/components/customer/AddCustomer'
+import BaseLayout from '@/components/shared/BaseLayout'
+import DefaultCard from '@/components/shared/DefaultCard'
+export default {
+  components: {
+    AddCustomer,
+    BaseLayout,
+    DefaultCard,
+  },
+
+  computed: {
+    ...mapGetters(['customers']),
+
+    fields() {
+      return [
+        { key: 'name', label: this.$i18n.t('customer.name'), sortable: true },
+        { key: 'email', label: this.$i18n.t('customer.email'), sortable: true },
+        { key: 'town', label: this.$i18n.t('customer.town'), sortable: true },
+        { key: 'dateOfBirth', label: this.$i18n.t('customer.date_of_birth') },
+        { key: 'customer', label: '' },
+      ]
+    },
+
+    tableCustomers() {
+      return this.customers.map(customer => {
+        return {
+          name: `${customer.firstname} ${customer.lastname}`,
+          email: customer.email,
+          town: `${customer.address.town} (${customer.address.zipCode})`,
+          dateOfBirth: customer.dateOfBirth,
+          customer: customer,
+        }
+      })
+    },
+  },
+}
+</script>

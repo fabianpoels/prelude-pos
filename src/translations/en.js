@@ -6,6 +6,18 @@ const en = {
     credit_card: 'Credit card',
     processed: 'Processed',
   },
+  customer: {
+    address: 'Address',
+    add_customer: 'Add customer',
+    country: 'Country',
+    customer_added: 'Customer added',
+    date_of_birth: 'Date of birth',
+    email: 'E-mail',
+    name: 'Name',
+    phone: 'Phone',
+    town: 'Town',
+    zipCode: 'Zip code',
+  },
   datastructure: {
     add_business_unit: 'Add business unit',
     add_category: 'Add category',
@@ -142,6 +154,7 @@ const en = {
   },
   topbar: {
     categories: 'Categories',
+    customers: 'Customers',
     items: 'Items',
     logout: 'Logout',
     settings: 'Settings',

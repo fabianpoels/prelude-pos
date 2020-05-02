@@ -51,6 +51,12 @@ import {
   faLongArrowAltDown,
   faCheck,
   faGripLines,
+  faEnvelope,
+  faPhone,
+  faMapMarkedAlt,
+  faGlobeAmericas,
+  faBirthdayCake,
+  faCity,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
@@ -92,7 +98,13 @@ library.add(
   faChevronUp,
   faLongArrowAltDown,
   faCheck,
-  faGripLines
+  faGripLines,
+  faEnvelope,
+  faPhone,
+  faMapMarkedAlt,
+  faGlobeAmericas,
+  faBirthdayCake,
+  faCity
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -89,6 +89,7 @@ const ApplicationStore = {
       commit('clearSplitCheckoutStore')
       commit('setTransactions', [])
       commit('clearUserStore')
+      commit('setCustomers', [])
     },
 
     logout({ commit }) {

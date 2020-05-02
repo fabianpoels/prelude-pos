@@ -12,6 +12,10 @@
         <font-awesome-icon :icon="['fas', 'receipt']" size="2x" />
         <span class="ml-2">{{ $t('topbar.transactions') }}</span>
       </router-link>
+      <router-link tag="b-nav-item" :to="{ name: 'customers' }" class="mr-3">
+        <font-awesome-icon :icon="['fas', 'address-book']" size="2x" />
+        <span class="ml-2">{{ $t('topbar.customers') }}</span>
+      </router-link>
     </b-navbar-nav>
     <b-navbar-nav>
       <slot></slot>
@@ -37,8 +41,8 @@
         </template>
         <b-dropdown-item @click="logout()">{{ $t('topbar.logout') }}</b-dropdown-item>
       </b-nav-item-dropdown>
-      <b-nav-item right v-if="!loggedIn && dataLoaded">
-        <font-awesome-icon :icon="['fas', 'user']" size="2x" v-b-modal.loginModal />
+      <b-nav-item right v-if="!loggedIn && dataLoaded" v-b-modal.loginModal>
+        <font-awesome-icon :icon="['fas', 'user']" size="2x" />
       </b-nav-item>
     </b-navbar-nav>
   </b-navbar>

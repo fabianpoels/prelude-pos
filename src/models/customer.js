@@ -12,8 +12,6 @@ let CustomerSchema = new Schema(
     phone: { type: String },
     address: {
       street: String,
-      number: String,
-      suffix: String,
       zipCode: String,
       town: String,
       country: String,

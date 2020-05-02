@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import CustomerPage from '@/components/customer/CustomerPage'
 import EmptyView from '@/components/EmptyView'
 import GymSettings from '@/components/admin/GymSettings'
 import ManageCategories from '@/components/admin/ManageCategories'
@@ -9,6 +11,7 @@ import PagesSetup from '@/components/admin/PagesSetup'
 import PageView from '@/components/page/PageView'
 import SetupView from '@/components/setup/SetupView'
 import TransactionPage from '@/components/transaction/TransactionPage'
+
 import store from '@/store'
 
 Vue.use(Router)
@@ -40,6 +43,15 @@ export default new Router({
       path: '/transactions/',
       name: 'transactions',
       component: TransactionPage,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.loggedIn) next()
+        next(false)
+      },
+    },
+    {
+      path: '/customers/',
+      name: 'customers',
+      component: CustomerPage,
       beforeEnter: (to, from, next) => {
         if (store.getters.loggedIn) next()
         next(false)

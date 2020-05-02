@@ -24,6 +24,7 @@ let config = {
     '#FF7733',
     '#FFAD46',
   ],
+  defaultCountry: 'Belgium',
   user: {
     roles: {
       admin: 'admin',
