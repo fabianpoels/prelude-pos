@@ -10,7 +10,9 @@
       <b-col cols="8">
         <default-card :title="$t('topbar.customers')" class="my-3">
           <b-table :fields="fields" :items="tableCustomers" class="my-2" v-if="customers.length > 0">
-            <template v-slot:cell(customer)></template>
+            <template v-slot:cell(customer)="data">
+              <customer-dropdown :customer="data.item.customer" />
+            </template>
           </b-table>
         </default-card>
       </b-col>
@@ -22,11 +24,13 @@
 import { mapGetters } from 'vuex'
 import AddCustomer from '@/components/customer/AddCustomer'
 import BaseLayout from '@/components/shared/BaseLayout'
+import CustomerDropdown from '@/components/customer/_CustomerDropdown'
 import DefaultCard from '@/components/shared/DefaultCard'
 export default {
   components: {
     AddCustomer,
     BaseLayout,
+    CustomerDropdown,
     DefaultCard,
   },
 

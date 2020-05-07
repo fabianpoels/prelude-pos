@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import Customer from '@/models/customer'
 
 let CustomerStore = {
@@ -13,6 +14,14 @@ let CustomerStore = {
     addCustomer(state, customer) {
       state.customers.push(customer)
     },
+
+    updateCustomer(state, customer) {
+      Vue.set(
+        state.customers,
+        state.customers.findIndex(c => c._id === customer._id),
+        customer
+      )
+    },
   },
 
   actions: {
@@ -27,10 +36,21 @@ let CustomerStore = {
       let customers = await Customer.find().lean()
       commit('setCustomers', customers)
     },
+
+    async updateCustomer({ commit }, customer) {
+      let dbcustomer = await Customer.findByIdAndUpdate(customer._id, customer, { new: true })
+      commit('updateCustomer', dbcustomer.toObject({ getters: true }))
+    },
+
+    async deleteCustomer({ commit }, customer) {
+      customer.archived = true
+      let dbcustomer = await Customer.findByIdAndUpdate(customer._id, customer, { new: true })
+      commit('updateCustomer', dbcustomer.toObject({ getters: true }))
+    },
   },
 
   getters: {
-    customers: state => [...state.customers].sort((a, b) => a.firstname.localeCompare(b.firstname)),
+    customers: state => [...state.customers].filter(c => c.archived === false).sort((a, b) => a.firstname.localeCompare(b.firstname)),
   },
 }
 

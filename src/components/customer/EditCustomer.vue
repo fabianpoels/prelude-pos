@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" size="lg" id="addCustomerModal" :title="$t('customer.add_customer')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" size="lg" :id="`editCustomer-${customer._id}`" :title="$t('customer.edit_customer')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-row>
         <b-col>
@@ -8,12 +8,12 @@
               <font-awesome-icon :icon="['fas', 'user']" />
               {{ $t('user.firstname') }}
             </template>
-            <b-form-input id="firstname-input" v-model="newCustomer.firstname" required :disabled="saving" />
+            <b-form-input id="firstname-input" v-model="editCustomer.firstname" required :disabled="saving" />
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group id="lastname" :label="$t('user.lastname')" label-for="lastname-input">
-            <b-form-input id="lastname-input" v-model="newCustomer.lastname" required :disabled="saving" />
+            <b-form-input id="lastname-input" v-model="editCustomer.lastname" required :disabled="saving" />
           </b-form-group>
         </b-col>
       </b-form-row>
@@ -24,7 +24,7 @@
               <font-awesome-icon :icon="['fas', 'envelope']" />
               {{ $t('customer.email') }}
             </template>
-            <b-form-input id="email-input" v-model="newCustomer.email" required :disabled="saving" />
+            <b-form-input id="email-input" v-model="editCustomer.email" required :disabled="saving" />
           </b-form-group>
         </b-col>
         <b-col cols="5">
@@ -33,7 +33,7 @@
               <font-awesome-icon :icon="['fas', 'phone']" />
               {{ $t('customer.phone') }}
             </template>
-            <b-form-input id="phone-input" v-model="newCustomer.phone" required :disabled="saving" />
+            <b-form-input id="phone-input" v-model="editCustomer.phone" required :disabled="saving" />
           </b-form-group>
         </b-col>
       </b-form-row>
@@ -44,10 +44,10 @@
               <font-awesome-icon :icon="['fas', 'phone']" />
               {{ $t('customer.phone') }}
             </template>
-            <b-form-input id="phone-input" v-model="newCustomer.phone" required :disabled="saving" />
+            <b-form-input id="phone-input" v-model="editCustomer.phone" required :disabled="saving" />
           </b-form-group>
         </b-col>
-      </b-form-row> -->
+      </b-form-row>-->
 
       <b-form-row class="mt-4">
         <b-col cols="12">
@@ -56,7 +56,7 @@
               <font-awesome-icon :icon="['fas', 'map-marked-alt']" />
               {{ $t('customer.address') }}
             </template>
-            <b-form-input id="address-input" v-model="newCustomer.address.street" required :disabled="saving" />
+            <b-form-input id="address-input" v-model="editCustomer.address.street" required :disabled="saving" />
           </b-form-group>
         </b-col>
       </b-form-row>
@@ -67,12 +67,12 @@
               <font-awesome-icon :icon="['fas', 'city']" />
               {{ $t('customer.town') }}
             </template>
-            <b-form-input id="town-input" v-model="newCustomer.address.town" required :disabled="saving" />
+            <b-form-input id="town-input" v-model="editCustomer.address.town" required :disabled="saving" />
           </b-form-group>
         </b-col>
         <b-col cols="2">
           <b-form-group id="zipCode" :label="$t('customer.zipCode')" label-for="zipCode-input">
-            <b-form-input id="zipCode-input" v-model="newCustomer.address.zipCode" required :disabled="saving" />
+            <b-form-input id="zipCode-input" v-model="editCustomer.address.zipCode" required :disabled="saving" />
           </b-form-group>
         </b-col>
         <b-col cols="5">
@@ -81,10 +81,8 @@
               <font-awesome-icon :icon="['fas', 'globe-americas']" />
               {{ $t('customer.country') }}
             </template>
-            <el-select id="country-input" v-model="newCustomer.address.country" :placeholder="$t('customer.country')" class="w-100" filterable>
-              <el-option v-for="(country, index) in countries" :key="index" :label="country" :value="country">
-                {{ country }}
-              </el-option>
+            <el-select id="country-input" v-model="editCustomer.address.country" :placeholder="$t('customer.country')" class="w-100" filterable>
+              <el-option v-for="(country, index) in countries" :key="index" :label="country" :value="country">{{ country }}</el-option>
             </el-select>
           </b-form-group>
         </b-col>
@@ -92,21 +90,27 @@
     </b-form>
 
     <div slot="modal-footer">
-      <save-button :disabled="!validInput" :saving="saving" @click="createCustomer()">{{ $t('form.save') }}</save-button>
+      <save-button :disabled="!validInput" :saving="saving" @click="updateCustomer()">{{ $t('form.save') }}</save-button>
     </div>
   </b-modal>
 </template>
 <script>
 import countries from '@/config/countries'
-import config from '@/config/config'
 import { mapGetters } from 'vuex'
 import SaveButton from '@/components/shared/SaveButton'
 export default {
-  data: function() {
+  props: {
+    customer: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  data() {
     return {
       showModal: false,
       saving: false,
-      newCustomer: this.blankCustomer(),
+      editCustomer: this.customerCopy(),
     }
   },
 
@@ -117,7 +121,7 @@ export default {
   watch: {
     showModal(value) {
       if (value) {
-        this.newCustomer = this.blankCustomer()
+        this.editCustomer = this.customerCopy()
       }
     },
   },
@@ -135,32 +139,24 @@ export default {
   },
 
   methods: {
-    blankCustomer() {
-      return {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        address: {
-          street: '',
-          zipCode: '',
-          town: '',
-          country: config.defaultCountry,
-        },
-      }
-    },
-
-    async createCustomer() {
+    async updateCustomer() {
       this.saving = true
-      await this.$store.dispatch('createCustomer', { ...this.newCustomer })
-      this.$bvToast.toast(`${this.newCustomer.firstname} ${this.newCustomer.lastname}`, {
-        title: this.$i18n.t('customer.customer_added'),
+      await this.$store.dispatch('updateCustomer', { ...this.editCustomer })
+      this.$bvToast.toast(`${this.editCustomer.firstname} ${this.editCustomer.lastname}`, {
+        title: this.$i18n.t('customer.customer_saved'),
         variant: 'success',
         solid: true,
         toaster: 'b-toaster-top-center',
       })
       this.saving = false
       this.showModal = false
+    },
+
+    customerCopy() {
+      let addressCopy = { ...this.customer.address }
+      let customerCopy = { ...this.customer }
+      customerCopy.address = addressCopy
+      return customerCopy
     },
   },
 }
