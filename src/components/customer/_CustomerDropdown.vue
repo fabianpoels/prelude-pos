@@ -9,15 +9,18 @@
     </b-dropdown>
     <delete-customer :customer="customer" />
     <edit-customer :customer="customer" />
+    <view-customer :customer="customer" />
   </div>
 </template>
 <script>
 import DeleteCustomer from '@/components/customer/DeleteCustomer'
 import EditCustomer from '@/components/customer/EditCustomer'
+import ViewCustomer from '@/components/customer/ViewCustomer'
 export default {
   components: {
     DeleteCustomer,
     EditCustomer,
+    ViewCustomer,
   },
 
   props: {

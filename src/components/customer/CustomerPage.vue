@@ -9,7 +9,7 @@
       </b-col>
       <b-col cols="8">
         <default-card :title="$t('topbar.customers')" class="my-3">
-          <b-table :fields="fields" :items="tableCustomers" class="my-2" v-if="customers.length > 0">
+          <b-table :fields="fields" :items="tableCustomers" class="my-2" v-if="customers.length > 0" @row-clicked="rowClicked" hover tbody-tr-class="clickableTableRow">
             <template v-slot:cell(customer)="data">
               <customer-dropdown :customer="data.item.customer" />
             </template>
@@ -59,5 +59,16 @@ export default {
       })
     },
   },
+
+  methods: {
+    rowClicked({ customer }) {
+      this.$bvModal.show(`viewCustomer-${customer._id}`)
+    },
+  },
 }
 </script>
+<style>
+.clickableTableRow {
+  cursor: pointer;
+}
+</style>
