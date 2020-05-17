@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import mongoose from 'mongoose'
+import config from '@/config/config'
 let Schema = mongoose.Schema
 
 let ItemSchema = new Schema(
@@ -11,6 +12,10 @@ let ItemSchema = new Schema(
     gym: { type: String, ref: 'Gym' },
     category: { type: String, ref: 'Category' },
     archived: { type: Boolean, required: true, default: false },
+    isEntryToken: { type: Boolean, default: false },
+    tokenType: { type: String, enum: config.tokenTypes },
+    subscriptionDuration: { type: Number },
+    punchcardEntries: { type: Number },
   },
   { timestamps: true }
 )

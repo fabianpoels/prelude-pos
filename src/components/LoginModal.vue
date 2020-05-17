@@ -1,6 +1,6 @@
 <template>
   <b-modal no-close-on-backdrop id="loginModal" v-model="showModal" :title="$t('login.login')">
-    <b-form class="my-3">
+    <b-form class="my-3" @keydown.enter="login">
       <b-form-group id="identifier" :label="$t('login.identifier')" label-for="identifier-input">
         <b-form-input id="identifier-input" v-model="identifier" required />
       </b-form-group>

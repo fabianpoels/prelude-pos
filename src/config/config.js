@@ -44,6 +44,7 @@ let config = {
     maxCols: 10,
   },
   pageIcons: ['mountain', 'building', 'utensils', 'glass-cheers', 'candy-cane', 'chalkboard-teacher', 'users'],
+  tokenTypes: ['single', 'punchcard', 'subscription'],
   transaction: {
     paymentMethods: {
       cash: 'cash',

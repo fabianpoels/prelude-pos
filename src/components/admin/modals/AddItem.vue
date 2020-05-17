@@ -18,6 +18,24 @@
         </el-select>
       </b-form-group>
       <price-items v-model="prices" :item="newItem" />
+      <b-form-group id="isEntryToken" label-for="isEntryToken-input" class="mt-4">
+        <b-form-checkbox v-model="newItem.isEntryToken" name="isEntryToken-input" switch>{{ $t('datastructure.is_entry_token') }}</b-form-checkbox>
+      </b-form-group>
+      <template v-if="newItem.isEntryToken">
+        <b-form-group :label="`${$t('datastructure.type')}`" label-for="tokenType">
+          <b-form-select v-model="newItem.tokenType" :options="tokenTypeOptions" :disabled="saving" />
+        </b-form-group>
+        <b-form-group id="punchcard-entries" :label="$t('datastructure.entries')" label-for="punchcard-entries-input" v-if="newItem.tokenType === 'punchcard'">
+          <b-input-group :append="punchcardEntriesAppend.toLowerCase()">
+            <b-form-input id="punchcard-entries-input" :number="true" type="number" :min="1" :step="1" v-model="newItem.punchcardEntries" />
+          </b-input-group>
+        </b-form-group>
+        <b-form-group id="subscription-duration" :label="$t('datastructure.subscription_duration')" label-for="subscription-duration-input" v-if="newItem.tokenType === 'subscription'">
+          <b-input-group :append="subscriptionDurationAppend.toLowerCase()">
+            <b-form-input id="subscription-duration-input" :number="true" type="number" :min="1" :step="1" v-model="newItem.subscriptionDuration" />
+          </b-input-group>
+        </b-form-group>
+      </template>
     </b-form>
 
     <div slot="modal-footer">
@@ -30,6 +48,7 @@
 import { mapGetters } from 'vuex'
 import PriceItems from '@/components/admin/modals/_PriceItems'
 import SaveButton from '@/components/shared/SaveButton'
+import config from '@/config/config'
 export default {
   data: function() {
     return {
@@ -55,10 +74,27 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['businessUnits', 'categoriesForBusinessUnit', 'categories', 'vatFormOptions']),
+    ...mapGetters(['businessUnits', 'categoriesForBusinessUnit', 'categories', 'vatFormOptions', 'tokenTypeOptioins']),
 
     validInput() {
       return this.newItem.name && this.newItem.name.length > 0 && this.newItem.category !== null && this.prices.length > 0
+    },
+
+    tokenTypeOptions() {
+      return config.tokenTypes.map(tokenType => {
+        return {
+          value: tokenType,
+          text: this.$i18n.t(`datastructure.tokenTypes.${tokenType}`),
+        }
+      })
+    },
+
+    subscriptionDurationAppend() {
+      return this.newItem.subscriptionDuration === 1 ? this.$i18n.t('datastructure.month') : this.$i18n.t('datastructure.months')
+    },
+
+    punchcardEntriesAppend() {
+      return this.newItem.punchcardEntries === 1 ? this.$i18n.t('datastructure.entry') : this.$i18n.t('datastructure.entries')
     },
   },
 
@@ -70,6 +106,10 @@ export default {
         vatRegime: this.vatFormOptions[0].value,
         category: null,
         salesPrice: 0,
+        isEntryToken: false,
+        tokenType: '',
+        subscriptionDuration: 3,
+        punchcardEntries: 10,
       }
     },
 
