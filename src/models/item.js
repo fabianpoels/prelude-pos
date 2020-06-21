@@ -13,7 +13,7 @@ let ItemSchema = new Schema(
     category: { type: String, ref: 'Category' },
     archived: { type: Boolean, required: true, default: false },
     isEntryToken: { type: Boolean, default: false },
-    tokenType: { type: String, enum: config.tokenTypes },
+    tokenType: { type: String, enum: config.tokenTypes, required: false },
     subscriptionDuration: { type: Number },
     punchcardEntries: { type: Number },
   },

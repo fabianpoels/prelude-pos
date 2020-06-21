@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import PriceItems from '@/components/admin/modals/_PriceItems'
 import SaveButton from '@/components/shared/SaveButton'
@@ -69,6 +70,14 @@ export default {
       if (value) {
         this.newItem = this.blankItem()
         this.prices = []
+      }
+    },
+
+    isEntryToken(value) {
+      if (value === true) {
+        Vue.set(this.newItem, 'tokenType', config.tokenTypes[0])
+      } else {
+        Vue.delete(this.newItem, 'tokenType')
       }
     },
   },
@@ -107,7 +116,6 @@ export default {
         category: null,
         salesPrice: 0,
         isEntryToken: false,
-        tokenType: '',
         subscriptionDuration: 3,
         punchcardEntries: 10,
       }
