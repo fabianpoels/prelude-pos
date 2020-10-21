@@ -31,7 +31,7 @@ let config = {
       employee: 'employee',
     },
   },
-  vatRegimes: [0.21, 0.12],
+  vatRegimes: [0.21, 0.12, 0.06],
   currencies: [
     { sign: '€', text: 'EUR' },
     { sign: '$', text: 'USD' },
