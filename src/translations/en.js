@@ -135,6 +135,11 @@ const en = {
   page: {
     select_price: 'Select price',
   },
+  settings: {
+    device: 'Device',
+    tag_reader: 'Tag reader',
+    tag_reader_saved: 'Tag reader saved',
+  },
   setup: {
     configure_connection: 'Configure connection',
     connect: 'Connect',

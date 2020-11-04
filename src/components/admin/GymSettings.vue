@@ -35,6 +35,21 @@
         <layout-section :title="$t('gym.vat_options')">
           <default-card>TODO</default-card>
         </layout-section>
+        <hr />
+        <layout-section :title="$t('settings.tag_reader')">
+          <default-card>
+            <b-form-row>
+              <b-col cols="6">
+                <b-form class="my-3">
+                  <b-form-group label-cols-sm="3" :label="`${$t('settings.device')}:`" label-align-sm="right" label-for="device">
+                    <b-form-select v-model="tagReaderModel" :options="deviceOptions" :disabled="saving" />
+                  </b-form-group>
+                </b-form>
+              </b-col>
+              <save-button class="ml-auto" :saving="savingTagReader" @click="saveTagReader()">{{ $t('form.save') }}</save-button>
+            </b-form-row>
+          </default-card>
+        </layout-section>
       </b-col>
     </b-row>
   </base-layout>
@@ -57,12 +72,14 @@ export default {
   data() {
     return {
       localSettings: { ...this.$store.getters.gym.settings },
+      localTagReader: this.tagReader && this.tagReader.vendorId && this.tagReader.productId ? { vendorId: this.tagReader.vendorId, productId: this.tagReader.productId } : { vendorId: null, productId: null },
       saving: false,
+      savingTagReader: false,
     }
   },
 
   computed: {
-    ...mapGetters(['gym']),
+    ...mapGetters(['gym', 'devices', 'tagReader']),
 
     currencyOptions() {
       return config.currencies.map(currency => {
@@ -83,6 +100,18 @@ export default {
       },
     },
 
+    deviceOptions() {
+      return this.devices.map(d => {
+        return {
+          value: {
+            vendorId: d.vendorId,
+            productId: d.productId,
+          },
+          text: `${d.manufacturer} ${d.product}`,
+        }
+      })
+    },
+
     previewCurrencySign() {
       return this.$helpers.formatPrice(this.localSettings, 12345.67)
     },
@@ -90,6 +119,24 @@ export default {
     previewCurrencyText() {
       return this.$helpers.formatPrice(this.localSettings, 12345.67, true)
     },
+
+    tagReaderModel: {
+      get() {
+        if (this.localTagReader && this.localTagReader.vendorId && this.localTagReader.productId) {
+          return { vendorId: this.localTagReader.vendorId, productId: this.localTagReader.productId }
+        } else {
+          return null
+        }
+      },
+      set({ vendorId, productId }) {
+        this.localTagReader.vendorId = vendorId
+        this.localTagReader.productId = productId
+      },
+    },
+  },
+
+  mounted() {
+    this.localTagReader = this.tagReader && this.tagReader.vendorId && this.tagReader.productId ? { vendorId: this.tagReader.vendorId, productId: this.tagReader.productId } : { vendorId: null, productId: null }
   },
 
   methods: {
@@ -105,6 +152,18 @@ export default {
         toaster: 'b-toaster-top-center',
       })
       this.saving = false
+    },
+
+    async saveTagReader() {
+      this.savingTagReader = true
+      await this.$store.dispatch('saveTagReader', this.localTagReader)
+      this.$bvToast.toast(this.$i18n.t('settings.tag_reader_saved'), {
+        title: this.$i18n.t('settings.tag_reader_saved'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
+      this.savingTagReader = false
     },
   },
 }

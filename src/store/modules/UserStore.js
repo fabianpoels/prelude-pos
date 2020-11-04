@@ -73,20 +73,6 @@ const UserStore = {
       user.password = await User.getHashedPassword(user.password)
       dispatch('updateUser', user)
     },
-
-    async login({ commit, getters }, { identifier, password }) {
-      let loggedIn = false
-      let user = getters.userByIdentifier(identifier)
-      if (user) {
-        let dbUser = await User.findOne({ _id: user._id })
-        if ((await dbUser.validPassword(password)) && dbUser.enabled) {
-          commit('setCurrentUser', user)
-          commit('setLoggedIn', true)
-          loggedIn = true
-        }
-      }
-      return loggedIn
-    },
   },
 
   getters: {

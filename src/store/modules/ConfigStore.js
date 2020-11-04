@@ -14,6 +14,7 @@ const ConfigStore = {
       connectionMode: 'standard',
     },
     posUuid: undefined,
+    tagReader: undefined,
   },
 
   mutations: {
@@ -36,6 +37,10 @@ const ConfigStore = {
     setPosUuid(state, uuid) {
       state.posUuid = uuid
     },
+
+    setTagReader(state, tagReader) {
+      state.tagReader = tagReader
+    },
   },
 
   actions: {
@@ -47,6 +52,8 @@ const ConfigStore = {
         commit('setDbConfig', dbConfig)
         commit('setConfigLoaded', true)
       }
+      let tagReader = getters.fileStore.get('tagReader')
+      if (tagReader && tagReader.vendorId && tagReader.productId) commit('setTagReader', tagReader)
     },
 
     saveDbConfig({ commit, getters }, config) {
@@ -58,6 +65,14 @@ const ConfigStore = {
       getters.fileStore.set('posUuid', posUuid)
       commit('setPosUuid', posUuid)
     },
+
+    saveTagReader({ commit, getters, dispatch }, tagReader) {
+      commit('setTagReader', tagReader)
+      if (getters.tagReader && getters.tagReader !== null) {
+        getters.fileStore.set('tagReader', tagReader)
+        dispatch('startNfcListen')
+      }
+    },
   },
 
   getters: {
@@ -65,6 +80,7 @@ const ConfigStore = {
     fileStore: state => state.fileStore,
     dbConfig: state => state.dbConfig,
     posUuid: state => state.posUuid,
+    tagReader: state => state.tagReader,
   },
 }
 

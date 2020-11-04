@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import * as mongoose from 'mongoose'
 import config from '@/config/config'
+import User from '@/models/user'
+import HID from 'node-hid'
+import { KeyboardLines } from 'node-hid-stream'
 
 const ApplicationStore = {
   state: {
     loggedIn: false,
     connecting: false,
     connected: false,
+    nfcData: [],
   },
 
   mutations: {
@@ -21,6 +25,13 @@ const ApplicationStore = {
     setConnected(state, connected) {
       state.connected = connected
     },
+
+    addNfcData(state, data) {
+      let uid = data.replace(/\s+/g, '')
+      if (state.nfcData.indexOf(uid) === -1) {
+        state.nfcData.push(uid)
+      }
+    },
   },
 
   actions: {
@@ -32,6 +43,7 @@ const ApplicationStore = {
         if (getters.connected) {
           await dispatch('loadAllGyms')
           let pos = await dispatch('loadPos', getters.posUuid)
+          await dispatch('startNfcListen', getters.tagReader)
           if (pos && pos._id === getters.posUuid) {
             await dispatch('loadGymById', pos.gym._id)
             await dispatch('loadPosData')
@@ -92,16 +104,55 @@ const ApplicationStore = {
       commit('setCustomers', [])
     },
 
+    async login({ commit, getters }, { identifier, password }) {
+      let loggedIn = false
+      let user = getters.userByIdentifier(identifier)
+      if (user) {
+        let dbUser = await User.findOne({ _id: user._id })
+        if ((await dbUser.validPassword(password)) && dbUser.enabled) {
+          commit('setCurrentUser', user)
+          commit('setLoggedIn', true)
+          loggedIn = true
+        }
+      }
+      return loggedIn
+    },
+
     logout({ commit }) {
       commit('setCurrentUser', {})
       commit('setLoggedIn', false)
     },
+
+    async startNfcListen({ commit }, { vendorId, productId }) {
+      if (vendorId && productId) {
+        try {
+          let hidstream = new KeyboardLines({ vendorId: vendorId, productId: productId })
+          hidstream.on('data', data => {
+            commit('addNfcData', data)
+          })
+          // let device = new HID.HID(vendorId, productId)
+          // device.on('data', data => {
+          //   console.log(data)
+          //   let buffer = Buffer.from(data)
+          //   // console.log(buffer.length)
+          //   // console.log(Buffer.from(data).readUInt8(0))
+          //   // console.log(new TextDecoder('utf-8').decode(data))
+          //   commit('addNfcBuffer', data)
+          // })
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    },
   },
 
   getters: {
+    devices: () => HID.devices(),
     loggedIn: state => state.loggedIn,
+    nfcData: state => state.nfcData,
     connecting: state => state.connecting,
     connected: state => state.connected,
+    scannedTags: getters => getters.nfcData.length,
     vatFormOptions: () =>
       config.vatRegimes.map(x => {
         return {

@@ -17,9 +17,10 @@
         <span class="ml-2">{{ $t('topbar.customers') }}</span>
       </router-link>
     </b-navbar-nav>
+    <tag-read-notification v-if="loggedIn" />
     <b-navbar-nav>
       <slot></slot>
-      <router-link tag="b-nav-item" :to="{ name: 'pages-setup' }" v-if="loggedIn && isAdmin">
+      <router-link tag="b-nav-item" :to="{ name: 'pages-setup' }" v-if="loggedIn && isAdmin" class="ml-2">
         <font-awesome-icon :icon="['fas', 'th']" size="2x" />
       </router-link>
       <b-nav-item-dropdown right v-if="loggedIn && isAdmin" class="ml-2">
@@ -50,7 +51,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import TagReadNotification from '@/components/topbar/TagReadNotification'
 export default {
+  components: {
+    TagReadNotification,
+  },
+
   computed: {
     ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'orderedPages', 'connected', 'connecting', 'dataLoaded']),
   },
