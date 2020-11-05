@@ -1,24 +1,29 @@
 # prelude-pos-v2
 
 ## Project setup
+
 ```
-npm install
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
-npm run serve
+yarn electron:serve
 ```
 
 ### Compiles and minifies for production
+
 ```
-npm run build
+yarn electron:build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Linux udev rules for NFC HID tag reader
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+/etc/udev/rules.d/XX-disable-usb-hid.rules
+
+```
+SUBSYSTEM=="input", GROUP="input", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="072f", ATTRS{idProduct}=="2217", MODE:="666", GROUP="plugdev"
+KERNEL=="hidraw*", ATTRS{idVendor}=="072f", ATTRS{idProduct}=="2217", MODE="0666", GROUP="plugdev"
+```
