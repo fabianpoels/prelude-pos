@@ -10,6 +10,7 @@ const en = {
     address: 'Address',
     add_customer: 'Add customer',
     country: 'Country',
+    customer: 'Customer',
     customer_added: 'Customer added',
     customer_saved: 'Customer saved',
     date_of_birth: 'Date of birth',
@@ -171,6 +172,11 @@ const en = {
   sidebar: {
     clear: 'Clear',
     total: 'Total',
+  },
+  tag: {
+    assign_tag: 'Assign tag',
+    uid: 'uid',
+    tag_assigned: 'Tag assigned',
   },
   topbar: {
     categories: 'Categories',

@@ -10,7 +10,6 @@ const ApplicationStore = {
     loggedIn: false,
     connecting: false,
     connected: false,
-    nfcData: [],
   },
 
   mutations: {
@@ -24,13 +23,6 @@ const ApplicationStore = {
 
     setConnected(state, connected) {
       state.connected = connected
-    },
-
-    addNfcData(state, data) {
-      let uid = data.replace(/\s+/g, '')
-      if (state.nfcData.indexOf(uid) === -1) {
-        state.nfcData.push(uid)
-      }
     },
   },
 
@@ -123,22 +115,13 @@ const ApplicationStore = {
       commit('setLoggedIn', false)
     },
 
-    async startNfcListen({ commit }, { vendorId, productId }) {
+    async startNfcListen({ dispatch }, { vendorId, productId }) {
       if (vendorId && productId) {
         try {
           let hidstream = new KeyboardLines({ vendorId: vendorId, productId: productId })
           hidstream.on('data', data => {
-            commit('addNfcData', data)
+            dispatch('readTag', data.replace(/\s+/g, ''))
           })
-          // let device = new HID.HID(vendorId, productId)
-          // device.on('data', data => {
-          //   console.log(data)
-          //   let buffer = Buffer.from(data)
-          //   // console.log(buffer.length)
-          //   // console.log(Buffer.from(data).readUInt8(0))
-          //   // console.log(new TextDecoder('utf-8').decode(data))
-          //   commit('addNfcBuffer', data)
-          // })
         } catch (e) {
           console.error(e)
         }

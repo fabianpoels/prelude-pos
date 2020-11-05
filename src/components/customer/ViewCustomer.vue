@@ -1,14 +1,13 @@
 <template>
   <b-modal v-model="showModal" size="lg" :id="`viewCustomer-${customer._id}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" no-close-on-backdrop>
     <div slot="modal-footer">
-      <save-button :disabled="!validInput" :saving="saving" @click="updateCustomer()">{{ $t('form.save') }}</save-button>
+      <!-- <save-button :disabled="!validInput" :saving="saving" @click="updateCustomer()">{{ $t('form.save') }}</save-button> -->
     </div>
   </b-modal>
 </template>
 <script>
 import countries from '@/config/countries'
 import { mapGetters } from 'vuex'
-import SaveButton from '@/components/shared/SaveButton'
 export default {
   props: {
     customer: {
@@ -23,10 +22,6 @@ export default {
       saving: false,
       editCustomer: this.customerCopy(),
     }
-  },
-
-  components: {
-    SaveButton,
   },
 
   watch: {
