@@ -50,6 +50,6 @@ export default {
         this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}-topbar`)
       }
     },
-  }
+  },
 }
 </script>
