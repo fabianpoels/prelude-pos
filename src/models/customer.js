@@ -1,5 +1,9 @@
 import { v4 as uuid } from 'uuid'
 import mongoose from 'mongoose'
+import Price from '@/models/price'
+import Item from '@/models/item'
+let PriceSchema = Price.schema
+let ItemSchema = Item.schema
 let Schema = mongoose.Schema
 
 let CustomerSchema = new Schema(
@@ -18,6 +22,15 @@ let CustomerSchema = new Schema(
     },
     dateOfBirth: { type: Date },
     items: [{ type: String, ref: 'Item' }],
+    entryTokens: [
+      {
+        item: ItemSchema,
+        price: PriceSchema,
+        purchasedAt: { type: Date },
+        validUntil: { type: Date },
+        entrances: [Date],
+      },
+    ],
     archived: { type: Boolean, default: false },
   },
   { timestamps: true }
