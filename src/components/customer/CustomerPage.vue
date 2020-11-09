@@ -62,7 +62,7 @@ export default {
 
   methods: {
     rowClicked({ customer }) {
-      this.$bvModal.show(`viewCustomer-${customer._id}`)
+      this.$bvModal.show(`viewCustomer-${customer._id}-`)
     },
   },
 }

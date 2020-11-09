@@ -8,7 +8,7 @@
         <font-awesome-icon :icon="['fas', 'tag']" size="2x" />
       </b-button>
       <tag-assign-modal :tag="tag" />
-      <view-customer :customer="tagCustomer" v-if="tagCustomer" />
+      <view-customer :customer="tagCustomer" v-if="tagCustomer" modalIdSuffix="topbar" />
     </template>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
   methods: {
     viewCustomer() {
       if (this.tagCustomer) {
-        this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}`)
+        this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}-topbar`)
       }
     },
   }
