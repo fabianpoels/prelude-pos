@@ -40,6 +40,7 @@ const en = {
     edit_prices: 'Edit prices',
     entries: 'Entries',
     entry: 'Entry',
+    entry_token: 'Entry token',
     identifier: 'Identifier',
     is_entry_token: 'Is entry token',
     item: 'Item',
@@ -59,6 +60,8 @@ const en = {
     vat_regime: 'VAT',
   },
   form: {
+    add: 'Add',
+    adding: 'Adding',
     archive: 'Archive',
     archiving: 'Archiving',
     are_you_sure: 'Are you sure',
