@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Customer from '@/models/customer'
+import { DateTime } from 'luxon'
 
 let CustomerStore = {
   state: {
@@ -46,6 +47,23 @@ let CustomerStore = {
       customer.archived = true
       let dbcustomer = await Customer.findByIdAndUpdate(customer._id, customer, { new: true })
       commit('updateCustomer', dbcustomer.toObject({ getters: true }))
+    },
+
+    async addEntryTokenItemToCustomer({ commit }, { customer, price, item }) {
+      let dbCustomer = await Customer.findById(customer._id)
+      let customerEntryToken = {
+        item: item,
+        price: price,
+        purchasedAt: DateTime.local().toJSDate(),
+        validUntil: DateTime.local()
+          .plus({ months: item.subscriptionDuration })
+          .toJSDate(),
+        entrances: [],
+      }
+      console.log(customerEntryToken)
+      dbCustomer.entryTokens.unshift(customerEntryToken)
+      await dbCustomer.save()
+      commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },
   },
 

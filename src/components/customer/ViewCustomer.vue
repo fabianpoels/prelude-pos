@@ -22,7 +22,7 @@
     <div slot="modal-footer">
       <b-form class="my-3" inline>
         <b-form-group id="new-entry-token" label-for="new-entry-token-input">
-          <el-select id="new-entry-token-input" v-model="newEntryTokenItem" :placeholder="$t('datastructure.entry_token')" class="w-100" filterable :disabled="saving">
+          <el-select id="new-entry-token-input" v-model="newEntryTokenPriceId" :placeholder="$t('datastructure.entry_token')" class="w-100" filterable :disabled="saving">
             <template v-for="item in entryTokenItems">
               <template v-if="pricesForItem(item).length > 1">
                 <el-option v-for="price in pricesForItem(item)" :key="price._id" :label="`${item.name}: ${price.name}`" :value="price._id">
@@ -37,7 +37,7 @@
             </template>
           </el-select>
         </b-form-group>
-        <save-button :disabled="newEntryTokenItem === null" :saving="saving" @click="addEntryTokenItem()" class="ml-2" :savingText="$t('form.adding')">{{ $t('form.add') }}</save-button>
+        <save-button :disabled="newEntryTokenPriceId === null" :saving="saving" @click="addEntryToken()" class="ml-2" :savingText="$t('form.adding')">{{ $t('form.add') }}</save-button>
       </b-form>
     </div>
   </b-modal>
@@ -53,20 +53,24 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['entryTokenItems', 'categoryById', 'pricesForItem']),
+    ...mapGetters(['entryTokenItems', 'categoryById', 'pricesForItem', 'priceById']),
   },
 
   data() {
     return {
-      newEntryTokenItem: null,
+      newEntryTokenPriceId: null,
       saving: false,
       showModal: false,
     }
   },
 
   methods: {
-    addEntryTokenItem() {
+    async addEntryToken() {
       this.saving = true
+      let price = this.priceById(this.newEntryTokenPriceId)
+      let item = this.entryTokenItems.find(i => i._id === price.item)
+      await this.$store.dispatch('addEntryTokenItemToCustomer', { customer: this.customer, price: price, item: item })
+      this.saving = false
     },
   },
 
@@ -84,7 +88,7 @@ export default {
 
   watch: {
     showModal(show) {
-      if (show) this.newEntryTokenItem = null
+      if (show) this.newEntryTokenPriceId = null
     },
   },
 }
