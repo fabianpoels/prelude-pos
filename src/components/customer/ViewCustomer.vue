@@ -1,5 +1,5 @@
 <template>
-  <b-modal size="lg" v-model="showModal" :id="`viewCustomer-${customer._id}-${modalIdSuffix}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal size="lg" scrollable v-model="showModal" :id="`viewCustomer-${customer._id}-${modalIdSuffix}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" no-close-on-backdrop>
     <b-row>
       <b-col cols="12" lg="6">
         <div><font-awesome-icon :icon="['fas', 'user']" /> {{ customer.firstname }} {{ customer.lastname }}</div>
@@ -15,8 +15,12 @@
     </b-row>
     <hr />
     <b-row>
-      <b-col cols="12" lg="6">
-        <entry-token-card v-for="(token, index) in customer.entryTokens" :token="token" :key="`${customer._id}-token-${index}`" />
+      <b-col cols="12" lg="12">
+        <template v-for="(token, index) in customer.entryTokens">
+          <punchcard-card :token="token" v-if="token.item.tokenType === 'punchcard'" :key="`${customer._id}-token-${index}`" />
+          <subscription-card :token="token" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer._id}-token-${index}`" />
+          <single-entry-card :token="token" v-else-if="token.item.tokenType === 'single'" :key="`${customer._id}-token-${index}`" />
+        </template>
       </b-col>
     </b-row>
     <div slot="modal-footer">
@@ -44,12 +48,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import EntryTokenCard from '@/components/customer/EntryTokenCard'
 import SaveButton from '@/components/shared/SaveButton'
+import PunchcardCard from '@/components/customer/_PunchcardCard'
+import SingleEntryCard from '@/components/customer/_SingleEntryCard'
+import SubscriptionCard from '@/components/customer/_SubscriptionCard'
 export default {
   components: {
-    EntryTokenCard,
     SaveButton,
+    PunchcardCard,
+    SingleEntryCard,
+    SubscriptionCard,
   },
 
   computed: {
@@ -58,6 +66,7 @@ export default {
 
   data() {
     return {
+      localCustomer: this.customer,
       newEntryTokenPriceId: null,
       saving: false,
       showModal: false,

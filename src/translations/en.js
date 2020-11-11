@@ -59,6 +59,11 @@ const en = {
     type: 'Type',
     vat_regime: 'VAT',
   },
+  entrytoken: {
+    entries_left: 'Entries left',
+    valid_on: 'Valid on',
+    valid_until: 'Valid until',
+  },
   form: {
     add: 'Add',
     adding: 'Adding',
