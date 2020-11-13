@@ -7,7 +7,7 @@
       <b-button variant="warning" v-else v-b-modal.tag-assign-modal>
         <font-awesome-icon :icon="['fas', 'tag']" size="2x" />
       </b-button>
-      <tag-assign-modal :tag="tag" />
+      <tag-assign-modal :tag="tag" @hidden="removeScannedTag()" />
       <view-customer :customer="tagCustomer" v-if="tagCustomer" modalIdSuffix="topbar" @hidden="removeScannedTag()" />
     </template>
   </div>

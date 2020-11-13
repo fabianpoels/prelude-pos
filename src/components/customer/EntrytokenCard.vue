@@ -4,7 +4,7 @@
       <template v-slot:header>
         <div class="d-flex flex-column">
           <div class="d-flex flex-row justify-content-between align-items-center">
-            <div class="h5 token-title"><slot name="title"></slot></div>
+            <div class="h5 token-title" @click="expanded = !expanded"><font-awesome-icon :icon="['fas', collapseIcon]" class="mr-2" /><slot name="title"></slot></div>
             <div>
               <slot name="title-actions">
                 <save-button variant="success" size="sm" v-if="valid" :disabled="active" :saving="registering" :savingText="$t('entrytoken.entry')" @click="registerEntry()">{{ $t('entrytoken.entry') }}</save-button>
@@ -19,7 +19,10 @@
           </div>
         </div>
       </template>
-      <slot></slot>
+      <slot name="no-collapse"></slot>
+      <b-collapse v-model="expanded" :accordion="`entry-token-accordion-${this.customer._id}`">
+        <slot></slot>
+      </b-collapse>
     </b-card>
     <template v-slot:overlay>
       <save-button size="sm" variant="danger" :saving="deleting" :savingText="$t('form.deleting')" @click="deleteEntrytoken()">{{ $t('form.delete') }}</save-button>
@@ -40,7 +43,11 @@ export default {
     ...mapGetters(['isAdmin']),
 
     active() {
-      return this.token.entrances.some(e => DateTime.fromJSDate(e).hasSame(DateTime.local(), 'day') )
+      return this.token.entrances.some(e => DateTime.fromJSDate(e).hasSame(DateTime.local(), 'day'))
+    },
+
+    collapseIcon() {
+      return this.expanded ? 'chevron-up' : 'chevron-down'
     },
   },
 
@@ -48,6 +55,7 @@ export default {
     return {
       confirmDelete: false,
       deleting: false,
+      expanded: false,
       registering: false,
     }
   },
@@ -91,3 +99,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.token-title {
+  cursor: pointer !important;
+}
+</style>
