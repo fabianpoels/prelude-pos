@@ -71,6 +71,15 @@ let CustomerStore = {
       await dbCustomer.save()
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },
+
+    async registerEntry({ commit }, { customer, token, date }) {
+      let dbCustomer = await Customer.findById(customer._id)
+      let customerToken = dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
+      customerToken.entrances.push(date)
+      // ADD VALIDATION
+      await dbCustomer.save()
+      commit('updateCustomer', dbCustomer.toObject({ getters: true }))
+    },
   },
 
   getters: {

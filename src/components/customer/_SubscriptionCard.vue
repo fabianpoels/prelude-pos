@@ -1,7 +1,6 @@
 <template>
   <entrytoken-card :valid="isValid" :token="token" :customer="customer">
     <template v-slot:title>{{ tokenName }}</template>
-    <template v-slot:title-actions><b-btn variant="success" size="sm" v-if="isValid">Entry</b-btn></template>
     <b-container>
       <b-row>
         <b-col>
@@ -15,6 +14,7 @@
           </b-row>
         </b-col>
         <b-col>
+          <b-table></b-table>
         </b-col>
       </b-row>
     </b-container>
@@ -62,7 +62,7 @@ export default {
 
   data() {
     return {
-      expanded: false,
+      registering: false,
     }
   },
 

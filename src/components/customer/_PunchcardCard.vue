@@ -6,6 +6,10 @@
       <b-row>
         <b-col>
           <b-row>
+            <b-col>{{ $t('entrytoken.entries_left') }}</b-col>
+            <b-col>{{ entriesLeft }}</b-col>
+          </b-row>
+          <b-row>
             <b-col>{{ $t('entrytoken.purchased_on') }}</b-col>
             <b-col>{{ purchasedOnFormatted }}</b-col>
           </b-row>
@@ -14,8 +18,7 @@
             <b-col>{{ validUntilFormatted }}</b-col>
           </b-row>
         </b-col>
-        <b-col>
-        </b-col>
+        <b-col></b-col>
       </b-row>
     </b-container>
   </entrytoken-card>
