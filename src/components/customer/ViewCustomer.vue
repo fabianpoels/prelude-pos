@@ -1,5 +1,14 @@
 <template>
-  <b-modal size="lg" scrollable v-model="showModal" :id="`viewCustomer-${customer._id}-${modalIdSuffix}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal
+    size="lg"
+    scrollable
+    v-model="showModal"
+    :id="`viewCustomer-${customer._id}-${modalIdSuffix}`"
+    :title="`${customer.firstname} ${customer.lastname}`"
+    body-bg-variant="100"
+    no-close-on-backdrop
+    @hidden="$emit('hidden')"
+  >
     <b-row>
       <b-col cols="12" lg="6">
         <div><font-awesome-icon :icon="['fas', 'user']" /> {{ customer.firstname }} {{ customer.lastname }}</div>
