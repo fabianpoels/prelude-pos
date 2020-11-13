@@ -61,6 +61,9 @@ const en = {
   },
   entrytoken: {
     entries_left: 'Entries left',
+    entry_token_added: 'Entry token added',
+    entry_token_removed: 'Entry token removed',
+    purchased_on: 'Purchased on',
     valid_on: 'Valid on',
     valid_until: 'Valid until',
   },

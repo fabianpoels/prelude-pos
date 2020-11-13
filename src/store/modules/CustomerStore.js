@@ -60,8 +60,14 @@ let CustomerStore = {
           .toJSDate(),
         entrances: [],
       }
-      console.log(customerEntryToken)
       dbCustomer.entryTokens.unshift(customerEntryToken)
+      await dbCustomer.save()
+      commit('updateCustomer', dbCustomer.toObject({ getters: true }))
+    },
+
+    async deleteEntryTokenItemFromCustomer({ commit }, { customer, token }) {
+      let dbCustomer = await Customer.findById(customer._id)
+      dbCustomer.entryTokens = dbCustomer.entryTokens.filter(et => et._id.toString() !== token._id.toString())
       await dbCustomer.save()
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },

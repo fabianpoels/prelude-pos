@@ -1,5 +1,5 @@
 <template>
-  <entrytoken-card :valid="isValid">
+  <entrytoken-card :valid="isValid" :token="token" :customer="customer">
     <template v-slot:title>{{ tokenName }}</template>
     <template v-slot:title-info>{{ $t('entrytoken.valid_on') }} {{ validUntilFormatted }}</template>
   </entrytoken-card>
@@ -43,6 +43,10 @@ export default {
   },
 
   props: {
+    customer: {
+      type: Object,
+      required: true,
+    },
     token: {
       type: Object,
       required: true,

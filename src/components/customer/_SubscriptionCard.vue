@@ -1,7 +1,23 @@
 <template>
-  <entrytoken-card :valid="isValid">
+  <entrytoken-card :valid="isValid" :token="token" :customer="customer">
     <template v-slot:title>{{ tokenName }}</template>
-    <template v-slot:title-info>{{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}</template>
+    <template v-slot:title-actions><b-btn variant="success" size="sm" v-if="isValid">Entry</b-btn></template>
+    <b-container>
+      <b-row>
+        <b-col>
+          <b-row>
+            <b-col>{{ $t('entrytoken.purchased_on') }}</b-col>
+            <b-col>{{ purchasedOnFormatted }}</b-col>
+          </b-row>
+          <b-row>
+            <b-col>{{ $t('entrytoken.valid_until') }}</b-col>
+            <b-col>{{ validUntilFormatted }}</b-col>
+          </b-row>
+        </b-col>
+        <b-col>
+        </b-col>
+      </b-row>
+    </b-container>
   </entrytoken-card>
 </template>
 <script>
@@ -27,12 +43,20 @@ export default {
       return this.token.item.name
     },
 
+    purchasedOn() {
+      return DateTime.fromJSDate(this.token.purchasedAt)
+    },
+
+    purchasedOnFormatted() {
+      return this.$helpers.formatDate(this.gym.settings, this.purchasedOn)
+    },
+
     validUntil() {
       return DateTime.fromJSDate(this.token.validUntil)
     },
 
     validUntilFormatted() {
-      return this.$helpers.formatDate(this.gym.settings, DateTime.fromJSDate(this.token.validUntil))
+      return this.$helpers.formatDate(this.gym.settings, this.validUntil)
     },
   },
 
@@ -43,6 +67,10 @@ export default {
   },
 
   props: {
+    customer: {
+      type: Object,
+      required: true,
+    },
     token: {
       type: Object,
       required: true,
