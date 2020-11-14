@@ -90,6 +90,7 @@ const en = {
     ok: 'Ok',
     save: 'Save',
     saving: 'Saving',
+    search: 'Search',
     yes: 'Yes',
   },
   forms: {

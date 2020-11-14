@@ -5,7 +5,7 @@
         <div v-if="title != ''" class="h3 mb-1">{{ title }}</div>
         <div v-if="subTitle != ''" class="text-muted">{{ subTitle }}</div>
       </div>
-      <div class="col-12 col-md-auto py-1"></div>
+      <div class="col-12 col-md-auto py-1"><slot name="header-actions"></slot></div>
     </div>
     <slot></slot>
     <div class="border-top pt-3 mt-3" v-if="hasActionsSlot">

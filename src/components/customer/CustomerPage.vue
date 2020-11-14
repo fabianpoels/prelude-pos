@@ -1,14 +1,19 @@
 <template>
   <base-layout>
-    <b-row class="py-4">
-      <b-col cols="4" lg="2">
-        <b-btn variant="outline-primary" v-b-modal.addCustomerModal>
-          <font-awesome-icon :icon="['fas', 'plus']" />
-          {{ $t('customer.add_customer') }}
-        </b-btn>
-      </b-col>
-      <b-col cols="8">
+    <b-row class="justify-content-lg-center py-4" style="height: 100%;">
+      <b-col cols="12" lg="8">
         <default-card :title="$t('topbar.customers')" class="my-3">
+          <template slot="header-actions">
+            <b-form-input v-model="searchFilter" :placeholder="$t('form.search')" />
+          </template>
+          <template slot="actions">
+            <div class="d-flex">
+              <b-btn variant="primary" v-b-modal.addCustomerModal>
+                <font-awesome-icon :icon="['fas', 'plus']" />
+                {{ $t('customer.add_customer') }}
+              </b-btn>
+            </div>
+          </template>
           <b-table :fields="fields" :items="tableCustomers" class="my-2" v-if="customers.length > 0" @row-clicked="rowClicked" hover tbody-tr-class="clickableTableRow">
             <template v-slot:cell(customer)="data">
               <customer-dropdown :customer="data.item.customer" />
@@ -47,8 +52,12 @@ export default {
       ]
     },
 
+    filteredCustomers() {
+      return this.customers.filter(customer => `${customer.firstname} ${customer.lastname}`.toLowerCase().includes(this.searchFilter.toLowerCase()))
+    },
+
     tableCustomers() {
-      return this.customers.map(customer => {
+      return this.filteredCustomers.map(customer => {
         return {
           name: `${customer.firstname} ${customer.lastname}`,
           email: customer.email,
@@ -58,6 +67,12 @@ export default {
         }
       })
     },
+  },
+
+  data() {
+    return {
+      searchFilter: '',
+    }
   },
 
   methods: {

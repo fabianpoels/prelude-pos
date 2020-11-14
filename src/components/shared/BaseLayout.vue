@@ -17,7 +17,7 @@
       </div>
     </header>-->
     <main class="baseLayoutMain" id="base-layout-main">
-      <b-container fluid>
+      <b-container fluid class="the-container">
         <!-- <div class="row">
         <div class="col-12 py-3">-->
         <slot></slot>
@@ -58,5 +58,10 @@ export default {
 .baseLayoutMain {
   flex: 0 1 auto;
   overflow: auto;
+  height: calc(100vh - 80px);
+}
+
+.the-container {
+  height: calc(100vh - 80px);
 }
 </style>
