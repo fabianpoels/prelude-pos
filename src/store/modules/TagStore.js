@@ -35,7 +35,6 @@ const TagStore = {
   actions: {
     async assignTag({ commit, getters }, tag) {
       if (getters.customerExistsById(tag.customer)) {
-        console.log('saving')
         await Tag.findOneAndUpdate({ tagId: tag.tagId }, { customer: tag.customer }, { new: true })
         commit('deleteTag', tag)
       }

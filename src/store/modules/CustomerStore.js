@@ -27,7 +27,6 @@ let CustomerStore = {
 
   actions: {
     async createCustomer({ commit }, data) {
-      console.log(data)
       let newCustomer = new Customer(data)
       await newCustomer.save()
       commit('addCustomer', newCustomer.toObject({ getters: true }))
