@@ -56,7 +56,7 @@ export default {
     },
 
     isValid() {
-      return this.validUntil >= DateTime.local().endOf('day') && this.purchasedOn <= DateTime.local().startOf('day')
+      return this.validUntil >= DateTime.local().endOf('day') && DateTime.local() >= this.purchasedOn.startOf('day')
     },
 
     tokenName() {
