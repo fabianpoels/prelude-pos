@@ -83,7 +83,7 @@ export default {
 
     async deletePrice() {
       this.deleting = true
-      await this.$store.dispatch('deletePrice', this.price)
+      await this.$store.dispatch('deletePrice', { ...this.price })
     },
   },
 }

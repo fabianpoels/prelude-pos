@@ -44,7 +44,7 @@ const TransactionStore = {
 
   getters: {
     transactions: state => state.transactions,
-    orderedTransactions: getters => [...getters.transactions].sort((a, b) => b.number - a.number),
+    orderedTransactions: (state, getters) => [...getters.transactions].sort((a, b) => b.number - a.number),
   },
 }
 

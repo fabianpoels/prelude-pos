@@ -58,6 +58,12 @@ export default {
     },
   },
 
+  watch: {
+    pricesForItem(value) {
+      console.log(value)
+    },
+  },
+
   methods: {
     async addPrice() {
       this.saving = true

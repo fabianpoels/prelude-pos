@@ -55,7 +55,7 @@ const ItemStore = {
       commit('updateItem', dbItem.toObject({ getters: true }))
     },
 
-    async archiveItem({ getters, dispatch }, item) {
+    async archiveItem({ getters, dispatch }, { ...item }) {
       if (getters.canArchiveItem(item)) {
         item.archived = true
         dispatch('updateItem', item)
@@ -72,7 +72,7 @@ const ItemStore = {
     items: state => state.items.filter(i => i.archived === false),
     itemById: state => id => state.items.find(i => i._id === id),
     itemsForCategory: (state, getters) => category => getters.items.filter(i => i.category === category._id),
-    entryTokenItems: getters => getters.items.filter(i => i.isEntryToken === true),
+    entryTokenItems: (state, getters) => getters.items.filter(i => i.isEntryToken === true),
     canArchiveItem: (state, getters) => item => getters.pricesForItem(item).length === 0,
     canDeleteItem: (state, getters, rootState) => item => rootState.PriceStore.prices.filter(p => p.item === item._id).length === 0,
   },
