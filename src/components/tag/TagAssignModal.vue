@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" id="tag-assign-modal" :title="$t('tag.assign_tag')">
+  <b-modal v-model="showModal" id="tag-assign-modal" :title="$t('tag.assign_tag')" @hidden="$emit('hidden')">
     <b-form-group id="tagUid" :label="$t('tag.uid')">
       <b-form-input id="tagUid-input" v-model="localTag.tagId" readonly />
     </b-form-group>

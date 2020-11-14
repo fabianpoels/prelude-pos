@@ -7,8 +7,8 @@
       <b-button variant="warning" v-else v-b-modal.tag-assign-modal>
         <font-awesome-icon :icon="['fas', 'tag']" size="2x" />
       </b-button>
-      <tag-assign-modal :tag="tag" />
-      <view-customer :customer="tagCustomer" v-if="tagCustomer" modalIdSuffix="topbar" />
+      <tag-assign-modal :tag="tag" @hidden="removeScannedTag()" />
+      <view-customer :customer="tagCustomer" v-if="tagCustomer" modalIdSuffix="topbar" @hidden="removeScannedTag()" />
     </template>
   </div>
 </template>
@@ -28,23 +28,20 @@ export default {
     tag() {
       return this.tags[0]
     },
-  },
 
-  data() {
-    return {
-      tagCustomer: null,
-    }
-  },
-
-  watch: {
-    tag(tag) {
-      if (tag.customer) {
-        this.tagCustomer = { ...this.customerById(this.tag.customer) }
+    tagCustomer() {
+      if (this.tag && this.tag.customer) {
+        return this.customerById(this.tag.customer)
       }
+      return null
     },
   },
 
   methods: {
+    removeScannedTag() {
+      this.$store.commit('deleteTag', this.tag)
+    },
+
     viewCustomer() {
       if (this.tagCustomer) {
         this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}-topbar`)

@@ -1,5 +1,14 @@
 <template>
-  <b-modal size="lg" scrollable v-model="showModal" :id="`viewCustomer-${customer._id}-${modalIdSuffix}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal
+    size="lg"
+    scrollable
+    v-model="showModal"
+    :id="`viewCustomer-${customer._id}-${modalIdSuffix}`"
+    :title="`${customer.firstname} ${customer.lastname}`"
+    body-bg-variant="100"
+    no-close-on-backdrop
+    @hidden="$emit('hidden')"
+  >
     <b-row>
       <b-col cols="12" lg="6">
         <div><font-awesome-icon :icon="['fas', 'user']" /> {{ customer.firstname }} {{ customer.lastname }}</div>
@@ -16,14 +25,14 @@
     <hr />
     <b-row>
       <b-col cols="12" lg="12">
-        <template v-for="(token, index) in customer.entryTokens">
-          <punchcard-card :token="token" v-if="token.item.tokenType === 'punchcard'" :key="`${customer._id}-token-${index}`" />
-          <subscription-card :token="token" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer._id}-token-${index}`" />
-          <single-entry-card :token="token" v-else-if="token.item.tokenType === 'single'" :key="`${customer._id}-token-${index}`" />
+        <template v-for="token in customer.entryTokens">
+          <punchcard-card :token="token" :customer="customer" v-if="token.item.tokenType === 'punchcard'" :key="`${customer._id}-token-${token._id.toString()}`" />
+          <subscription-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer._id}-token-${token._id.toString()}`" />
+          <single-entry-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'single'" :key="`${customer._id}-token-${token._id.toString()}`" />
         </template>
       </b-col>
     </b-row>
-    <div slot="modal-footer">
+    <div slot="modal-footer" v-if="isAdmin">
       <b-form class="my-3" inline>
         <b-form-group id="new-entry-token" label-for="new-entry-token-input">
           <el-select id="new-entry-token-input" v-model="newEntryTokenPriceId" :placeholder="$t('datastructure.entry_token')" class="w-100" filterable :disabled="saving">
@@ -61,7 +70,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['entryTokenItems', 'categoryById', 'pricesForItem', 'priceById']),
+    ...mapGetters(['entryTokenItems', 'categoryById', 'pricesForItem', 'priceById', 'isAdmin']),
   },
 
   data() {
@@ -78,7 +87,15 @@ export default {
       this.saving = true
       let price = this.priceById(this.newEntryTokenPriceId)
       let item = this.entryTokenItems.find(i => i._id === price.item)
+      let name = `${item.name}${price.name !== null && price.name !== '' ? `: ${price.name}` : ''}`
       await this.$store.dispatch('addEntryTokenItemToCustomer', { customer: this.customer, price: price, item: item })
+      this.$store.commit('addToCart', price._id)
+      this.$bvToast.toast(name, {
+        title: this.$i18n.t('entrytoken.entry_token_added'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
       this.saving = false
     },
   },
