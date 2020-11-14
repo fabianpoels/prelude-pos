@@ -4,7 +4,7 @@
       <b-col cols="12" lg="8">
         <default-card :title="$t('topbar.customers')" class="my-3">
           <template slot="header-actions">
-            <b-form-input v-model="searchFilter" :placeholder="$t('form.search')" />
+            <b-form-input v-model="searchFilter" :placeholder="$t('form.search')" type="search" />
           </template>
           <template slot="actions">
             <div class="d-flex">

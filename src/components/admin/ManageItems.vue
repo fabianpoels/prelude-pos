@@ -3,6 +3,9 @@
     <b-row class="justify-content-lg-center py-4">
       <b-col cols="12" lg="8">
         <default-card :title="$t('datastructure.items')" class="my-3">
+          <template slot="header-actions">
+            <b-form-input v-model="searchFilter" :placeholder="$t('form.search')" type="search" />
+          </template>
           <template slot="actions">
             <div class="d-flex">
               <b-btn variant="primary" v-b-modal.addItemModal>
@@ -64,8 +67,12 @@ export default {
       ]
     },
 
+    filteredItems() {
+      return this.items.filter(item => item.name.toLowerCase().includes(this.searchFilter.toLowerCase()))
+    },
+
     tableItems() {
-      return this.items.map(item => {
+      return this.filteredItems.map(item => {
         let category = this.categories.find(c => c._id === item.category)
         let businessUnit = this.businessUnits.find(bu => bu._id === category.businessUnit)
         return {
@@ -80,5 +87,11 @@ export default {
       })
     },
   },
+
+  data() {
+    return {
+      searchFilter: '',
+    }
+  }
 }
 </script>
