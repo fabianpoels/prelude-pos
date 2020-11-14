@@ -92,6 +92,6 @@ export default {
     return {
       searchFilter: '',
     }
-  }
+  },
 }
 </script>
