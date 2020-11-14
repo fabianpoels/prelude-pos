@@ -40,7 +40,7 @@ export default {
     },
 
     isValid() {
-      return this.validUntil >= DateTime.local().endOf('day') && this.purchasedOn <= DateTime.local().startOf('day') && this.entriesLeft > 0
+      return this.validUntil >= DateTime.local().endOf('day') && this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
     },
 
     tokenName() {
