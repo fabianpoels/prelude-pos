@@ -135,7 +135,7 @@ const ApplicationStore = {
     nfcData: state => state.nfcData,
     connecting: state => state.connecting,
     connected: state => state.connected,
-    scannedTags: getters => getters.nfcData.length,
+    scannedTags: (state, getters) => getters.nfcData.length,
     vatFormOptions: () =>
       config.vatRegimes.map(x => {
         return {

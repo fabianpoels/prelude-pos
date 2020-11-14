@@ -65,11 +65,11 @@ const CartStore = {
   getters: {
     cartItems: state => state.cartItems,
     cartBackup: state => state.cartBackup,
-    cartHasItems: getters => getters.cartItems.length > 0,
-    cartHasBackup: getters => getters.cartBackup.length > 0,
-    cartItemsCount: getters => getters.cartItems.reduce((sum, cartItem) => sum + cartItem.amount, 0),
-    cartTotal: (getters, rootGetters) => getters.cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
-    totalForCartItems: (getters, rootGetters) => cartItems => cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
+    cartHasItems: (state, getters) => getters.cartItems.length > 0,
+    cartHasBackup: (state, getters) => getters.cartBackup.length > 0,
+    cartItemsCount: (state, getters) => getters.cartItems.reduce((sum, cartItem) => sum + cartItem.amount, 0),
+    cartTotal: (state, getters, rootState, rootGetters) => getters.cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
+    totalForCartItems: (state, getters, rootState, rootGetters) => cartItems => cartItems.reduce((sum, cartItem) => sum + rootGetters.priceById(cartItem.priceId).salesPrice * cartItem.amount, 0),
   },
 }
 

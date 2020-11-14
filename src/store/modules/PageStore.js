@@ -80,8 +80,8 @@ const PageStore = {
 
   getters: {
     pages: state => state.pages,
-    orderedPages: (getters, rootGetters) => rootGetters.pos.pages.filter(id => getters.pages.some(p => p._id === id)).map(id => getters.pages.find(p => p._id === id)),
-    pageById: getters => id => getters.pages.find(p => p._id === id),
+    orderedPages: (state, getters, rootState, rootGetters) => rootGetters.pos.pages.filter(id => getters.pages.some(p => p._id === id)).map(id => getters.pages.find(p => p._id === id)),
+    pageById: (state, getters) => id => getters.pages.find(p => p._id === id),
     removeRowAllowed: () => page => page.rows > 1 && !page.buttons.some(button => parseInt(button.key.split(':')[1]) === page.rows),
     removeColAllowed: () => page => page.cols > 1 && !page.buttons.some(button => parseInt(button.key.split(':')[0]) === page.cols),
     itemHasButton: getters => item => getters.pages.some(page => page.buttons.some(button => button.item === item._id)),
