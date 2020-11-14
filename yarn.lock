@@ -1958,6 +1958,13 @@ bcrypt@^4.0.1:
     node-addon-api "^2.0.0"
     node-pre-gyp "0.14.0"
 
+belgium-eid@fabianpoels/belgium-eid#dev:
+  version "0.0.1"
+  resolved "https://codeload.github.com/fabianpoels/belgium-eid/tar.gz/9b77ab7257b3953d88201ca7df880a653d646f23"
+  dependencies:
+    pcsclite "^1.0.0"
+    pkcs11js "^1.0.17"
+
 bfj@^6.1.1:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-6.1.2.tgz#325c861a822bcb358a41c78a33b8e6e2086dde7f"
@@ -1988,7 +1995,7 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.1.0.tgz#30fa40c9e7fe07dbc895678cd287024dea241dd9"
   integrity sha512-1Yj8h9Q+QDF5FzhMs/c9+6UntbD5MkRfRwac8DoEm9ZfUBZ7tZ55YcGVAzEe4bXsdQHEk+s9S5wsOKVdZrw0tQ==
 
-bindings@^1.5.0:
+bindings@^1.1.0, bindings@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
@@ -6669,7 +6676,7 @@ nan@2.14.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
   integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
 
-nan@^2.12.1, nan@^2.13.2, nan@^2.14.0:
+nan@^2.12.1, nan@^2.13.2, nan@^2.14.0, nan@^2.14.1:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
@@ -7439,6 +7446,14 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pcsclite@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pcsclite/-/pcsclite-1.0.0.tgz#52c0b494ce33cc0488150684107c2017144039fc"
+  integrity sha512-hmn4qYxdqhI7ysutE9sPaHwOnMunNK3LxByv4HnuME95KOfCuAywyBjV0gSVkU8ZUxMV0Ug2Fs1nLdv2V9xThA==
+  dependencies:
+    bindings "^1.1.0"
+    nan "^2.14.0"
+
 pend@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
@@ -7480,6 +7495,13 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
+
+pkcs11js@^1.0.17, pkcs11js@^1.0.22:
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/pkcs11js/-/pkcs11js-1.0.22.tgz#6eceea094b8ff1ca0bfa4e291272793e16c8a695"
+  integrity sha512-g0gOCCkKSa8YfoQPZFKk8VnbPvK+y3Gfx4O9NplzG6ntUX+1HSu491l8IUouxx45Jm3oEQXdDMtdTKH9t695aQ==
+  dependencies:
+    nan "^2.14.1"
 
 pkg-dir@^1.0.0:
   version "1.0.0"

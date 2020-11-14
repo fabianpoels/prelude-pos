@@ -4,6 +4,10 @@ import config from '@/config/config'
 import User from '@/models/user'
 import HID from 'node-hid'
 import { KeyboardLines } from 'node-hid-stream'
+const eid = require('belgium-eid')
+const reader = eid()
+// const pcsclite = require('pcsclite')
+// const pcsc = pcsclite()
 
 const ApplicationStore = {
   state: {
@@ -36,6 +40,7 @@ const ApplicationStore = {
           await dispatch('loadAllGyms')
           let pos = await dispatch('loadPos', getters.posUuid)
           await dispatch('startNfcListen', getters.tagReader)
+          await dispatch('startEidListen', reader)
           if (pos && pos._id === getters.posUuid) {
             await dispatch('loadGymById', pos.gym._id)
             await dispatch('loadPosData')
@@ -126,6 +131,15 @@ const ApplicationStore = {
           console.error(e)
         }
       }
+    },
+
+    async startEidListen({ commit }, reader) {
+      reader.on('card-inserted', card => {
+        commit('setCard', card)
+      })
+      reader.on('error', (reader, error) => {
+        console.log(error)
+      })
     },
   },
 

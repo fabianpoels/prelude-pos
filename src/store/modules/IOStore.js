@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Tag from '@/models/tag'
 
-const TagStore = {
+const IOStore = {
   state: {
     tags: [],
+    idCard: {},
   },
 
   mutations: {
@@ -30,6 +31,10 @@ const TagStore = {
         1
       )
     },
+
+    setIdCard(state, card) {
+      state.card = card
+    },
   },
 
   actions: {
@@ -49,7 +54,8 @@ const TagStore = {
 
   getters: {
     tags: state => state.tags,
+    idCard: state => state.idCard,
   },
 }
 
-export default TagStore
+export default IOStore
