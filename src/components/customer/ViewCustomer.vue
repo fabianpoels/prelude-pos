@@ -89,6 +89,7 @@ export default {
       let item = this.entryTokenItems.find(i => i._id === price.item)
       let name = `${item.name}${price.name !== null && price.name !== '' ? `: ${price.name}` : ''}`
       await this.$store.dispatch('addEntryTokenItemToCustomer', { customer: this.customer, price: price, item: item })
+      this.$store.commit('addToCart', price._id)
       this.$bvToast.toast(name, {
         title: this.$i18n.t('entrytoken.entry_token_added'),
         variant: 'success',
