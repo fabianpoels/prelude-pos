@@ -7,7 +7,7 @@
           <b-col>
             <b-row cols="7">
               <b-col>{{ $t('entrytoken.purchased_on') }} {{ purchasedOnFormatted }}</b-col>
-              <b-col>{{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}</b-col>
+              <b-col v-if="token.validUntil && token.validUntil !== null">{{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}</b-col>
               <b-col>{{ $t('entrytoken.entries_left') }}: {{ entriesLeft }}</b-col>
             </b-row>
           </b-col>
@@ -40,6 +40,9 @@ export default {
     },
 
     isValid() {
+      if (this.token.validUntil && this.token.validUntil !== null) {
+        return this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
+      }
       return this.validUntil >= DateTime.local().endOf('day') && this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
     },
 
