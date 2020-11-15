@@ -25,7 +25,7 @@
             </b-btn>
           </b-input-group-append>
           <b-input-group-append>
-            <b-btn variant="danger" @click="confirmDelete = true" class="price-button">
+            <b-btn variant="danger" @click="confirmDelete = true" class="price-button" :disabled="priceHasButton(price)">
               <font-awesome-icon :icon="['fas', 'trash']" />
             </b-btn>
           </b-input-group-append>
@@ -64,7 +64,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['gym', 'vatFormOptions']),
+    ...mapGetters(['gym', 'vatFormOptions', 'priceHasButton']),
   },
 
   methods: {
