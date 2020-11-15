@@ -84,7 +84,8 @@ const PageStore = {
     pageById: (state, getters) => id => getters.pages.find(p => p._id === id),
     removeRowAllowed: () => page => page.rows > 1 && !page.buttons.some(button => parseInt(button.key.split(':')[1]) === page.rows),
     removeColAllowed: () => page => page.cols > 1 && !page.buttons.some(button => parseInt(button.key.split(':')[0]) === page.cols),
-    itemHasButton: getters => item => getters.pages.some(page => page.buttons.some(button => button.item === item._id)),
+    itemHasButton: (state, getters) => item => getters.pages.some(page => page.buttons.some(button => button.item === item._id)),
+    priceHasButton: (state, getters) => price => getters.pages.some(page => page.buttons.some(button => button.item === price.item)),
   },
 }
 
