@@ -84,6 +84,7 @@ let CustomerStore = {
   getters: {
     customers: state => [...state.customers].filter(c => c.archived === false).sort((a, b) => a.firstname.localeCompare(b.firstname)),
     customerById: (state, getters) => id => getters.customers.find(c => c._id === id),
+    customerByNationalNumber: (state, getters) => nationalNumber => getters.customers.find(c => c.nationalNumber === nationalNumber),
     customerExistsById: (state, getters) => id => getters.customers.some(c => c._id === id),
   },
 }

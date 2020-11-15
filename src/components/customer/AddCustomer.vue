@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" size="lg" id="addCustomerModal" :title="$t('customer.add_customer')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" size="lg" :id="`addCustomerModal-${modalSuffix}`" :title="$t('customer.add_customer')" body-bg-variant="100" no-close-on-backdrop @hidden="$emit('hidden')">
     <b-form class="my-3">
       <b-form-row>
         <b-col>
@@ -102,24 +102,8 @@ import config from '@/config/config'
 import { mapGetters } from 'vuex'
 import SaveButton from '@/components/shared/SaveButton'
 export default {
-  data: function() {
-    return {
-      showModal: false,
-      saving: false,
-      newCustomer: this.blankCustomer(),
-    }
-  },
-
   components: {
     SaveButton,
-  },
-
-  watch: {
-    showModal(value) {
-      if (value) {
-        this.newCustomer = this.blankCustomer()
-      }
-    },
   },
 
   computed: {
@@ -134,8 +118,19 @@ export default {
     },
   },
 
+  data: function() {
+    return {
+      showModal: false,
+      saving: false,
+      newCustomer: this.blankCustomer(),
+    }
+  },
+
   methods: {
     blankCustomer() {
+      if (this.customerData && this.customerData !== null) {
+        return { ...this.customerData }
+      }
       return {
         firstname: '',
         lastname: '',
@@ -163,7 +158,18 @@ export default {
       this.showModal = false
     },
   },
+
+  props: {
+    customerData: Object,
+    modalSuffix: String,
+  },
+
+  watch: {
+    showModal(value) {
+      if (value) {
+        this.newCustomer = this.blankCustomer()
+      }
+    },
+  },
 }
 </script>
-
-<style scoped></style>

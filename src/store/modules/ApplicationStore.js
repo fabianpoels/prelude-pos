@@ -3,7 +3,9 @@ import * as mongoose from 'mongoose'
 import config from '@/config/config'
 import User from '@/models/user'
 import HID from 'node-hid'
-import { KeyboardLines } from 'node-hid-stream'
+
+// const pcsclite = require('pcsclite')
+// const pcsc = pcsclite()
 
 const ApplicationStore = {
   state: {
@@ -36,6 +38,7 @@ const ApplicationStore = {
           await dispatch('loadAllGyms')
           let pos = await dispatch('loadPos', getters.posUuid)
           await dispatch('startNfcListen', getters.tagReader)
+          await dispatch('startEidListen')
           if (pos && pos._id === getters.posUuid) {
             await dispatch('loadGymById', pos.gym._id)
             await dispatch('loadPosData')
@@ -113,19 +116,6 @@ const ApplicationStore = {
     logout({ commit }) {
       commit('setCurrentUser', {})
       commit('setLoggedIn', false)
-    },
-
-    async startNfcListen({ dispatch }, { vendorId, productId }) {
-      if (vendorId && productId) {
-        try {
-          let hidstream = new KeyboardLines({ vendorId: vendorId, productId: productId })
-          hidstream.on('data', data => {
-            dispatch('readTag', data.replace(/\s+/g, ''))
-          })
-        } catch (e) {
-          console.error(e)
-        }
-      }
     },
   },
 
