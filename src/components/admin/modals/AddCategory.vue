@@ -23,6 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ColorPicker from '@/components/shared/ColorPicker'
 import SaveButton from '@/components/shared/SaveButton'
 export default {
   data: function() {
@@ -34,6 +35,7 @@ export default {
   },
 
   components: {
+    ColorPicker,
     SaveButton,
   },
 
