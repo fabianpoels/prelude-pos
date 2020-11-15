@@ -54,10 +54,12 @@ let CustomerStore = {
         item: item,
         price: price,
         purchasedAt: DateTime.local().toJSDate(),
-        validUntil: DateTime.local()
-          .plus({ months: item.subscriptionDuration })
-          .toJSDate(),
         entrances: [],
+      }
+      if (item.subscriptionDuration && item.subscriptionDuration > 0) {
+        customerEntryToken.validUntil = DateTime.local()
+          .plus({ months: item.subscriptionDuration })
+          .toJSDate()
       }
       dbCustomer.entryTokens.unshift(customerEntryToken)
       await dbCustomer.save()

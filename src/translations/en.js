@@ -57,6 +57,7 @@ const en = {
       subscription: 'Subscription',
     },
     type: 'Type',
+    validity_period: 'Validity period',
     vat_regime: 'VAT',
   },
   entrytoken: {

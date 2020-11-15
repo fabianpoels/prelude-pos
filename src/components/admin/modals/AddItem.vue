@@ -25,11 +25,18 @@
         <b-form-group :label="`${$t('datastructure.type')}`" label-for="tokenType">
           <b-form-select v-model="newItem.tokenType" :options="tokenTypeOptions" :disabled="saving" />
         </b-form-group>
-        <b-form-group id="punchcard-entries" :label="$t('datastructure.entries')" label-for="punchcard-entries-input" v-if="newItem.tokenType === 'punchcard'">
-          <b-input-group :append="punchcardEntriesAppend.toLowerCase()">
-            <b-form-input id="punchcard-entries-input" :number="true" type="number" :min="1" :step="1" v-model="newItem.punchcardEntries" />
-          </b-input-group>
-        </b-form-group>
+        <template v-if="newItem.tokenType === 'punchcard'">
+          <b-form-group id="punchcard-entries" :label="$t('datastructure.entries')" label-for="punchcard-entries-input">
+            <b-input-group :append="punchcardEntriesAppend.toLowerCase()">
+              <b-form-input id="punchcard-entries-input" :number="true" type="number" :min="1" :step="1" v-model="newItem.punchcardEntries" />
+            </b-input-group>
+          </b-form-group>
+          <b-form-group id="subscription-duration" :label="$t('datastructure.validity_period')" label-for="subscription-duration-input">
+            <b-input-group :append="subscriptionDurationAppend.toLowerCase()">
+              <b-form-input id="subscription-duration-input" :number="true" type="number" :min="0" :step="1" v-model="newItem.subscriptionDuration" />
+            </b-input-group>
+          </b-form-group>
+        </template>
         <b-form-group id="subscription-duration" :label="$t('datastructure.subscription_duration')" label-for="subscription-duration-input" v-if="newItem.tokenType === 'subscription'">
           <b-input-group :append="subscriptionDurationAppend.toLowerCase()">
             <b-form-input id="subscription-duration-input" :number="true" type="number" :min="1" :step="1" v-model="newItem.subscriptionDuration" />
