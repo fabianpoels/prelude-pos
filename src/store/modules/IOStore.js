@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Tag from '@/models/tag'
+import { KeyboardLines } from 'node-hid-stream'
+const eid = require('belgium-eid')
+const reader = eid()
 
 const IOStore = {
   state: {
     tags: [],
-    idCard: {},
+    idCard: null,
   },
 
   mutations: {
@@ -33,7 +36,11 @@ const IOStore = {
     },
 
     setIdCard(state, card) {
-      state.card = card
+      state.idCard = card
+    },
+
+    removeIdCard(state) {
+      state.idCard = null
     },
   },
 
@@ -49,6 +56,28 @@ const IOStore = {
       let dbTag = await Tag.findOneAndUpdate({ tagId: tagId }, { tagId: tagId }, { new: true, upsert: true })
       dbTag = dbTag.toObject({ getters: true })
       commit('addTag', dbTag)
+    },
+
+    async startNfcListen({ dispatch }, { vendorId, productId }) {
+      if (vendorId && productId) {
+        try {
+          let hidstream = new KeyboardLines({ vendorId: vendorId, productId: productId })
+          hidstream.on('data', data => {
+            dispatch('readTag', data.replace(/\s+/g, ''))
+          })
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    },
+
+    async startEidListen({ commit }) {
+      reader.on('card-inserted', card => {
+        commit('setIdCard', card)
+      })
+      reader.on('error', (reader, error) => {
+        console.log(error)
+      })
     },
   },
 

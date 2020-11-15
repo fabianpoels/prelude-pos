@@ -58,6 +58,7 @@ import {
   faBirthdayCake,
   faCity,
   faTag,
+  faIdCard,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
@@ -106,7 +107,8 @@ library.add(
   faGlobeAmericas,
   faBirthdayCake,
   faCity,
-  faTag
+  faTag,
+  faIdCard
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

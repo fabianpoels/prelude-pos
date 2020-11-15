@@ -1960,7 +1960,7 @@ bcrypt@^4.0.1:
 
 belgium-eid@fabianpoels/belgium-eid#dev:
   version "0.0.1"
-  resolved "https://codeload.github.com/fabianpoels/belgium-eid/tar.gz/9b77ab7257b3953d88201ca7df880a653d646f23"
+  resolved "https://codeload.github.com/fabianpoels/belgium-eid/tar.gz/256a3ee01cf239bc4cd28527add3f0426aa477a1"
   dependencies:
     pcsclite "^1.0.0"
     pkcs11js "^1.0.17"
