@@ -18,6 +18,16 @@ yarn electron:serve
 yarn electron:build
 ```
 
+### Linux libraries for eId-card reading
+```
+sudo apt install libpcsclite1 libpcsclite-dev pcscd
+```
+Also, the card reading software from the Belgium government must be installed so the system can use the shared libraries
+```
+sudo apt install eid-mw eid-viewer
+```
+More info on https://eid.belgium.be/en/linux-eid-software-installation
+
 ### Linux udev rules for NFC HID tag reader
 
 /etc/udev/rules.d/XX-disable-usb-hid.rules
