@@ -8,7 +8,7 @@
           </template>
           <template slot="actions">
             <div class="d-flex">
-              <b-btn variant="primary" v-b-modal.addCustomerModal>
+              <b-btn variant="primary" v-b-modal.addCustomerModal-customer-page>
                 <font-awesome-icon :icon="['fas', 'plus']" />
                 {{ $t('customer.add_customer') }}
               </b-btn>
@@ -22,7 +22,7 @@
         </default-card>
       </b-col>
     </b-row>
-    <add-customer />
+    <add-customer modalSuffix="customer-page" />
   </base-layout>
 </template>
 <script>
