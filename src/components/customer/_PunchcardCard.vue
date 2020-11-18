@@ -20,8 +20,8 @@
           <span>{{ $t('entrytoken.entrances') }}</span>
         </b-th>
         <b-th class="centered">
-          <span :class="[addingEntry ? 'text-muted' : 'text-primary']">
-            <font-awesome-icon :class="{ 'add-icon': !addingEntry }" @click="addingEntry = true" :icon="['fas', 'plus']"/>
+          <span :class="[addingEntry ? 'text-muted' : 'text-primary']" v-if="entriesLeft > 0">
+            <font-awesome-icon :class="{ 'add-icon': !addingEntry }" @click="addingEntry = true" :icon="['fas', 'plus']" />
           </span>
         </b-th>
       </b-thead>
@@ -110,7 +110,7 @@ export default {
   methods: {
     async addEntry() {
       this.busy = true
-      await this.$store.dispatch('registerEntry', { customer: this.customer, token: this.token, date: this.newEntryDate, $helpers: this.$helpers })
+      await this.$store.dispatch('registerEntry', { customer: this.customer, token: this.token, date: this.newEntryDate })
       let item = this.token.item
       let price = this.token.price
       let text = `${item.name}${price.name !== null && price.name !== '' ? `: ${price.name}` : ''} - ${this.customer.firstname} ${this.customer.lastname}`
