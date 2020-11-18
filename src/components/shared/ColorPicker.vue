@@ -4,10 +4,10 @@
 </template>
 <script>
 import config from '@/config/config'
-import { Button, ColorPicker } from 'element-ui'
-import Vue from 'vue'
-Vue.use(Button)
-Vue.use(ColorPicker)
+// import { Button, ColorPicker } from 'element-ui'
+// import Vue from 'vue'
+// Vue.use(Button)
+// Vue.use(ColorPicker)
 export default {
   props: {
     showPalette: {

@@ -14,22 +14,50 @@
         </b-row>
       </b-container>
     </template>
-    <b-table :fields="fields" :items="tableItems" class="mt-4">
-      <template #cell(index)="data">
-        <span class="text-muted">{{ tableItems.length - data.index }}</span>
-      </template>
-      <template v-slot:cell(date)="data">{{ $helpers.formatDate(gym.settings, data.value) }}</template>
-      <template v-slot:cell(time)="data">{{ $helpers.formatTime(gym.settings, data.value) }}</template>
-    </b-table>
+    <b-table-simple class="mt-4">
+      <b-thead>
+        <b-th colspan="3">
+          <span>{{ $t('entrytoken.entrances') }}</span>
+        </b-th>
+        <b-th class="centered">
+          <span :class="[addingEntry ? 'text-muted' : 'text-primary']" v-if="entriesLeft > 0">
+            <font-awesome-icon :class="{ 'add-icon': !addingEntry }" @click="addingEntry = true" :icon="['fas', 'plus']" />
+          </span>
+        </b-th>
+      </b-thead>
+      <b-tbody>
+        <b-tr v-if="addingEntry">
+          <b-td>
+            <span class="text-muted">{{ token.entrances.length + 1 }}</span>
+          </b-td>
+          <b-td colspan="3" class="centered">
+            <el-date-picker type="datetime" v-model="newEntryDate" />
+            <save-button size="sm" class="ml-2" :saving="busy" @click="addEntry()">{{ $t('form.save') }}</save-button>
+            <b-btn size="sm" class="ml-2" variant="outline-secondary" @click="addingEntry = false">{{ $t('form.cancel') }}</b-btn>
+          </b-td>
+        </b-tr>
+        <punchcard-entry-row
+          v-for="(entrance, index) in token.entrances"
+          :entrance="entrance"
+          :number="token.entrances.length - index"
+          :key="`${token._id.toString()}-${entrance.toString()}`"
+          @delete="deleteEntry(index)"
+        />
+      </b-tbody>
+    </b-table-simple>
   </entrytoken-card>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import { DateTime } from 'luxon'
 import EntrytokenCard from '@/components/customer/EntrytokenCard'
+import PunchcardEntryRow from '@/components/customer/_PunchcardEntryRow'
+import SaveButton from '@/components/shared/SaveButton'
 export default {
   components: {
     EntrytokenCard,
+    PunchcardEntryRow,
+    SaveButton,
   },
 
   computed: {
@@ -68,33 +96,48 @@ export default {
     validUntilFormatted() {
       return this.$helpers.formatDate(this.gym.settings, this.validUntil)
     },
-
-    fields() {
-      return [
-        { key: 'index', label: '' },
-        { key: 'date', label: this.$i18n.t('entrytoken.entrances') },
-        { key: 'time', label: '' },
-        { key: 'action', label: '' },
-      ]
-    },
-
-    tableItems() {
-      return this.token.entrances
-        .map(entrance => {
-          let datetime = DateTime.fromJSDate(entrance)
-          return {
-            date: datetime,
-            time: datetime,
-          }
-        })
-        .reverse()
-    },
   },
 
   data() {
     return {
+      addingEntry: false,
       expanded: false,
+      busy: false,
+      newEntryDate: DateTime.local().toJSDate(),
     }
+  },
+
+  methods: {
+    async addEntry() {
+      this.busy = true
+      await this.$store.dispatch('registerEntry', { customer: this.customer, token: this.token, date: this.newEntryDate })
+      let item = this.token.item
+      let price = this.token.price
+      let text = `${item.name}${price.name !== null && price.name !== '' ? `: ${price.name}` : ''} - ${this.customer.firstname} ${this.customer.lastname}`
+      this.$bvToast.toast(text, {
+        title: this.$i18n.t('entrytoken.entry_registered'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
+      this.addingEntry = false
+      this.busy = false
+      this.newEntryDate = DateTime.local().toJSDate()
+    },
+
+    async deleteEntry(index) {
+      this.busy = true
+      await this.$store.dispatch('deleteEntry', { customer: this.customer, token: this.token, index: index })
+      this.busy = false
+      // let customerCopy = { ...this.customer }
+      // let tokenCopy = { ...this.token }
+      // tokenCopy.entrances.splice(index)
+      // customerCopy.entryTokens.splice(
+      //   customerCopy.entryTokens.findIndex(t => t._id.toString() === tokenCopy._id.toString()),
+      //   1,
+      //   tokenCopy.entrances
+      // )
+    },
   },
 
   props: {
@@ -109,3 +152,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.add-icon {
+  cursor: pointer;
+}
+</style>

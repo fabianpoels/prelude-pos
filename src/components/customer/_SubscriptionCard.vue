@@ -44,15 +44,13 @@ export default {
     },
 
     tableItems() {
-      return this.token.entrances
-        .map(entrance => {
-          let datetime = DateTime.fromJSDate(entrance)
-          return {
-            date: datetime,
-            time: datetime,
-          }
-        })
-        .reverse()
+      return this.token.entrances.map(entrance => {
+        let datetime = DateTime.fromJSDate(entrance)
+        return {
+          date: datetime,
+          time: datetime,
+        }
+      })
     },
 
     isValid() {

@@ -75,8 +75,20 @@ let CustomerStore = {
 
     async registerEntry({ commit }, { customer, token, date }) {
       let dbCustomer = await Customer.findById(customer._id)
-      let customerToken = dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
+      let customerToken = await dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
+      // ADD VALIDATION BEFORE PUSH
       customerToken.entrances.push(date)
+      let sortedEntrances = customerToken.entrances.map(e => DateTime.fromJSDate(e))
+      sortedEntrances.sort((a, b) => b - a)
+      customerToken.entrances = sortedEntrances.map(e => e.toJSDate())
+      await dbCustomer.save()
+      commit('updateCustomer', dbCustomer.toObject({ getters: true }))
+    },
+
+    async deleteEntry({ commit }, { customer, token, index }) {
+      let dbCustomer = await Customer.findById(customer._id)
+      let customerToken = dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
+      customerToken.entrances.splice(index, 1)
       // ADD VALIDATION
       await dbCustomer.save()
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
