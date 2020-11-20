@@ -73,7 +73,7 @@ let CustomerStore = {
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },
 
-    async registerEntry({ commit }, { customer, token, date }) {
+    async registerEntry({ commit, dispatch, getters }, { customer, token, date }) {
       let dbCustomer = await Customer.findById(customer._id)
       let customerToken = await dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
       // ADD VALIDATION BEFORE PUSH
@@ -82,15 +82,32 @@ let CustomerStore = {
       sortedEntrances.sort((a, b) => b - a)
       customerToken.entrances = sortedEntrances.map(e => e.toJSDate())
       await dbCustomer.save()
+
+      await dispatch('logEntry', {
+        user: getters.currentUser,
+        customer: customer,
+        item: token.item,
+        price: token.price,
+        datetime: date,
+      })
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },
 
-    async deleteEntry({ commit }, { customer, token, index }) {
+    async deleteEntry({ commit, dispatch, getters }, { customer, token, index }) {
       let dbCustomer = await Customer.findById(customer._id)
       let customerToken = dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
+      let datetime = customerToken.entrances[index]
       customerToken.entrances.splice(index, 1)
       // ADD VALIDATION
       await dbCustomer.save()
+      await dispatch('logEntry', {
+        user: getters.currentUser,
+        customer: customer,
+        item: token.item,
+        price: token.price,
+        datetime: datetime,
+        isCorrection: true,
+      })
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },
   },
