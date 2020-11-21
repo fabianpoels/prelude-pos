@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Price from '@/models/price'
 import Transaction from '@/models/transaction'
+import Customer from '@/models/customer'
+import Entry from '@/models/entry'
 
 const PriceStore = {
   state: {
@@ -62,7 +64,7 @@ const PriceStore = {
     },
 
     async deletePrice({ commit, dispatch }, price) {
-      if (await Transaction.exists({ priceIds: price._id })) {
+      if ((await Transaction.exists({ priceIds: price._id })) || (await Entry.exists({ 'price._id': price._id })) || (await Customer.exists({ entryTokens: { $elemMatch: { 'price._id': price._id } } }))) {
         price.archived = true
         await dispatch('updatePrice', price)
       } else {
