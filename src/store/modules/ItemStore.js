@@ -62,9 +62,11 @@ const ItemStore = {
       }
     },
 
-    async deleteItem({ commit }, item) {
-      await Item.deleteOne({ _id: item._id })
-      commit('deleteItem', item)
+    async deleteItem({ commit, getters }, item) {
+      if (getters.canDeleteItem(item)) {
+        await Item.deleteOne({ _id: item._id })
+        commit('deleteItem', item)
+      }
     },
   },
 
