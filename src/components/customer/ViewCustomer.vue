@@ -43,7 +43,7 @@
                   <span class="ml-2">{{ item.name }}: {{ price.name }}</span>
                 </el-option>
               </template>
-              <el-option v-else :key="item._id" :label="item.name" :value="pricesForItem(item)[0]._id">
+              <el-option v-else-if="pricesForItem(item).length === 1" :key="item._id" :label="item.name" :value="pricesForItem(item)[0]._id">
                 <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
                 <span class="ml-2">{{ item.name }}</span>
               </el-option>
@@ -57,14 +57,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import SaveButton from '@/components/shared/SaveButton'
 import PunchcardCard from '@/components/customer/_PunchcardCard'
+import SaveButton from '@/components/shared/SaveButton'
 import SingleEntryCard from '@/components/customer/_SingleEntryCard'
 import SubscriptionCard from '@/components/customer/_SubscriptionCard'
 export default {
   components: {
-    SaveButton,
     PunchcardCard,
+    SaveButton,
     SingleEntryCard,
     SubscriptionCard,
   },

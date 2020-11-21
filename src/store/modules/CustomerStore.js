@@ -76,21 +76,27 @@ let CustomerStore = {
     async registerEntry({ commit, dispatch, getters }, { customer, token, date }) {
       let dbCustomer = await Customer.findById(customer._id)
       let customerToken = await dbCustomer.entryTokens.find(t => t._id.toString() === token._id.toString())
-      // ADD VALIDATION BEFORE PUSH
-      customerToken.entrances.push(date)
-      let sortedEntrances = customerToken.entrances.map(e => DateTime.fromJSDate(e))
-      sortedEntrances.sort((a, b) => b - a)
-      customerToken.entrances = sortedEntrances.map(e => e.toJSDate())
-      await dbCustomer.save()
+      let luxonDate = DateTime.fromJSDate(date)
+      let purchasedAt = DateTime.fromJSDate(customerToken.purchasedAt)
+      let validUntil = DateTime.fromJSDate(customerToken.validUntil)
+      let entriesLeft = true
+      if (customerToken.item.tokenType === 'punchcard' && customerToken.entrances.length >= customerToken.item.punchcardEntries) entriesLeft = false
+      if (purchasedAt.startOf('day') <= luxonDate && validUntil.endOf('day') >= luxonDate && entriesLeft) {
+        customerToken.entrances.push(date)
+        let sortedEntrances = customerToken.entrances.map(e => DateTime.fromJSDate(e))
+        sortedEntrances.sort((a, b) => b - a)
+        customerToken.entrances = sortedEntrances.map(e => e.toJSDate())
+        await dbCustomer.save()
 
-      await dispatch('logEntry', {
-        user: getters.currentUser,
-        customer: customer,
-        item: token.item,
-        price: token.price,
-        datetime: date,
-      })
-      commit('updateCustomer', dbCustomer.toObject({ getters: true }))
+        await dispatch('logEntry', {
+          user: getters.currentUser,
+          customer: customer,
+          item: token.item,
+          price: token.price,
+          datetime: date,
+        })
+        commit('updateCustomer', dbCustomer.toObject({ getters: true }))
+      }
     },
 
     async deleteEntry({ commit, dispatch, getters }, { customer, token, index }) {
