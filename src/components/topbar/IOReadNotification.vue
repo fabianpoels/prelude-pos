@@ -10,7 +10,7 @@
       <add-customer :customerData="customerData" modalSuffix="topbar" @hidden="removeScannedIdCard()" />
       <view-customer :customer="idCardCustomer" v-if="idCardCustomer" modalIdSuffix="topbar-idcard" @hidden="removeScannedIdCard()" />
     </template>
-    <template v-if="tags.length > 0">
+    <template v-if="scannedTags.length > 0">
       <b-button variant="warning" v-if="tag.customer && tag.customer !== null" @click="viewTagCustomer()">
         <font-awesome-icon :icon="['fas', 'user']" size="2x" />
       </b-button>
@@ -35,7 +35,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['tags', 'customerById', 'idCard', 'customerByNationalNumber']),
+    ...mapGetters(['scannedTags', 'customerById', 'idCard', 'customerByNationalNumber']),
 
     customerData() {
       let id = this.idCard
@@ -60,7 +60,7 @@ export default {
     },
 
     tag() {
-      return this.tags[0]
+      return this.scannedTags[0]
     },
 
     tagCustomer() {

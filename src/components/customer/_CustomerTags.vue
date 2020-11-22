@@ -1,29 +1,35 @@
 <template>
-  <b-table :fields="fields" :items="tableTags" />
+  <b-table-simple>
+    <b-thead>
+      <b-th>{{ $t('tag.uid').toUpperCase() }}</b-th>
+      <b-th>{{ $t('tag.date_assigned') }}</b-th>
+      <b-th>{{ $t('tag.last_scanned') }}</b-th>
+      <b-th></b-th>
+    </b-thead>
+    <b-tbody>
+      <tag-row v-for="tag in tags" :tag="tag" :key="tag.tagId" @delete="unassignTag(tag)" />
+    </b-tbody>
+  </b-table-simple>
 </template>
 <script>
-import { DateTime } from 'luxon'
-import { mapGetters } from 'vuex'
+import TagRow from '@/components/customer/_TagRow'
 export default {
-  computed: {
-    ...mapGetters(['gym']),
+  components: {
+    TagRow,
+  },
 
-    fields() {
-      return [
-        { key: 'uid', label: this.$i18n.t('tag.uid').toUpperCase() },
-        { key: 'updatedAt', label: this.$i18n.t('tag.date_assigned') },
-        { key: 'lastScanned', label: this.$i18n.t('tag.last_scanned') },
-      ]
-    },
+  data() {
+    return {
+      deleting: false,
+    }
+  },
 
-    tableTags() {
-      return this.tags.map(t => {
-        return {
-          uid: t.tagId.toUpperCase(),
-          updatedAt: this.$helpers.formatDateTime(this.gym.settings, DateTime.fromJSDate(t.dateAssigned)),
-          lastScanned: this.$helpers.formatDateTime(this.gym.settings, DateTime.fromJSDate(t.lastScanned)),
-        }
-      })
+  methods: {
+    async unassignTag(tag) {
+      this.deleting = true
+      await this.$store.dispatch('unassignTag', tag)
+      this.$emit('reload')
+      this.deleting = false
     },
   },
 

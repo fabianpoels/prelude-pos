@@ -15,7 +15,26 @@
     </b-row>
     <b-tabs class="mt-4">
       <!-- ENTRY TOKENS -->
-      <b-tab :title="$t('datastructure.entry_tokens')" class="pt-4">
+      <b-tab :title="$t('datastructure.entry_tokens')" class="pt-2">
+        <b-form class="my-3" inline>
+          <b-form-group id="new-entry-token" label-for="new-entry-token-input">
+            <el-select id="new-entry-token-input" v-model="newEntryTokenPriceId" :placeholder="$t('datastructure.entry_token')" class="w-100" filterable :disabled="saving">
+              <template v-for="item in entryTokenItems">
+                <template v-if="pricesForItem(item).length > 1">
+                  <el-option v-for="price in pricesForItem(item)" :key="price._id" :label="`${item.name}: ${price.name}`" :value="price._id">
+                    <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
+                    <span class="ml-2">{{ item.name }}: {{ price.name }}</span>
+                  </el-option>
+                </template>
+                <el-option v-else-if="pricesForItem(item).length === 1" :key="item._id" :label="item.name" :value="pricesForItem(item)[0]._id">
+                  <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
+                  <span class="ml-2">{{ item.name }}</span>
+                </el-option>
+              </template>
+            </el-select>
+          </b-form-group>
+          <save-button :disabled="newEntryTokenPriceId === null" :saving="saving" @click="addEntryToken()" class="ml-2" :savingText="$t('form.adding')">{{ $t('form.add') }}</save-button>
+        </b-form>
         <b-row>
           <b-col cols="12" lg="12">
             <template v-for="token in customer.entryTokens">
@@ -25,34 +44,13 @@
             </template>
           </b-col>
         </b-row>
-        <div v-if="isAdmin">
-          <b-form class="my-3" inline>
-            <b-form-group id="new-entry-token" label-for="new-entry-token-input">
-              <el-select id="new-entry-token-input" v-model="newEntryTokenPriceId" :placeholder="$t('datastructure.entry_token')" class="w-100" filterable :disabled="saving">
-                <template v-for="item in entryTokenItems">
-                  <template v-if="pricesForItem(item).length > 1">
-                    <el-option v-for="price in pricesForItem(item)" :key="price._id" :label="`${item.name}: ${price.name}`" :value="price._id">
-                      <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
-                      <span class="ml-2">{{ item.name }}: {{ price.name }}</span>
-                    </el-option>
-                  </template>
-                  <el-option v-else-if="pricesForItem(item).length === 1" :key="item._id" :label="item.name" :value="pricesForItem(item)[0]._id">
-                    <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
-                    <span class="ml-2">{{ item.name }}</span>
-                  </el-option>
-                </template>
-              </el-select>
-            </b-form-group>
-            <save-button :disabled="newEntryTokenPriceId === null" :saving="saving" @click="addEntryToken()" class="ml-2" :savingText="$t('form.adding')">{{ $t('form.add') }}</save-button>
-          </b-form>
-        </div>
       </b-tab>
       <!-- COMMENTS -->
       <b-tab :title="$t('customer.comments')" class="pt-4"></b-tab>
       <!-- TAGS -->
       <b-tab class="pt-4">
         <template #title>{{ $t('customer.tags') }}<b-spinner v-if="loadingTags" class="ml-2" small/></template>
-        <customer-tags :tags="customerTags" :customer="customer" />
+        <customer-tags :tags="customerTags" :customer="customer" @reload="loadTags()" />
       </b-tab>
     </b-tabs>
     <div slot="modal-footer"></div>
@@ -104,6 +102,16 @@ export default {
       })
       this.saving = false
     },
+
+    async loadTags() {
+      if (this.customer && this.customer !== null) {
+        this.loadingTags = true
+        this.customerTags = await this.$store.dispatch('loadTagsForCustomer', this.customer)
+        this.loadingTags = false
+      } else {
+        this.customerTags = []
+      }
+    },
   },
 
   props: {
@@ -121,24 +129,8 @@ export default {
   watch: {
     async showModal(show) {
       if (show) this.newEntryTokenPriceId = null
-      if (this.customer && this.customer !== null) {
-        this.loadingTags = true
-        this.customerTags = await this.$store.dispatch('loadTagsForCustomer', this.customer)
-        this.loadingTags = false
-      } else {
-        this.customerTags = []
-      }
+      this.loadTags()
     },
-
-    // async customer(customer) {
-    //   if (customer && customer !== null) {
-    //     this.loadingTags = true
-    //     this.customerTags = await this.$store.dispatch('loadTagsForCustomer', customer)
-    //     this.loadingTags = false
-    //   } else {
-    //     this.customerTags = []
-    //   }
-    // },
   },
 }
 </script>
