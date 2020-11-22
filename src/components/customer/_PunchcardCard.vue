@@ -7,8 +7,10 @@
           <b-col>
             <b-row cols="7">
               <b-col>{{ $t('entrytoken.purchased_on') }} {{ purchasedOnFormatted }}</b-col>
-              <b-col v-if="token.validUntil && token.validUntil !== null">{{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}</b-col>
-              <b-col>{{ $t('entrytoken.entries_left') }}: {{ entriesLeft }}</b-col>
+              <b-col v-if="token.validUntil && token.validUntil !== null">
+                {{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}<b-badge pill class="ml-2" variant="warning" v-if="showValidWarning">!</b-badge>
+              </b-col>
+              <b-col>{{ $t('entrytoken.entries_left') }}: {{ entriesLeft }}<b-badge pill class="ml-2" variant="warning" v-if="entriesLeft < 2">!</b-badge></b-col>
             </b-row>
           </b-col>
         </b-row>
@@ -53,6 +55,7 @@ import { DateTime } from 'luxon'
 import EntrytokenCard from '@/components/customer/EntrytokenCard'
 import PunchcardEntryRow from '@/components/customer/_PunchcardEntryRow'
 import SaveButton from '@/components/shared/SaveButton'
+import config from '@/config/config'
 export default {
   components: {
     EntrytokenCard,
@@ -69,9 +72,9 @@ export default {
 
     isValid() {
       if (this.token.validUntil && this.token.validUntil !== null) {
-        return this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
+        return this.validUntil >= DateTime.local().endOf('day') && this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
       }
-      return this.validUntil >= DateTime.local().endOf('day') && this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
+      return this.purchasedOn.startOf('day') <= DateTime.local() && this.entriesLeft > 0
     },
 
     tokenName() {
@@ -87,6 +90,14 @@ export default {
 
     purchasedOnFormatted() {
       return this.$helpers.formatDate(this.gym.settings, this.purchasedOn)
+    },
+
+    showEntriesLeftWarning() {
+      return this.entriesLeft < config.entrytokens.warning.entriesLeft
+    },
+
+    showValidWarning() {
+      return this.isValid && DateTime.local() > this.validUntil.minus({ weeks: config.entrytokens.warnings.weeksLeft })
     },
 
     validUntil() {

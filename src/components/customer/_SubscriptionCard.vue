@@ -7,7 +7,9 @@
           <b-col>
             <b-row cols="7">
               <b-col>{{ $t('entrytoken.purchased_on') }} {{ purchasedOnFormatted }}</b-col>
-              <b-col>{{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}</b-col>
+              <b-col v-if="token.validUntil && token.validUntil !== null">
+                {{ $t('entrytoken.valid_until') }} {{ validUntilFormatted }}<b-badge pill class="ml-2" variant="warning" v-if="showValidWarning">!</b-badge>
+              </b-col>
             </b-row>
           </b-col>
         </b-row>
@@ -26,6 +28,7 @@
 import { mapGetters } from 'vuex'
 import { DateTime } from 'luxon'
 import EntrytokenCard from '@/components/customer/EntrytokenCard'
+import config from '@/config/config'
 export default {
   components: {
     EntrytokenCard,
@@ -70,6 +73,10 @@ export default {
 
     purchasedOnFormatted() {
       return this.$helpers.formatDate(this.gym.settings, this.purchasedOn)
+    },
+
+    showValidWarning() {
+      return this.isValid && DateTime.local() > this.validUntil.minus({ weeks: config.entrytokens.warnings.weeksLeft })
     },
 
     validUntil() {
