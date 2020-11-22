@@ -32,8 +32,7 @@ export default {
     },
 
     isActive() {
-      console.log(this.isActiveTag(this.tag))
-      return this.isActiveTag(this.tag)
+      return !!this.tag.tagId && this.isActiveTag(this.tag)
     },
 
     lastScanned() {
