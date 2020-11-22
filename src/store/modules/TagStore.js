@@ -66,6 +66,7 @@ const TagStore = {
   },
 
   getters: {
+    isActiveTag: state => tag => !!state.tags[0].tagId && state.tags[0].tagId === tag.tagId,
     scannedTags: state => state.tags,
   },
 }

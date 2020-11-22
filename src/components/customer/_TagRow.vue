@@ -1,5 +1,5 @@
 <template>
-  <b-tr>
+  <b-tr :variant="!confirmDelete && isActive ? 'success' : ''">
     <template v-if="!confirmDelete">
       <b-td>{{ tag.tagId.toUpperCase() }}</b-td>
       <b-td>{{ dateAssigned }}</b-td>
@@ -21,7 +21,7 @@ import { DateTime } from 'luxon'
 import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters(['gym']),
+    ...mapGetters(['gym', 'isActiveTag']),
 
     dateAssigned() {
       return this.$helpers.formatDateTime(this.gym.settings, DateTime.fromJSDate(this.tag.dateAssigned))
@@ -29,6 +29,11 @@ export default {
 
     deleteText() {
       return this.deleting ? this.$i18n.t('form.deleting') : this.$i18n.t('form.delete')
+    },
+
+    isActive() {
+      console.log(this.isActiveTag(this.tag))
+      return this.isActiveTag(this.tag)
     },
 
     lastScanned() {
