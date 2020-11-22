@@ -64,6 +64,7 @@ const en = {
     vat_regime: 'VAT',
   },
   entrytoken: {
+    active: 'Active',
     date: 'Date',
     entrances: 'Entrances',
     entries_left: 'Entries left',

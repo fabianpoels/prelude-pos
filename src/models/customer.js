@@ -33,10 +33,10 @@ let CustomerSchema = new Schema(
     ],
     comments: [
       {
-        comments: String,
+        comment: String,
         user: { type: String, ref: 'User' },
         datetime: Date,
-      }
+      },
     ],
     archived: { type: Boolean, default: false },
   },
