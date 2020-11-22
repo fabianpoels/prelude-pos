@@ -9,6 +9,7 @@ const en = {
   customer: {
     address: 'Address',
     add_customer: 'Add customer',
+    comments: 'Comments',
     country: 'Country',
     customer: 'Customer',
     customer_added: 'Customer added',
@@ -19,6 +20,7 @@ const en = {
     email: 'E-mail',
     name: 'Name',
     phone: 'Phone',
+    tags: 'Tags',
     town: 'Town',
     zipCode: 'Zip code',
   },
@@ -41,6 +43,7 @@ const en = {
     entries: 'Entries',
     entry: 'Entry',
     entry_token: 'Entry token',
+    entry_tokens: 'Entry tokens',
     identifier: 'Identifier',
     is_entry_token: 'Is entry token',
     item: 'Item',
@@ -193,6 +196,8 @@ const en = {
   },
   tag: {
     assign_tag: 'Assign tag',
+    date_assigned: 'Date assigned',
+    last_scanned: 'Last scanned',
     uid: 'uid',
     tag_assigned: 'Tag assigned',
   },

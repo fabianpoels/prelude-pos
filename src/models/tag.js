@@ -7,6 +7,8 @@ let TagSchema = new Schema(
     _id: { type: String, default: uuid },
     tagId: { type: String, required: true },
     customer: { type: String, ref: 'Customer' },
+    dateAssigned: { type: Date },
+    lastScanned: { type: Date },
   },
   { timestamps: true }
 )

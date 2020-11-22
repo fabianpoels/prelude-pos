@@ -31,6 +31,13 @@ let CustomerSchema = new Schema(
         entrances: [Date],
       },
     ],
+    comments: [
+      {
+        comments: String,
+        user: { type: String, ref: 'User' },
+        datetime: Date,
+      }
+    ],
     archived: { type: Boolean, default: false },
   },
   { timestamps: true }

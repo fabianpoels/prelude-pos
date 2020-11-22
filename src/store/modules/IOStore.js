@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Tag from '@/models/tag'
+import { DateTime } from 'luxon'
 import { KeyboardLines } from 'node-hid-stream'
 const eid = require('belgium-eid')
 const reader = eid()
@@ -47,13 +48,13 @@ const IOStore = {
   actions: {
     async assignTag({ commit, getters }, tag) {
       if (getters.customerExistsById(tag.customer)) {
-        await Tag.findOneAndUpdate({ tagId: tag.tagId }, { customer: tag.customer }, { new: true })
+        await Tag.findOneAndUpdate({ tagId: tag.tagId }, { customer: tag.customer, dateAssigned: DateTime.local().toJSDate() }, { new: true })
         commit('deleteTag', tag)
       }
     },
 
     async readTag({ commit }, tagId) {
-      let dbTag = await Tag.findOneAndUpdate({ tagId: tagId }, { tagId: tagId }, { new: true, upsert: true })
+      let dbTag = await Tag.findOneAndUpdate({ tagId: tagId }, { tagId: tagId, lastScanned: DateTime.local().toJSDate() }, { new: true, upsert: true })
       dbTag = dbTag.toObject({ getters: true })
       commit('addTag', dbTag)
     },

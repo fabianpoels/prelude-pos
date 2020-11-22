@@ -81,11 +81,15 @@ export default {
     },
 
     viewIdCardCustomer() {
-      this.$bvModal.show(`viewCustomer-${this.idCardCustomer._id}-topbar-idcard`)
+      if (this.idCardCustomer && this.idCardCustomer._id) {
+        this.$bvModal.show(`viewCustomer-${this.idCardCustomer._id}-topbar-idcard`)
+      }
     },
 
     viewTagCustomer() {
-      this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}-topbar-nfctag`)
+      if (this.tagCustomer && this.tagCustomer._id) {
+        this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}-topbar-nfctag`)
+      }
     },
   },
 }
