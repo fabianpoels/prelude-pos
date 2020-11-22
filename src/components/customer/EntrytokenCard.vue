@@ -1,6 +1,6 @@
 <template>
   <b-overlay :show="confirmDelete" rounded="sm">
-    <b-card class="mb-2" :border-variant="active ? 'success' : ''" :bg-variant="valid ? '' : 'secondary'" :text-variant="valid ? '' : 'white'">
+    <b-card class="mb-2" :border-variant="active ? 'success' : ''" :bg-variant="valid || active ? '' : 'secondary'" :text-variant="valid || active ? '' : 'white'">
       <template v-slot:header>
         <div class="d-flex flex-column">
           <div class="d-flex flex-row justify-content-between align-items-center">

@@ -25,6 +25,12 @@ let config = {
     '#FFAD46',
   ],
   defaultCountry: 'Belgium',
+  entrytokens: {
+    warnings: {
+      entriesLeft: 2,
+      weeksLeft: 4,
+    },
+  },
   user: {
     roles: {
       admin: 'admin',
