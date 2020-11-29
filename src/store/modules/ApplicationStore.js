@@ -122,10 +122,8 @@ const ApplicationStore = {
   getters: {
     devices: () => HID.devices(),
     loggedIn: state => state.loggedIn,
-    nfcData: state => state.nfcData,
     connecting: state => state.connecting,
     connected: state => state.connected,
-    scannedTags: (state, getters) => getters.nfcData.length,
     vatFormOptions: () =>
       config.vatRegimes.map(x => {
         return {

@@ -4,7 +4,11 @@
       <template v-slot:header>
         <div class="d-flex flex-column">
           <div class="d-flex flex-row justify-content-between align-items-center">
-            <div class="h5 token-title" @click="expanded = !expanded"><font-awesome-icon :icon="['fas', collapseIcon]" class="mr-2" /><slot name="title"></slot></div>
+            <div class="h5 token-title" @click="expanded = !expanded">
+              <font-awesome-icon :icon="['fas', collapseIcon]" class="mr-2" />
+              <slot name="title"></slot>
+              <b-badge class="ml-2 active-badge" variant="success" v-if="active">{{ $t('entrytoken.active') }}</b-badge>
+            </div>
             <div>
               <slot name="title-actions">
                 <save-button variant="success" size="sm" v-if="valid" :disabled="active" :saving="registering" :savingText="$t('entrytoken.entry')" @click="registerEntry()">{{ $t('entrytoken.entry') }}</save-button>
@@ -102,5 +106,9 @@ export default {
 <style scoped>
 .token-title {
   cursor: pointer !important;
+}
+
+.active-badge {
+  font-size: 60%;
 }
 </style>

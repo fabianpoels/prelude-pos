@@ -116,6 +116,17 @@ let CustomerStore = {
       })
       commit('updateCustomer', dbCustomer.toObject({ getters: true }))
     },
+
+    async addCommentToCustomer({ commit }, { customer, comment, user, datetime }) {
+      let dbCustomer = await Customer.findById(customer._id)
+      dbCustomer.comments.push({
+        comment: comment,
+        user: user._id,
+        datetime: datetime,
+      })
+      await dbCustomer.save()
+      commit('updateCustomer', dbCustomer.toObject({ getters: true }))
+    },
   },
 
   getters: {
