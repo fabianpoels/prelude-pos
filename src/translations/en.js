@@ -8,8 +8,11 @@ const en = {
   },
   customer: {
     address: 'Address',
+    add_comment: 'Add comment',
     add_customer: 'Add customer',
+    comment: 'Comment',
     comments: 'Comments',
+    comment_added: 'Comment added',
     country: 'Country',
     customer: 'Customer',
     customer_added: 'Customer added',

@@ -46,7 +46,7 @@
         </b-row>
       </b-tab>
       <!-- COMMENTS -->
-      <b-tab :title="$t('customer.comments')" class="pt-4"></b-tab>
+      <comments-tab :customer="customer" />
       <!-- TAGS -->
       <b-tab class="pt-4">
         <template #title>{{ $t('customer.tags') }}<b-spinner v-if="loadingTags" class="ml-2" small/></template>
@@ -58,6 +58,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import CommentsTab from '@/components/customer/_CommentsTab'
 import CustomerTags from '@/components/customer/_CustomerTags'
 import PunchcardCard from '@/components/customer/_PunchcardCard'
 import SaveButton from '@/components/shared/SaveButton'
@@ -65,6 +66,7 @@ import SingleEntryCard from '@/components/customer/_SingleEntryCard'
 import SubscriptionCard from '@/components/customer/_SubscriptionCard'
 export default {
   components: {
+    CommentsTab,
     CustomerTags,
     PunchcardCard,
     SaveButton,
