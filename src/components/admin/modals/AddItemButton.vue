@@ -1,12 +1,12 @@
 <template>
-  <b-modal v-model="showModal" :id="`addItemButton-${page._id}-${x}-${y}`" :title="$t('layout.add_button')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`addItemButton-${page.id}-${x}-${y}`" :title="$t('layout.add_button')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="item" :label="$t('datastructure.item')" label-for="item-input">
         <el-select id="item-input" v-model="newButton.item" :placeholder="$t('datastructure.item')" class="w-100" filterable>
-          <el-option-group v-for="category in categories" :key="category._id">
+          <el-option-group v-for="category in categories" :key="category.id">
             <span class="category-dot ml-2" :style="{ backgroundColor: category.color }"></span>
             <span class="ml-2">{{ category.name }}</span>
-            <el-option v-for="item in itemsForCategory(category)" :key="item._id" :label="item.name" :value="item._id">
+            <el-option v-for="item in itemsForCategory(category)" :key="item.id" :label="item.name" :value="item.id">
               <span>{{ item.name }}</span>
             </el-option>
           </el-option-group>
@@ -57,7 +57,7 @@ export default {
 
   watch: {
     'newButton.item'(id) {
-      let category = this.categoryById(this.itemById(id).category)
+      let category = this.categoryById(this.itemById(id.toString()).category.toString())
       this.newButton.color = category.color
     },
   },

@@ -23,7 +23,7 @@ const EntryStore = {
         isCorrection: isCorrection,
       })
       await entry.save()
-      commit('addEntry', entry.toObject({ getters: true }))
+      commit('addEntry', entry.toObject({ virtuals: true }))
     },
   },
 

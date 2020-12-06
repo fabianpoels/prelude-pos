@@ -2,7 +2,7 @@
   <default-card :title="businessUnit.name" :subTitle="businessUnit.identifier" class="my-3">
     <template slot="actions">
       <div class="d-flex">
-        <b-btn variant="primary" v-b-modal="`addCategoryModal-${businessUnit._id}`">
+        <b-btn variant="primary" v-b-modal="`addCategoryModal-${businessUnit.id}`">
           <font-awesome-icon :icon="['fas', 'plus']" />
           {{ $t('datastructure.add_category') }}
         </b-btn>
@@ -10,9 +10,9 @@
           <template v-slot:button-content>
             <font-awesome-icon :icon="['fas', 'ellipsis-v']" />
           </template>
-          <b-dropdown-item v-b-modal="`editBusinessUnit-${businessUnit._id}`">{{ $t('form.edit') }}</b-dropdown-item>
-          <b-dropdown-item v-b-modal="`deleteBusinessUnit-${businessUnit._id}`" v-if="canDeleteBusinessUnit(businessUnit)">{{ $t('form.delete') }}</b-dropdown-item>
-          <b-dropdown-item v-b-modal="`deleteBusinessUnit-${businessUnit._id}`" v-else :disabled="!canArchiveBusinessUnit(businessUnit)">{{ $t('form.archive') }}</b-dropdown-item>
+          <b-dropdown-item v-b-modal="`editBusinessUnit-${businessUnit.id}`">{{ $t('form.edit') }}</b-dropdown-item>
+          <b-dropdown-item v-b-modal="`deleteBusinessUnit-${businessUnit.id}`" v-if="canDeleteBusinessUnit(businessUnit)">{{ $t('form.delete') }}</b-dropdown-item>
+          <b-dropdown-item v-b-modal="`deleteBusinessUnit-${businessUnit.id}`" v-else :disabled="!canArchiveBusinessUnit(businessUnit)">{{ $t('form.archive') }}</b-dropdown-item>
         </b-dropdown>
       </div>
     </template>

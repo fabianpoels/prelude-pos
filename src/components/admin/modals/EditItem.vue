@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`editItem-${item._id}`" :title="$t('datastructure.edit_item')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`editItem-${item.id}`" :title="$t('datastructure.edit_item')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="name" :label="$t('form.name')" label-for="name-input">
         <b-form-input id="name-input" v-model="editItem.name" required />
@@ -9,8 +9,8 @@
       </b-form-group>
       <b-form-group id="category" :label="$t('datastructure.category')" label-for="category-input">
         <el-select id="category-input" v-model="editItem.category" @change="categoryChange" :placeholder="$t('datastructure.category')" class="w-100" filterable>
-          <el-option-group v-for="businessUnit in businessUnits" :key="businessUnit._id" :label="businessUnit.name">
-            <el-option v-for="category in categoriesForBusinessUnit(businessUnit)" :key="category._id" :label="category.name" :value="category._id">
+          <el-option-group v-for="businessUnit in businessUnits" :key="businessUnit.id" :label="businessUnit.name">
+            <el-option v-for="category in categoriesForBusinessUnit(businessUnit)" :key="category.id" :label="category.name" :value="category.id">
               <span class="category-dot" :style="{ backgroundColor: category.color }"></span>
               <span class="ml-2">{{ category.name }}</span>
             </el-option>
@@ -121,7 +121,7 @@ export default {
     },
 
     categoryChange() {
-      this.editItem.vatRegime = this.categories.find(c => c._id === this.editItem.category).vatRegime
+      this.editItem.vatRegime = this.categories.find(c => c.id === this.editItem.category.toString()).vatRegime
     },
   },
 }

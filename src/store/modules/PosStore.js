@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import Pos from '@/models/pos'
 import BusinessUnit from '@/models/businessUnit'
 import Category from '@/models/category'
@@ -34,9 +33,9 @@ const PosStore = {
     async loadPos({ commit }, uuid) {
       let poss = await Pos.find()
         .populate([{ path: 'gym', model: 'Gym', populate: { path: 'users', model: 'User' } }])
-        .lean()
+        .lean({ virtuals: true })
       commit('setPoss', poss)
-      let pos = poss.find(p => p._id === uuid)
+      let pos = poss.find(p => p._id.toString() === uuid)
       if (pos) {
         commit('setPos', pos)
         return pos
@@ -44,9 +43,9 @@ const PosStore = {
     },
 
     async loadPosData({ commit, dispatch, getters }) {
-      let businessUnits = await BusinessUnit.find({ gym: getters.pos.gym._id }).lean()
+      let businessUnits = await BusinessUnit.find({ gym: getters.pos.gym._id }).lean({ virtuals: true })
       commit('setBusinessUnits', businessUnits)
-      let categories = await Category.find({ businessUnit: { $in: businessUnits.map(bu => bu._id) } }).lean()
+      let categories = await Category.find({ businessUnit: { $in: businessUnits.map(bu => bu._id) } }).lean({ virtuals: true })
       commit('setCategories', categories)
       await dispatch('loadPages', getters.pos)
       await dispatch('loadItems', categories)
@@ -59,14 +58,14 @@ const PosStore = {
     async createPos({ commit }, data) {
       let pos = new Pos(data)
       await pos.save()
-      pos = pos.toObject({ getters: true })
+      pos = pos.toObject({ virtuals: true })
       commit('setPos', pos)
       return pos
     },
 
     async updatePos({ commit }, pos) {
       let dbPos = await Pos.findByIdAndUpdate(pos._id, pos, { new: true })
-      commit('setPos', dbPos.toObject({ getters: true }))
+      commit('setPos', dbPos.toObject({ virtuals: true }))
     },
 
     async addPageToPos({ commit, getters }, page) {
@@ -74,7 +73,7 @@ const PosStore = {
       if (!dbPos.pages.includes(page._id)) {
         dbPos.pages.push(page._id)
         await dbPos.save()
-        commit('setPos', dbPos.toObject({ getters: true }))
+        commit('setPos', dbPos.toObject({ virtuals: true }))
       }
     },
 
@@ -88,9 +87,8 @@ const PosStore = {
   getters: {
     pos: state => state.pos,
     dataLoaded: state => state.dataLoaded,
-    posById: state => id => state.poss.find(p => p._id === id),
-    posLoaded: state => !!state.pos && !!state.pos._id && state.pos._id !== '',
-    newUuid: () => uuidv4(),
+    posById: state => id => state.poss.find(p => p.id === id),
+    posLoaded: state => !!state.pos && !!state.pos.id && state.pos.id !== '',
   },
 }
 

@@ -5,7 +5,7 @@
       <div>{{ date }}</div>
       <div>{{ time }}</div>
     </b-td>
-    <b-td>{{ userById(comment.user).displayname }}</b-td>
+    <b-td>{{ userById(comment.user.toString()).displayname }}</b-td>
   </b-tr>
 </template>
 <script>

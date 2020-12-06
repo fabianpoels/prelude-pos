@@ -5,7 +5,7 @@
     </b-form-group>
     <b-form-group id="customer" :label="$t('customer.customer')" label-for="customer-input">
       <el-select id="customer-input" v-model="localTag.customer" :placeholder="$t('customer.customer')" class="w-100" filterable>
-        <el-option v-for="customer in customers" :key="customer._id" :label="`${customer.firstname} ${customer.lastname}`" :value="customer._id">
+        <el-option v-for="customer in customers" :key="customer.id" :label="`${customer.firstname} ${customer.lastname}`" :value="customer.id">
           {{ customer.firstname }} {{ customer.lastname }} ({{ customer.address.town }})
         </el-option>
       </el-select>

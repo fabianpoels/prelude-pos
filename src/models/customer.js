@@ -1,5 +1,5 @@
-import { v4 as uuid } from 'uuid'
 import mongoose from 'mongoose'
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals'
 import Price from '@/models/price'
 import Item from '@/models/item'
 let PriceSchema = Price.schema
@@ -8,7 +8,6 @@ let Schema = mongoose.Schema
 
 let CustomerSchema = new Schema(
   {
-    _id: { type: String, default: uuid },
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
     email: { type: String, trim: true },
@@ -21,7 +20,6 @@ let CustomerSchema = new Schema(
       country: String,
     },
     dateOfBirth: { type: Date },
-    items: [{ type: String, ref: 'Item' }],
     entryTokens: [
       {
         item: ItemSchema,
@@ -34,7 +32,7 @@ let CustomerSchema = new Schema(
     comments: [
       {
         comment: String,
-        user: { type: String, ref: 'User' },
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
         datetime: Date,
       },
     ],
@@ -42,6 +40,8 @@ let CustomerSchema = new Schema(
   },
   { timestamps: true }
 )
+
+CustomerSchema.plugin(mongooseLeanVirtuals)
 
 let Customer = mongoose.model('Customer', CustomerSchema)
 export default Customer

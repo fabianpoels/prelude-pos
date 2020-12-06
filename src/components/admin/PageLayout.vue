@@ -45,7 +45,7 @@
       <div class="buttonContainer">
         <div v-for="y in page.rows" :key="y" class="buttonRow">
           <div v-for="x in page.cols" :key="x" class="buttonCol">
-            <layout-button :x="x" :y="y" :pageId="page._id" class="itemButton p-2" />
+            <layout-button :x="x" :y="y" :pageId="page.id" class="itemButton p-2" />
           </div>
         </div>
       </div>

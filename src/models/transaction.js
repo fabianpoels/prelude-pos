@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals'
 import Price from '@/models/price'
 import config from '@/config/config'
 let Schema = mongoose.Schema
@@ -8,9 +9,9 @@ let PriceSchema = Price.schema
 let TransactionSchema = new Schema(
   {
     number: { type: Number, required: true },
-    gym: { type: String, ref: 'Gym', required: true },
-    pos: { type: String, ref: 'Pos', required: true },
-    user: { type: String, ref: 'User', required: true },
+    gym: { type: Schema.Types.ObjectId, ref: 'Gym', required: true },
+    pos: { type: Schema.Types.ObjectId, ref: 'Pos', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     priceIds: [{ type: String, ref: 'Price', required: true }],
     prices: [PriceSchema],
     paymentMethod: { type: String, enum: Object.values(config.transaction.paymentMethods), required: true },
@@ -36,6 +37,8 @@ TransactionSchema.pre('save', function(next) {
   this.totalAmount = this.prices.reduce((sum, price) => sum + price.salesPrice, 0)
   next()
 })
+
+TransactionSchema.plugin(mongooseLeanVirtuals)
 
 let Transaction = mongoose.model('Transaction', TransactionSchema)
 

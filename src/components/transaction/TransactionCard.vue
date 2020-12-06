@@ -83,11 +83,11 @@ export default {
     },
 
     user() {
-      return this.userById(this.transaction.user)
+      return this.userById(this.transaction.user.toString())
     },
 
     pos() {
-      return this.posById(this.transaction.pos)
+      return this.posById(this.transaction.pos.toString())
     },
 
     fields() {
@@ -103,14 +103,14 @@ export default {
     tableItems() {
       let items = []
       let prices = [...this.transaction.prices]
-      let priceIds = [...new Set(prices.map(p => p._id))]
+      let priceIds = [...new Set(prices.map(p => p.id))]
       priceIds.forEach(priceId => {
-        let price = prices.find(p => p._id === priceId)
-        let item = this.itemById(price.item)
-        let amount = prices.filter(p => p._id === priceId).length
+        let price = prices.find(p => p.id === priceId)
+        let item = this.itemById(price.item.toString())
+        let amount = prices.filter(p => p.id === priceId).length
         items.push({
           item: price.name && price.name.length > 0 ? `${item.name}: ${price.name}` : item.name,
-          category: this.categoryById(item.category).name,
+          category: this.categoryById(item.category.toString()).name,
           price: this.$helpers.formatPrice(this.gym.settings, price.salesPrice),
           amount: amount,
           total: this.$helpers.formatPrice(this.gym.settings, price.salesPrice * amount),

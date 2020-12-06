@@ -21,7 +21,7 @@
             </template>
             <template v-slot:cell(buttons)="data">{{ data.item.buttons.length }}</template>
             <template v-slot:cell(page)="data">
-              <page-dropdown :page="data.item" @delete="pageDeleted(data.item)" @editLayout="editLayout(orderedPages.find(p => p._id === data.item._id))" />
+              <page-dropdown :page="data.item" @delete="pageDeleted(data.item)" @editLayout="editLayout(orderedPages.find(p => p.id === data.item.id))" />
             </template>
           </b-table>
         </default-card>
@@ -90,7 +90,7 @@ export default {
 
   methods: {
     editLayout(page) {
-      this.editPageId = page._id
+      this.editPageId = page.id
       this.editingLayout = true
     },
 
@@ -101,11 +101,11 @@ export default {
 
     rowClass(page, type) {
       if (!page || type !== 'row') return
-      if (this.editingLayout && this.editPageId && this.editPageId === page._id) return 'table-success'
+      if (this.editingLayout && this.editPageId && this.editPageId === page.id) return 'table-success'
     },
 
     pageDeleted(page) {
-      if (this.editPageId === page._id) {
+      if (this.editPageId === page.id) {
         this.editPageId = undefined
         this.editingLayout = false
       }

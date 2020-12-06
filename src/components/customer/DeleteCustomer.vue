@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`deleteCustomer-${customer._id}`" :title="`${$t('customer.delete_customer')} ?`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`deleteCustomer-${customer.id}`" :title="`${$t('customer.delete_customer')} ?`" body-bg-variant="100" no-close-on-backdrop>
     <div>{{ customer.firstname }} {{ customer.lastname }}</div>
     <div slot="modal-footer">
       <save-button variant="danger" :saving="deleting" :savingText="$t('form.deleting')" @click="deleteCustomer()">{{ $t('form.delete') }}</save-button>

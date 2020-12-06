@@ -1,6 +1,6 @@
 <template>
   <div class="buttonCell">
-    <b-btn v-if="button" variant="secondary" class="button" :class="{ pageButton: customButton }" @click="addToCart()" :style="buttonStyle">{{ itemById(button.item).name }}</b-btn>
+    <b-btn v-if="button" variant="secondary" class="button" :class="{ pageButton: customButton }" @click="addToCart()" :style="buttonStyle">{{ item.name }}</b-btn>
     <b-btn variant="outline-secondary" class="button" v-else disabled></b-btn>
     <price-selector :item="item" :position="position" @select="selectPrice" v-if="button" />
   </div>
@@ -37,7 +37,7 @@ export default {
     },
 
     item() {
-      return this.itemById(this.button.item)
+      return this.itemById(this.button.item.toString())
     },
 
     position() {
@@ -69,7 +69,7 @@ export default {
   methods: {
     addToCart() {
       if (this.prices.length === 1) {
-        this.selectPrice(this.prices[0]._id)
+        this.selectPrice(this.prices[0].id)
       } else {
         this.$bvModal.show(`selectPrice-${this.position}`)
       }

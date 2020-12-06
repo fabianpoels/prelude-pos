@@ -16,10 +16,10 @@
           </template>
           <b-table :fields="fields" :items="tableItems" class="my-2" v-if="items.length > 0">
             <template v-slot:cell(prices)="data">
-              <b-badge :id="`item-prices-badge-${data.item.item._id}`">{{ data.item.prices.length }}</b-badge>
-              <b-tooltip :target="`item-prices-badge-${data.item.item._id}`" triggers="hover">
+              <b-badge :id="`item-prices-badge-${data.item.item.id}`">{{ data.item.prices.length }}</b-badge>
+              <b-tooltip :target="`item-prices-badge-${data.item.item.id}`" triggers="hover">
                 <template v-for="(price, index) in data.item.prices">
-                  <span :key="`span-${index}`">{{ price.name && price.name !== '' ? `${price.name}: ` : ''}}{{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</span>
+                  <span :key="`span-${index}`">{{ price.name && price.name !== '' ? `${price.name}: ` : '' }}{{ $helpers.formatPrice(gym.settings, price.salesPrice) }}</span>
                   <br :key="`br-${index}`" />
                 </template>
               </b-tooltip>
@@ -73,8 +73,8 @@ export default {
 
     tableItems() {
       return this.filteredItems.map(item => {
-        let category = this.categories.find(c => c._id === item.category)
-        let businessUnit = this.businessUnits.find(bu => bu._id === category.businessUnit)
+        let category = this.categories.find(c => c.id === item.category.toString())
+        let businessUnit = this.businessUnits.find(bu => bu.id === category.businessUnit.toString())
         return {
           name: item.name,
           prices: this.pricesForItem(item),

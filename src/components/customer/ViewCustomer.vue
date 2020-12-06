@@ -1,5 +1,5 @@
 <template>
-  <b-modal size="lg" scrollable v-model="showModal" :id="`viewCustomer-${customer._id}-${modalIdSuffix}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" @hidden="$emit('hidden')">
+  <b-modal size="lg" scrollable v-model="showModal" :id="`viewCustomer-${customer.id}-${modalIdSuffix}`" :title="`${customer.firstname} ${customer.lastname}`" body-bg-variant="100" @hidden="$emit('hidden')">
     <b-row>
       <b-col cols="12" lg="6">
         <div><font-awesome-icon :icon="['fas', 'user']" /> {{ customer.firstname }} {{ customer.lastname }}</div>
@@ -21,13 +21,13 @@
             <el-select id="new-entry-token-input" v-model="newEntryTokenPriceId" :placeholder="$t('datastructure.entry_token')" class="w-100" filterable :disabled="saving">
               <template v-for="item in entryTokenItems">
                 <template v-if="pricesForItem(item).length > 1">
-                  <el-option v-for="price in pricesForItem(item)" :key="price._id" :label="`${item.name}: ${price.name}`" :value="price._id">
-                    <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
+                  <el-option v-for="price in pricesForItem(item)" :key="price.id" :label="`${item.name}: ${price.name}`" :value="price.id">
+                    <span class="category-dot" :style="{ backgroundColor: categoryById(item.category.toString()).color }"></span>
                     <span class="ml-2">{{ item.name }}: {{ price.name }}</span>
                   </el-option>
                 </template>
-                <el-option v-else-if="pricesForItem(item).length === 1" :key="item._id" :label="item.name" :value="pricesForItem(item)[0]._id">
-                  <span class="category-dot" :style="{ backgroundColor: categoryById(item.category).color }"></span>
+                <el-option v-else-if="pricesForItem(item).length === 1" :key="item.id" :label="item.name" :value="pricesForItem(item)[0].id">
+                  <span class="category-dot" :style="{ backgroundColor: categoryById(item.category.toString()).color }"></span>
                   <span class="ml-2">{{ item.name }}</span>
                 </el-option>
               </template>
@@ -38,9 +38,9 @@
         <b-row>
           <b-col cols="12" lg="12">
             <template v-for="token in customer.entryTokens">
-              <punchcard-card :token="token" :customer="customer" v-if="token.item.tokenType === 'punchcard'" :key="`${customer._id}-token-${token._id.toString()}`" />
-              <subscription-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer._id}-token-${token._id.toString()}`" />
-              <single-entry-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'single'" :key="`${customer._id}-token-${token._id.toString()}`" />
+              <punchcard-card :token="token" :customer="customer" v-if="token.item.tokenType === 'punchcard'" :key="`${customer.id}-token-${token.id}`" />
+              <subscription-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer.id}-token-${token.id}`" />
+              <single-entry-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'single'" :key="`${customer.id}-token-${token.id}`" />
             </template>
           </b-col>
         </b-row>
@@ -92,10 +92,10 @@ export default {
     async addEntryToken() {
       this.saving = true
       let price = this.priceById(this.newEntryTokenPriceId)
-      let item = this.entryTokenItems.find(i => i._id === price.item)
+      let item = this.entryTokenItems.find(i => i.id === price.item.toString())
       let name = `${item.name}${price.name !== null && price.name !== '' ? `: ${price.name}` : ''}`
       await this.$store.dispatch('addEntryTokenItemToCustomer', { customer: this.customer, price: price, item: item })
-      this.$store.commit('addToCart', price._id)
+      this.$store.commit('addToCart', price.id)
       this.$bvToast.toast(name, {
         title: this.$i18n.t('entrytoken.entry_token_added'),
         variant: 'success',

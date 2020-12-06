@@ -70,7 +70,7 @@ export default {
         solid: true,
         toaster: 'b-toaster-top-center',
       })
-      this.$store.commit('setCart', [])
+      this.$store.commit('clearCartStore')
     },
   },
 }

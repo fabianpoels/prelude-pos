@@ -5,8 +5,8 @@
     </template>
     <b-dropdown-item @click="$emit('editLayout')">{{ $t('layout.layout') }}</b-dropdown-item>
     <b-dropdown-divider></b-dropdown-divider>
-    <b-dropdown-item v-b-modal="`editPage-${page._id}`">{{ $t('form.edit') }}</b-dropdown-item>
-    <b-dropdown-item v-b-modal="`deletePage-${page._id}`">{{ $t('form.delete') }}</b-dropdown-item>
+    <b-dropdown-item v-b-modal="`editPage-${page.id}`">{{ $t('form.edit') }}</b-dropdown-item>
+    <b-dropdown-item v-b-modal="`deletePage-${page.id}`">{{ $t('form.delete') }}</b-dropdown-item>
     <edit-page :page="page" />
     <delete-page :page="page" @delete="$emit('delete')" />
   </b-dropdown>

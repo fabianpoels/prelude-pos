@@ -29,7 +29,7 @@ export default {
     },
 
     item() {
-      return this.itemById(this.price.item)
+      return this.itemById(this.price.item.toString())
     },
 
     fullItemName() {

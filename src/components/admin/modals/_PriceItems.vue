@@ -4,7 +4,7 @@
     <b-input-group v-for="(price, index) in localPrices" :key="index" class="mb-2">
       <b-form-input type="text" :value="price.name" disabled readonly />
       <b-form-input type="text" :value="$helpers.formatPrice(gym.settings, price.salesPrice)" disabled readonly />
-      <b-form-select v-model="newPrice.vatRegime" :options="vatFormOptions" disabled></b-form-select>
+      <b-form-select v-model="price.vatRegime" :options="vatFormOptions" disabled></b-form-select>
       <b-input-group-append>
         <b-btn variant="danger" @click="removePrice(index)">
           <font-awesome-icon :icon="['fas', 'trash']" />
@@ -52,7 +52,7 @@ export default {
   watch: {
     'item.category'(categoryId) {
       if (categoryId) {
-        this.newPrice.vatRegime = this.categoryById(categoryId).vatRegime
+        this.newPrice.vatRegime = this.categoryById(categoryId.toString()).vatRegime
       }
     },
 
@@ -82,7 +82,7 @@ export default {
         name: null,
         salesPrice: 0,
         vatRegime: this.item.vatRegime,
-        item: this.item._id,
+        item: this.item.id,
       }
     },
   },

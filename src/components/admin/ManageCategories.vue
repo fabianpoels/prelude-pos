@@ -2,7 +2,7 @@
   <base-layout>
     <b-row class="justify-content-lg-center py-4">
       <b-col cols="12" lg="8">
-        <business-unit v-for="businessUnit in businessUnits" :key="businessUnit._id" :businessUnit="businessUnit" />
+        <business-unit v-for="businessUnit in businessUnits" :key="businessUnit.id" :businessUnit="businessUnit" />
       </b-col>
       <b-col cols="12" lg="8" class="mt-3">
         <div class="d-flex justify-content-end">

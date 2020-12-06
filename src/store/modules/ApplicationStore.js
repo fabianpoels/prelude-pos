@@ -39,8 +39,8 @@ const ApplicationStore = {
           let pos = await dispatch('loadPos', getters.posUuid)
           await dispatch('startNfcListen', getters.tagReader)
           await dispatch('startEidListen')
-          if (pos && pos._id === getters.posUuid) {
-            await dispatch('loadGymById', pos.gym._id)
+          if (pos && pos.id === getters.posUuid) {
+            await dispatch('loadGymById', pos.gym.id)
             await dispatch('loadPosData')
             return getters.users.length > 0
           }
@@ -103,9 +103,9 @@ const ApplicationStore = {
       let loggedIn = false
       let user = getters.userByIdentifier(identifier)
       if (user) {
-        let dbUser = await User.findOne({ _id: user._id })
+        let dbUser = await User.findById(user._id)
         if ((await dbUser.validPassword(password)) && dbUser.enabled) {
-          commit('setCurrentUser', user)
+          commit('setCurrentUser', dbUser.toObject({ virtuals: true }))
           commit('setLoggedIn', true)
           loggedIn = true
         }

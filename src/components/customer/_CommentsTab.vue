@@ -11,7 +11,7 @@
         <b-th>{{ $t('setup.user') }}</b-th>
       </b-thead>
       <b-tbody>
-        <comment-row v-for="comment in comments" :key="comment._id.toString()" :comment="comment" />
+        <comment-row v-for="comment in comments" :key="comment.id" :comment="comment" />
       </b-tbody>
     </b-table-simple>
   </b-tab>

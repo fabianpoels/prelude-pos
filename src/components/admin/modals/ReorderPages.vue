@@ -42,7 +42,7 @@ export default {
     ...mapGetters(['orderedPages', 'pos']),
 
     pageIds() {
-      return this.orderedPages.map(p => p._id)
+      return this.orderedPages.map(p => p.id)
     },
   },
 

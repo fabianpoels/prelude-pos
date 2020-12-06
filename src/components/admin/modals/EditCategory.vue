@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`editCategory-${category._id}`" :title="$t('datastructure.edit_category')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`editCategory-${category.id}`" :title="$t('datastructure.edit_category')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="name" :label="$t('form.name')" label-for="name-input">
         <b-form-input id="name-input" v-model="editCategory.name" required />

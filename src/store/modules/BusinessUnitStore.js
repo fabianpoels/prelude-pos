@@ -18,14 +18,14 @@ const BusinessUnitStore = {
     updateBusinessUnit(state, businessUnit) {
       Vue.set(
         state.businessUnits,
-        state.businessUnits.findIndex(bu => bu._id === businessUnit._id),
+        state.businessUnits.findIndex(bu => bu.id === businessUnit.id),
         businessUnit
       )
     },
 
     deleteBusinessUnit(state, businessUnit) {
       state.businessUnits.splice(
-        state.businessUnits.findIndex(bu => bu._id === businessUnit._id),
+        state.businessUnits.findIndex(bu => bu.id === businessUnit.id),
         1
       )
     },
@@ -36,12 +36,12 @@ const BusinessUnitStore = {
       let businessUnit = new BusinessUnit(data)
       businessUnit.gym = gym._id
       await businessUnit.save()
-      commit('addBusinessUnit', businessUnit.toObject({ getters: true }))
+      commit('addBusinessUnit', businessUnit.toObject({ virtuals: true }))
     },
 
     async updateBusinessUnit({ commit }, businessUnit) {
       let dbUnit = await BusinessUnit.findByIdAndUpdate(businessUnit._id, businessUnit, { new: true })
-      commit('updateBusinessUnit', dbUnit.toObject({ getters: true }))
+      commit('updateBusinessUnit', dbUnit.toObject({ virtuals: true }))
     },
 
     archiveBusinessUnit({ getters, dispatch }, businessUnit) {
@@ -62,7 +62,7 @@ const BusinessUnitStore = {
   getters: {
     businessUnits: state => state.businessUnits.filter(bu => bu.archived === false),
     canArchiveBusinessUnit: (state, getters) => businessUnit => getters.categoriesForBusinessUnit(businessUnit).length === 0,
-    canDeleteBusinessUnit: (state, getters, rootState) => businessUnit => rootState.CategoryStore.categories.filter(c => c.businessUnit === businessUnit._id).length === 0,
+    canDeleteBusinessUnit: (state, getters, rootState) => businessUnit => rootState.CategoryStore.categories.filter(c => c.businessUnit.toString() === businessUnit.id).length === 0,
   },
 }
 

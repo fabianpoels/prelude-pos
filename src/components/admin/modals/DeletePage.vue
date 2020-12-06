@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`deletePage-${page._id}`" :title="`${$t('layout.delete_page')} ?`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`deletePage-${page.id}`" :title="`${$t('layout.delete_page')} ?`" body-bg-variant="100" no-close-on-backdrop>
     <div>
       <font-awesome-icon :icon="['fas', page.icon]" />
       {{ page.name }}

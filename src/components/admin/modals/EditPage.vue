@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`editPage-${page._id}`" :title="$t('layout.edit_page')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`editPage-${page.id}`" :title="$t('layout.edit_page')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="name" :label="$t('form.name')" label-for="name-input">
         <b-form-input id="name-input" v-model="editPage.name" required />
