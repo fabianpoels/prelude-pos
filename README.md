@@ -20,7 +20,7 @@ yarn electron:build
 
 ### Linux libraries for eId-card reading
 ```
-sudo apt install libpcsclite1 libpcsclite-dev pcscd
+sudo apt install libpcsclite1 libpcsclite-dev pcscd libusb-1.0-0-dev 
 ```
 Also, the card reading software from the Belgium government must be installed so the system can use the shared libraries
 ```
