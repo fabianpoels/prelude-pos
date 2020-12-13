@@ -4,7 +4,7 @@
       <b-form class="my-3">
         <b-form-group id="gym" :label="$t('setup.select_gym')" label-for="gym-name-input">
           <b-form-select v-model="gymId" :disabled="creatingNewGym">
-            <option v-for="gym in gyms" :key="gym._id" :value="gym._id">{{ gym.name }}</option>
+            <option v-for="gym in gyms" :key="gym.id" :value="gym.id">{{ gym.name }}</option>
           </b-form-select>
         </b-form-group>
         <template v-if="creatingNewGym">
@@ -53,7 +53,7 @@ export default {
     showModal(value) {
       if (value) {
         this.creatingNewGym = false
-        if (this.gym && this.gym._id) this.gymId = this.gym._id
+        if (this.gym && this.gym.id) this.gymId = this.gym.id
       }
     },
   },

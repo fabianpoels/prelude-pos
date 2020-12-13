@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`deleteItem-${item._id}`" :title="`${title} ?`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`deleteItem-${item.id}`" :title="`${title} ?`" body-bg-variant="100" no-close-on-backdrop>
     <div>{{ item.name }}</div>
 
     <div slot="modal-footer">

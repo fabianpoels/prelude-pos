@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`addCategoryModal-${businessUnit._id}`" :title="$t('datastructure.add_category')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`addCategoryModal-${businessUnit.id}`" :title="$t('datastructure.add_category')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="name" :label="$t('form.name')" label-for="name-input">
         <b-form-input id="name-input" v-model="newCategory.name" required />

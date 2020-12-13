@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals'
 import Price from '@/models/price'
 import Item from '@/models/item'
 let PriceSchema = Price.schema
@@ -7,8 +8,8 @@ let Schema = mongoose.Schema
 
 let EntrySchema = new Schema(
   {
-    user: { type: String, ref: 'User' },
-    customer: { type: String, ref: 'Customer' },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    customer: { type: Schema.Types.ObjectId, ref: 'Customer' },
     item: ItemSchema,
     price: PriceSchema,
     datetime: { type: Date },
@@ -16,6 +17,8 @@ let EntrySchema = new Schema(
   },
   { timestamps: true }
 )
+
+EntrySchema.plugin(mongooseLeanVirtuals)
 
 let Entry = mongoose.model('Entry', EntrySchema)
 

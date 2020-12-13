@@ -1,9 +1,9 @@
 <template>
   <div class="buttonCell">
-    <b-btn v-if="button" variant="secondary" class="button" :class="{ layoutButton: customButton }" v-b-modal="`editItemButton-${page._id}-${x}-${y}`" :style="buttonStyle">
-      {{ itemById(button.item).name }}
+    <b-btn v-if="button" variant="secondary" class="button" :class="{ layoutButton: customButton }" v-b-modal="`editItemButton-${page.id}-${x}-${y}`" :style="buttonStyle">
+      {{ itemById(button.item.toString()).name }}
     </b-btn>
-    <b-btn variant="outline-secondary" class="button" v-else v-b-modal="`addItemButton-${page._id}-${x}-${y}`">
+    <b-btn variant="outline-secondary" class="button" v-else v-b-modal="`addItemButton-${page.id}-${x}-${y}`">
       <font-awesome-icon :icon="['fas', 'plus']" size="2x" class="iconAdd" />
     </b-btn>
     <edit-item-button v-if="button" :x="x" :y="y" :page="page" :button="button" />

@@ -4,8 +4,8 @@
       <template v-slot:button-content>
         <font-awesome-icon :icon="['fas', 'ellipsis-v']" />
       </template>
-      <b-dropdown-item v-b-modal="`editCustomer-${customer._id}`">{{ $t('form.edit') }}</b-dropdown-item>
-      <b-dropdown-item v-b-modal="`deleteCustomer-${customer._id}`">{{ $t('form.delete') }}</b-dropdown-item>
+      <b-dropdown-item v-b-modal="`editCustomer-${customer.id}`">{{ $t('form.edit') }}</b-dropdown-item>
+      <b-dropdown-item v-b-modal="`deleteCustomer-${customer.id}`">{{ $t('form.delete') }}</b-dropdown-item>
     </b-dropdown>
     <delete-customer :customer="customer" />
     <edit-customer :customer="customer" />

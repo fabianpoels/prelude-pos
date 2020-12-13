@@ -22,10 +22,10 @@ const GymStore = {
     updateGym(state, gym) {
       Vue.set(
         state.gyms,
-        state.gyms.findIndex(g => g._id === gym._id),
+        state.gyms.findIndex(g => g.id === gym.id),
         gym
       )
-      if (state.gym._id === gym._id) {
+      if (state.gym.id === gym.id) {
         state.gym = gym
       }
     },
@@ -40,7 +40,7 @@ const GymStore = {
     async loadGymById({ commit }, gymId) {
       let gym = await Gym.findById(gymId)
         .populate({ path: 'users', model: 'User' })
-        .lean()
+        .lean({ virtuals: true })
       if (gym) {
         commit('setGym', gym)
         commit('setUsers', gym.users)
@@ -50,7 +50,7 @@ const GymStore = {
     async loadAllGyms({ commit }) {
       let gyms = await Gym.find()
         .populate({ path: 'users', model: 'User' })
-        .lean()
+        .lean({ virtuals: true })
       if (Array.isArray(gyms)) {
         commit('setGyms', gyms)
       }
@@ -59,14 +59,14 @@ const GymStore = {
     async createGym({ commit }, data) {
       let gym = new Gym(data)
       await gym.save()
-      gym = gym.toObject({ getters: true })
+      gym = gym.toObject({ virtuals: true })
       commit('addGym', gym)
       return gym
     },
 
     async updateGym({ commit }, gym) {
       let dbGym = await Gym.findByIdAndUpdate(gym._id, gym, { new: true })
-      commit('updateGym', dbGym.toObject({ getters: true }))
+      commit('updateGym', dbGym.toObject({ virtuals: true }))
     },
 
     addPosToGym(context, { pos, gym }) {
@@ -84,9 +84,9 @@ const GymStore = {
 
   getters: {
     gym: state => state.gym,
-    gymById: state => id => state.gyms.find(gym => gym._id === id),
+    gymById: state => id => state.gyms.find(gym => gym.id === id),
     gyms: state => state.gyms,
-    gymLoaded: state => !!state.gym && !!state.gym._id && state.gym._id !== '',
+    gymLoaded: state => !!state.gym && !!state.gym.id && state.gym.id !== '',
   },
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" size="lg" :id="`editCustomer-${customer._id}`" :title="$t('customer.edit_customer')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" size="lg" :id="`editCustomer-${customer.id}`" :title="$t('customer.edit_customer')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-row>
         <b-col>

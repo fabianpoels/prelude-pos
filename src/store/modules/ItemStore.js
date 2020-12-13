@@ -18,14 +18,14 @@ const ItemStore = {
     updateItem(state, item) {
       Vue.set(
         state.items,
-        state.items.findIndex(i => i._id === item._id),
+        state.items.findIndex(i => i.id === item.id),
         item
       )
     },
 
     deleteItem(state, item) {
       state.items.splice(
-        state.items.findIndex(i => i._id === item._id),
+        state.items.findIndex(i => i.id === item.id),
         1
       )
     },
@@ -33,26 +33,26 @@ const ItemStore = {
 
   actions: {
     async loadItems({ commit }, categories) {
-      let items = await Item.find({ category: { $in: categories.map(c => c._id) } }).lean()
+      let items = await Item.find({ category: { $in: categories.map(c => c._id) } }).lean({ virtuals: true })
       commit('setItems', items)
     },
 
     async createItem({ commit, dispatch }, { data, prices }) {
       let item = new Item(data)
       await item.save()
-      item = item.toObject({ getters: true })
+      item = item.toObject({ virtuals: true })
       prices.forEach(p => {
         p.item = item._id
       })
       prices = await dispatch('createPrices', prices)
       item.prices = prices.map(p => p._id)
       let dbItem = await Item.findByIdAndUpdate(item._id, item, { new: true })
-      commit('addItem', dbItem.toObject({ getters: true }))
+      commit('addItem', dbItem.toObject({ virtuals: true }))
     },
 
     async updateItem({ commit }, item) {
       let dbItem = await Item.findByIdAndUpdate(item._id, item, { new: true })
-      commit('updateItem', dbItem.toObject({ getters: true }))
+      commit('updateItem', dbItem.toObject({ virtuals: true }))
     },
 
     async archiveItem({ getters, dispatch }, { ...item }) {
@@ -72,11 +72,11 @@ const ItemStore = {
 
   getters: {
     items: state => state.items.filter(i => i.archived === false),
-    itemById: state => id => state.items.find(i => i._id === id),
-    itemsForCategory: (state, getters) => category => getters.items.filter(i => i.category === category._id),
+    itemById: state => id => state.items.find(i => i.id === id),
+    itemsForCategory: (state, getters) => category => getters.items.filter(i => i.category.toString() === category.id),
     entryTokenItems: (state, getters) => getters.items.filter(i => i.isEntryToken === true),
     canArchiveItem: (state, getters) => item => getters.pricesForItem(item).length === 0,
-    canDeleteItem: (state, getters, rootState) => item => rootState.PriceStore.prices.filter(p => p.item === item._id).length === 0,
+    canDeleteItem: (state, getters, rootState) => item => rootState.PriceStore.prices.filter(p => p.item.toString() === item.id).length === 0,
   },
 }
 

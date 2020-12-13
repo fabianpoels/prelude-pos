@@ -1,17 +1,18 @@
-import { v4 as uuid } from 'uuid'
 import mongoose from 'mongoose'
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals'
 
 let Schema = mongoose.Schema
 
 let PosSchema = new Schema(
   {
-    _id: { type: String, default: uuid },
     name: { type: String, required: true, trim: true },
-    gym: { type: String, ref: 'Gym', required: true },
-    pages: [{ type: String, ref: 'Page' }],
+    gym: { type: Schema.Types.ObjectId, ref: 'Gym', required: true },
+    pages: [{ type: Schema.Types.ObjectId, ref: 'Page' }],
   },
   { timestamps: true }
 )
+
+PosSchema.plugin(mongooseLeanVirtuals)
 
 let Pos = mongoose.model('Pos', PosSchema)
 

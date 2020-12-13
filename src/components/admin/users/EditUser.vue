@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`editUser-${user._id}`" :title="$t('user.edit_user')" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`editUser-${user.id}`" :title="$t('user.edit_user')" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="firstname" :label="$t('user.firstname')" label-for="firstname-input">
         <b-form-input id="firstname-input" v-model="editUser.firstname" required :disabled="saving" />

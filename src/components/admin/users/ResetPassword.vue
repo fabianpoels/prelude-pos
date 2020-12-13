@@ -1,5 +1,5 @@
 <template>
-  <b-modal v-model="showModal" :id="`resetPassword-${user._id}`" :title="`${$t('user.reset_password')}: ${user.firstname} ${user.lastname}`" body-bg-variant="100" no-close-on-backdrop>
+  <b-modal v-model="showModal" :id="`resetPassword-${user.id}`" :title="`${$t('user.reset_password')}: ${user.firstname} ${user.lastname}`" body-bg-variant="100" no-close-on-backdrop>
     <b-form class="my-3">
       <b-form-group id="password" :label="$t('user.password')" label-for="password-input">
         <b-form-input id="password-input" v-model="editUser.password" required type="password" :disabled="saving" />

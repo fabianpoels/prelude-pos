@@ -11,7 +11,7 @@ const TransactionStore = {
     },
 
     addTransaction(state, transaction) {
-      if (!state.transactions.some(t => t._id === transaction._id)) {
+      if (!state.transactions.some(t => t.id === transaction.id)) {
         state.transactions.push(transaction)
       }
     },
@@ -20,8 +20,8 @@ const TransactionStore = {
   actions: {
     async loadDailyTransactions({ commit, getters }) {
       // let startOfDay = DateTime.local().startOf('day')
-      // let transactions = await Transaction.find({ createdAt: { $gte: startOfDay.toJSDate() } }).lean()
-      let transactions = await Transaction.find({ gym: getters.gym._id, pos: getters.pos._id }).lean()
+      // let transactions = await Transaction.find({ createdAt: { $gte: startOfDay.toJSDate() } }).lean({ virtuals: true })
+      let transactions = await Transaction.find({ gym: getters.gym._id, pos: getters.pos._id }).lean({ virtuals: true })
       commit('setTransactions', transactions)
     },
 
@@ -35,7 +35,7 @@ const TransactionStore = {
         paymentMethod: paymentMethod,
       })
       await transaction.save()
-      let t = transaction.toObject({ getters: true })
+      let t = transaction.toObject({ virtuals: true })
       commit('addTransaction', t)
       return t
     },

@@ -24,7 +24,7 @@
         </div>
       </template>
       <slot name="no-collapse"></slot>
-      <b-collapse v-model="expanded" :accordion="`entry-token-accordion-${this.customer._id}`">
+      <b-collapse v-model="expanded" :accordion="`entry-token-accordion-${this.customer.id}`">
         <slot></slot>
       </b-collapse>
     </b-card>

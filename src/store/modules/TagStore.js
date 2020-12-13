@@ -22,14 +22,14 @@ const TagStore = {
     updateTag(state, tag) {
       Vue.set(
         state.tags,
-        state.tags.findIndex(i => i._id === tag._id),
+        state.tags.findIndex(i => i.id === tag.id),
         tag
       )
     },
 
     deleteTag(state, tag) {
       state.tags.splice(
-        state.tags.findIndex(i => i._id === tag._id),
+        state.tags.findIndex(i => i.id === tag.id),
         1
       )
     },
@@ -52,7 +52,7 @@ const TagStore = {
     async loadTagsForCustomer({}, customer) {
       let dbCustomer = await Customer.findById(customer._id)
       if (dbCustomer && dbCustomer._id) {
-        return await Tag.find({ customer: dbCustomer._id }).lean()
+        return await Tag.find({ customer: dbCustomer._id }).lean({ virtuals: true })
       } else {
         return []
       }
@@ -60,7 +60,7 @@ const TagStore = {
 
     async readTag({ commit }, tagId) {
       let dbTag = await Tag.findOneAndUpdate({ tagId: tagId }, { tagId: tagId, lastScanned: DateTime.local().toJSDate() }, { new: true, upsert: true })
-      dbTag = dbTag.toObject({ getters: true })
+      dbTag = dbTag.toObject({ virtuals: true })
       commit('addTag', dbTag)
     },
   },

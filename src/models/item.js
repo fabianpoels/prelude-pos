@@ -1,16 +1,15 @@
-import { v4 as uuid } from 'uuid'
 import mongoose from 'mongoose'
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals'
 import config from '@/config/config'
 let Schema = mongoose.Schema
 
 let ItemSchema = new Schema(
   {
-    _id: { type: String, default: uuid },
     name: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
     identifier: { type: String, trim: true },
-    gym: { type: String, ref: 'Gym' },
-    category: { type: String, ref: 'Category' },
+    gym: { type: Schema.Types.ObjectId, ref: 'Gym' },
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
     archived: { type: Boolean, required: true, default: false },
     isEntryToken: { type: Boolean, default: false },
     tokenType: { type: String, enum: config.tokenTypes, required: false },
@@ -19,6 +18,8 @@ let ItemSchema = new Schema(
   },
   { timestamps: true }
 )
+
+ItemSchema.plugin(mongooseLeanVirtuals)
 
 let Item = mongoose.model('Item', ItemSchema)
 

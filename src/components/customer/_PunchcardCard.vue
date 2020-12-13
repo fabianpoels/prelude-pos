@@ -38,13 +38,7 @@
             <b-btn size="sm" class="ml-2" variant="outline-secondary" @click="addingEntry = false">{{ $t('form.cancel') }}</b-btn>
           </b-td>
         </b-tr>
-        <punchcard-entry-row
-          v-for="(entrance, index) in token.entrances"
-          :entrance="entrance"
-          :number="token.entrances.length - index"
-          :key="`${token._id.toString()}-${entrance.toString()}`"
-          @delete="deleteEntry(index)"
-        />
+        <punchcard-entry-row v-for="(entrance, index) in token.entrances" :entrance="entrance" :number="token.entrances.length - index" :key="`${token.id}-${entrance.toString()}`" @delete="deleteEntry(index)" />
       </b-tbody>
     </b-table-simple>
   </entrytoken-card>
@@ -144,7 +138,7 @@ export default {
       // let tokenCopy = { ...this.token }
       // tokenCopy.entrances.splice(index)
       // customerCopy.entryTokens.splice(
-      //   customerCopy.entryTokens.findIndex(t => t._id.toString() === tokenCopy._id.toString()),
+      //   customerCopy.entryTokens.findIndex(t => t.id === tokenCopy.id),
       //   1,
       //   tokenCopy.entrances
       // )

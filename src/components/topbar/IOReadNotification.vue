@@ -65,7 +65,7 @@ export default {
 
     tagCustomer() {
       if (this.tag && this.tag.customer) {
-        return this.customerById(this.tag.customer)
+        return this.customerById(this.tag.customer.toString())
       }
       return null
     },
@@ -81,14 +81,14 @@ export default {
     },
 
     viewIdCardCustomer() {
-      if (this.idCardCustomer && this.idCardCustomer._id) {
-        this.$bvModal.show(`viewCustomer-${this.idCardCustomer._id}-topbar-idcard`)
+      if (this.idCardCustomer && this.idCardCustomer.id) {
+        this.$bvModal.show(`viewCustomer-${this.idCardCustomer.id}-topbar-idcard`)
       }
     },
 
     viewTagCustomer() {
-      if (this.tagCustomer && this.tagCustomer._id) {
-        this.$bvModal.show(`viewCustomer-${this.tagCustomer._id}-topbar-nfctag`)
+      if (this.tagCustomer && this.tagCustomer.id) {
+        this.$bvModal.show(`viewCustomer-${this.tagCustomer.id}-topbar-nfctag`)
       }
     },
   },

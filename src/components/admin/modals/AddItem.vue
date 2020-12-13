@@ -8,9 +8,9 @@
         <b-form-input id="identifier-input" v-model="newItem.identifier" required />
       </b-form-group>
       <b-form-group id="category" :label="$t('datastructure.category')" label-for="category-input">
-        <el-select id="category-input" v-model="newItem.category" :placeholder="$t('datastructure.category')" class="w-100" filterable>
-          <el-option-group v-for="businessUnit in businessUnits" :key="businessUnit._id" :label="businessUnit.name">
-            <el-option v-for="category in categoriesForBusinessUnit(businessUnit)" :key="category._id" :label="category.name" :value="category._id">
+        <el-select id="category-input" v-model="newItemCategory" :placeholder="$t('datastructure.category')" class="w-100" filterable>
+          <el-option-group v-for="businessUnit in businessUnits" :key="businessUnit.id" :label="businessUnit.name">
+            <el-option v-for="category in categoriesForBusinessUnit(businessUnit)" :key="category.id" :label="category.name" :value="category.id">
               <span class="category-dot" :style="{ backgroundColor: category.color }"></span>
               <span class="ml-2">{{ category.name }}</span>
             </el-option>
@@ -90,7 +90,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['businessUnits', 'categoriesForBusinessUnit', 'categories', 'vatFormOptions', 'tokenTypeOptioins']),
+    ...mapGetters(['businessUnits', 'categoriesForBusinessUnit', 'categories', 'categoryById', 'vatFormOptions', 'tokenTypeOptions']),
 
     validInput() {
       return this.newItem.name && this.newItem.name.length > 0 && this.newItem.category !== null && this.prices.length > 0
@@ -111,6 +111,22 @@ export default {
 
     punchcardEntriesAppend() {
       return this.newItem.punchcardEntries === 1 ? this.$i18n.t('datastructure.entry') : this.$i18n.t('datastructure.entries')
+    },
+
+    newItemCategory: {
+      get() {
+        if (this.newItem.category && this.newItem.category !== null) {
+          return this.newItem.category.toString()
+        }
+        return null
+      },
+      set(value) {
+        let category = this.categoryById(value)
+        if (category && category._id) {
+          this.newItem.category = category._id
+          if (category.vatRegime) this.newItem.vatRegime = category.vatRegime
+        }
+      },
     },
   },
 

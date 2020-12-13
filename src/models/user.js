@@ -1,5 +1,5 @@
-import { v4 as uuid } from 'uuid'
 import mongoose from 'mongoose'
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals'
 import bcrypt from 'bcrypt'
 import config from '@/config/config'
 let Schema = mongoose.Schema
@@ -8,12 +8,11 @@ const saltRounds = 10
 
 let UserSchema = new Schema(
   {
-    _id: { type: String, default: uuid },
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
     password: { type: String, required: true },
     identifier: { type: String, required: true, trim: true },
-    gym: { type: String, ref: 'Gym' },
+    gym: { type: Schema.Types.ObjectId, ref: 'Gym' },
     role: { type: String, enum: Object.values(config.user.roles), required: true },
     enabled: { type: Boolean, default: true },
     archived: { type: Boolean, default: false },
@@ -36,6 +35,8 @@ UserSchema.statics.getHashedPassword = async function(passwordToHash) {
     return ''
   }
 }
+
+UserSchema.plugin(mongooseLeanVirtuals)
 
 let User = mongoose.model('User', UserSchema)
 export default User

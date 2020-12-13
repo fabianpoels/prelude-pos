@@ -18,7 +18,7 @@ const UserStore = {
     },
 
     addUser(state, user) {
-      if (!state.users.some(u => u._id === user._id)) {
+      if (!state.users.some(u => u.id === user.id)) {
         state.users.push(user)
       }
     },
@@ -26,10 +26,10 @@ const UserStore = {
     updateUser(state, user) {
       Vue.set(
         state.users,
-        state.users.findIndex(c => c._id === user._id),
+        state.users.findIndex(c => c.id === user.id),
         user
       )
-      if (user._id === state.currentUser._id) state.currentUser = user
+      if (user.id === state.currentUser.id) state.currentUser = user
     },
 
     clearUserStore(state) {
@@ -42,31 +42,31 @@ const UserStore = {
     async createFirstUser({ commit }, { user, gym }) {
       user.role = config.user.roles.admin
       user.password = await User.getHashedPassword(user.password)
-      let dbGym = await Gym.findOne({ _id: gym._id })
+      let dbGym = await Gym.findById(gym._id)
       let newUser = new User(user)
       newUser.gym = gym._id
       let createdUser = await newUser.save()
-      commit('addUser', createdUser.toObject({ getters: true }))
+      commit('addUser', createdUser.toObject({ virtuals: true }))
       dbGym.users.push(createdUser._id)
       dbGym = await dbGym.save()
-      commit('updateGym', dbGym.toObject({ getters: true }))
+      commit('updateGym', dbGym.toObject({ virtuals: true }))
     },
 
     async createUser({ commit }, { user, gym }) {
       user.password = await User.getHashedPassword(user.password)
-      let dbGym = await Gym.findOne({ _id: gym._id })
+      let dbGym = await Gym.findById(gym._id)
       let newUser = new User(user)
       newUser.gym = gym._id
       let createdUser = await newUser.save()
-      commit('addUser', createdUser.toObject({ getters: true }))
+      commit('addUser', createdUser.toObject({ virtuals: true }))
       dbGym.users.push(createdUser._id)
       dbGym = await dbGym.save()
-      commit('updateGym', dbGym.toObject({ getters: true }))
+      commit('updateGym', dbGym.toObject({ virtuals: true }))
     },
 
     async updateUser({ commit }, user) {
       let dbUser = await User.findByIdAndUpdate(user._id, user, { new: true })
-      commit('updateUser', dbUser.toObject({ getters: true }))
+      commit('updateUser', dbUser.toObject({ virtuals: true }))
     },
 
     async changePassword({ dispatch }, user) {
@@ -78,7 +78,7 @@ const UserStore = {
   getters: {
     users: state => state.users,
     userByIdentifier: state => identifier => state.users.find(u => u.identifier === identifier),
-    userById: (state, getters) => id => getters.users.find(u => u._id === id),
+    userById: (state, getters) => id => getters.users.find(u => u.id === id),
     isAdmin: state => state.currentUser.role && state.currentUser.role === 'admin',
     currentUser: state => state.currentUser,
   },
