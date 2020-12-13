@@ -1,9 +1,11 @@
 const en = {
   checkout: {
+    add_to_customer: 'Add to customer',
     card: 'Card',
     cash: 'Cash',
     checkout: 'Checkout',
     credit_card: 'Credit card',
+    customer_account: 'Customer account',
     processed: 'Processed',
   },
   customer: {

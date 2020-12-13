@@ -48,8 +48,7 @@ const TagStore = {
       commit('deleTag', tag)
     },
 
-    // eslint-disable-next-line no-empty-pattern
-    async loadTagsForCustomer({}, customer) {
+    async loadTagsForCustomer(context, customer) {
       let dbCustomer = await Customer.findById(customer._id)
       if (dbCustomer && dbCustomer._id) {
         return await Tag.find({ customer: dbCustomer._id }).lean({ virtuals: true })

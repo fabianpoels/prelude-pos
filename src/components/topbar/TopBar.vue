@@ -8,18 +8,19 @@
         <font-awesome-icon :icon="['fas', page.icon]" size="2x" v-if="page.icon && page.icon !== ''" />
         <span class="ml-2">{{ page.name }}</span>
       </router-link>
-      <router-link tag="b-nav-item" :to="{ name: 'transactions' }" class="ml-5 mr-3">
-        <font-awesome-icon :icon="['fas', 'receipt']" size="2x" />
-        <span class="ml-2">{{ $t('topbar.transactions') }}</span>
-      </router-link>
-      <router-link tag="b-nav-item" :to="{ name: 'customers' }" class="mr-3">
-        <font-awesome-icon :icon="['fas', 'address-book']" size="2x" />
-        <span class="ml-2">{{ $t('topbar.customers') }}</span>
-      </router-link>
     </b-navbar-nav>
     <read-notification v-if="loggedIn" />
     <b-navbar-nav>
-      <slot></slot>
+      <template v-if="loggedIn">
+        <router-link tag="b-nav-item" :to="{ name: 'transactions' }" class="mr-3">
+          <font-awesome-icon :icon="['fas', 'receipt']" size="2x" />
+          <span class="ml-2">{{ $t('topbar.transactions') }}</span>
+        </router-link>
+        <router-link tag="b-nav-item" :to="{ name: 'customers' }" class="mr-3">
+          <font-awesome-icon :icon="['fas', 'address-book']" size="2x" />
+          <span class="ml-2">{{ $t('topbar.customers') }}</span>
+        </router-link>
+      </template>
       <router-link tag="b-nav-item" :to="{ name: 'pages-setup' }" v-if="loggedIn && isAdmin" class="ml-2">
         <font-awesome-icon :icon="['fas', 'th']" size="2x" />
       </router-link>

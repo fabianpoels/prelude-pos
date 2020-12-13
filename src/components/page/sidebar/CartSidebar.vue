@@ -20,7 +20,7 @@
         <b-btn v-else variant="outline-danger" class="w-50 mr-2" :disabled="!cartHasItems" @click="$store.commit('clearCart')">
           <font-awesome-icon :icon="['fas', 'ban']" size="2x" />
         </b-btn>
-        <b-btn variant="primary" class="w-100 mr-2" :disabled="!cartHasItems">
+        <b-btn variant="primary" class="w-100 mr-2" :disabled="!cartHasItems" v-b-modal.addToCustomerAccount>
           <font-awesome-icon :icon="['fas', 'address-book']" size="2x" />
         </b-btn>
         <b-btn variant="success" class="w-100 mr-2" :disabled="!cartHasItems || cartItemsCount < 2" v-b-modal.splitCheckout>

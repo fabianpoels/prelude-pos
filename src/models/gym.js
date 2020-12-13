@@ -14,6 +14,13 @@ let GymSchema = new Schema(
       currency_sign: { type: String, trim: true, default: '€' },
       currency_text: { type: String, trim: true, default: 'EUR' },
     },
+    openCustomerAccounts: [
+      {
+        customer: { type: Schema.Types.ObjectId, ref: 'Customer' },
+        prices: [{ price: { type: Schema.Types.ObjectId, ref: 'Price' }, amount: { type: Number } }],
+      },
+      { timestamps: true },
+    ],
   },
   { timestamps: true }
 )

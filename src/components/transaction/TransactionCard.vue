@@ -68,7 +68,7 @@ export default {
         case 'card':
           return { style: 'fas', icon: 'credit-card' }
         case 'creditCard':
-          return { style: 'fab', icon: 'cc-visa' }
+          return { style: 'fas', icon: 'credit-card' }
         default:
           return { style: 'fas', icon: 'coins' }
       }
