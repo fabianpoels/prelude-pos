@@ -60,7 +60,6 @@ import {
   faTag,
   faIdCard,
 } from '@fortawesome/free-solid-svg-icons'
-import { faCcVisa } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
   faBuilding,
@@ -90,7 +89,6 @@ library.add(
   faMoneyBill,
   faCreditCard,
   faCoins,
-  faCcVisa,
   faAngleRight,
   faAngleLeft,
   faAngleDoubleLeft,

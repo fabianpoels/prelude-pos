@@ -17,7 +17,7 @@
     <div slot="modal-footer" class="w-50 pl-5">
       <b-overlay :show="saving" rounded="sm" class="w-100 d-flex flex-row">
         <b-btn variant="success" class="w-100 d-flex flex-column align-items-center py-3 mr-2" @click="createTransaction(paymentMethods.creditCard)" :disabled="!checkoutPossible">
-          <font-awesome-icon :icon="['fab', 'cc-visa']" size="2x" />
+          <font-awesome-icon :icon="['fas', 'credit-card']" size="2x" />
           <div>{{ $t('checkout.credit_card') }}</div>
         </b-btn>
         <b-btn variant="success" class="w-100 d-flex flex-column align-items-center py-3 mr-2" @click="createTransaction(paymentMethods.card)" :disabled="!checkoutPossible">
