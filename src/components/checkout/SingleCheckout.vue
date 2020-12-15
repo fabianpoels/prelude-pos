@@ -51,7 +51,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['customers', 'gym', 'totalForCartItems']),
+    ...mapGetters(['customers', 'gym', 'totalForCartItems', 'customerById']),
 
     customerSelected() {
       return this.selectedCustomer && this.selectedCustomer !== null
@@ -74,6 +74,7 @@ export default {
   methods: {
     async addToCustomerAccount() {
       this.saving = true
+      await this.$store.dispatch('addCartToCustomerAccount', this.customerById(this.selectedCustomer))
       this.saving = false
       this.showModal = false
     },

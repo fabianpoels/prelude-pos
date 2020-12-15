@@ -60,7 +60,12 @@ const CartStore = {
     },
   },
 
-  actions: {},
+  actions: {
+    async addCartToCustomerAccount({ commit, getters, dispatch }, customer) {
+      await dispatch('addCartItemsToCustomerAccount', { customer: customer, cartItems: getters.cartItems })
+      commit('clearCartStore')
+    },
+  },
 
   getters: {
     cartItems: state => state.cartItems,
