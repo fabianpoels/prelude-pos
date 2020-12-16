@@ -4,6 +4,10 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>-->
     <b-spinner v-if="connecting" />
     <b-navbar-nav v-if="loggedIn">
+      <router-link tag="b-nav-item" :to="{ name: 'customerAccounts' }" class="mr-3">
+        <font-awesome-icon :icon="['fas', 'cash-register']" size="2x" />
+        <!-- <b-badge class="ml-1">{{ customerAccounts.length }}</b-badge> -->
+      </router-link>
       <router-link tag="b-nav-item" v-for="page in orderedPages" :key="page.id" :to="{ name: 'page-view', params: { pageId: page.id } }" class="mr-3">
         <font-awesome-icon :icon="['fas', page.icon]" size="2x" v-if="page.icon && page.icon !== ''" />
         <span class="ml-2">{{ page.name }}</span>
@@ -59,7 +63,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'orderedPages', 'connected', 'connecting', 'dataLoaded']),
+    ...mapGetters(['loggedIn', 'gym', 'isAdmin', 'orderedPages', 'connected', 'connecting', 'dataLoaded', 'customerAccounts']),
   },
 
   methods: {

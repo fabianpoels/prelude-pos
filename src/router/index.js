@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import CustomerAccountPage from '@/components/customerAccount/CustomerAccountPage'
 import CustomerPage from '@/components/customer/CustomerPage'
 import EmptyView from '@/components/EmptyView'
 import GymSettings from '@/components/admin/GymSettings'
@@ -32,6 +33,17 @@ export default new Router({
       path: '/page-view/:pageId',
       name: 'page-view',
       component: PageView,
+      beforeEnter: (to, from, next) => {
+        if (store.getters.loggedIn) {
+          next()
+        }
+        next(false)
+      },
+    },
+    {
+      path: '/customerAccounts/',
+      name: 'customerAccounts',
+      component: CustomerAccountPage,
       beforeEnter: (to, from, next) => {
         if (store.getters.loggedIn) {
           next()

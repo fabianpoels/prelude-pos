@@ -55,6 +55,9 @@ const CartStore = {
 
   getters: {
     customerAccounts: state => state.customerAccounts,
+    totalForCustomerAccount: (state, getters, rootState, rootGetters) => customerAccount =>
+      customerAccount.prices.reduce((sum, accountItem) => sum + rootGetters.priceById(accountItem.price.toString()).salesPrice * accountItem.amount, 0),
+    customerAccountItemsCount: () => customerAccount => customerAccount.prices.reduce((sum, accountItem) => sum + accountItem.amount, 0),
   },
 }
 
