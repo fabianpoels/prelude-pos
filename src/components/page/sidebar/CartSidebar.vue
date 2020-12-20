@@ -33,7 +33,7 @@
         </b-btn>
       </div>
     </div>
-    <single-checkout @processed="processed" :cartItems="cartItems" />
+    <single-checkout @processed="processed" :cartItems="cartItems" @transferred="transferred"/>
     <split-checkout v-model="splitCartItems" />
   </div>
 </template>
@@ -70,7 +70,15 @@ export default {
         solid: true,
         toaster: 'b-toaster-top-center',
       })
-      this.$store.commit('clearCartStore')
+    },
+
+    transferred(customer) {
+      this.$bvToast.toast(`${customer.firstname} ${customer.lastname}`, {
+        title: this.$i18n.t('checkout.transferred'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
     },
   },
 }

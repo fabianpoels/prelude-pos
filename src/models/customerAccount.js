@@ -7,7 +7,7 @@ let CustomerAccountSchema = new Schema(
   {
     gym: { type: Schema.Types.ObjectId, ref: 'Gym' },
     customer: { type: Schema.Types.ObjectId, ref: 'Customer' },
-    prices: {
+    accountItems: {
       type: [
         {
           price: { type: Schema.Types.ObjectId, ref: 'Price' },

@@ -1,10 +1,10 @@
 <template>
   <div class="p-3">
-    <div class="row">
+    <transition-group name="list" tag="div" class="row">
       <div class="col-3" v-for="customerAccount in customerAccounts" :key="customerAccount.id">
-        <customer-account-card :customerAccount="customerAccount" />
+        <customer-account-card :customerAccount="customerAccount" @fullyProcessed="fullyProcessed" @fullyTransferred="fullyTransferred" />
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 <script>
@@ -16,7 +16,38 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['customerAccounts']),
+    ...mapGetters(['customerAccounts', 'gym']),
+  },
+
+  methods: {
+    fullyProcessed({ transaction, customerAccount }) {
+      this.$bvToast.toast(`#${transaction.number}: ${this.$helpers.formatPrice(this.gym, transaction.totalAmount)}`, {
+        title: this.$i18n.t('checkout.processed'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
+      this.$store.dispatch('deleteCustomerAccount', customerAccount)
+    },
+
+    fullyTransferred({ customer, customerAccount }) {
+      this.$bvToast.toast(`${customer.firstname} ${customer.lastname}`, {
+        title: this.$i18n.t('checkout.transferred'),
+        variant: 'success',
+        solid: true,
+        toaster: 'b-toaster-top-center',
+      })
+      this.$store.dispatch('deleteCustomerAccount', customerAccount)
+    },
   },
 }
 </script>
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

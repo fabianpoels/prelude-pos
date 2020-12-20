@@ -24,6 +24,10 @@
               <font-awesome-icon :icon="['fas', 'cash-register']" class="mr-2" />
               {{ pos.name }}
             </div>
+            <div class="mt-2" v-if="transaction.customer">
+              <font-awesome-icon :icon="['fas', 'address-book']" class="mr-2" />
+              {{ customerName }}
+            </div>
           </b-col>
           <b-col cols="9">
             <b-table :fields="fields" :items="tableItems"> </b-table>
@@ -55,10 +59,18 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['gym', 'userById', 'posById', 'priceById', 'categoryById', 'itemById']),
+    ...mapGetters(['gym', 'userById', 'posById', 'priceById', 'categoryById', 'itemById', 'customerById']),
 
     collapseIcon() {
       return this.expanded ? 'chevron-up' : 'chevron-down'
+    },
+
+    customerName() {
+      if (this.transaction.customer && this.transaction.customer !== null) {
+        let customer = this.customerById(this.transaction.customer.toString())
+        return `${customer.firstname} ${customer.lastname}`
+      }
+      return ''
     },
 
     paymentIcon() {

@@ -7,6 +7,7 @@ const en = {
     credit_card: 'Credit card',
     customer_account: 'Customer account',
     processed: 'Processed',
+    transferred: 'Transferred',
   },
   customer: {
     address: 'Address',

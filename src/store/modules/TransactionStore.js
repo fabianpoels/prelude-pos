@@ -39,6 +39,22 @@ const TransactionStore = {
       commit('addTransaction', t)
       return t
     },
+
+    async createTransactionFromAccountItems({ commit, rootGetters }, { accountItems, paymentMethod, customer }) {
+      let transaction = new Transaction({
+        gym: rootGetters.gym._id,
+        pos: rootGetters.pos._id,
+        user: rootGetters.currentUser._id,
+        customer: customer._id,
+        priceIds: accountItems.map(ai => ai.price.toString()),
+        prices: accountItems.flatMap(accountItem => Array(accountItem.amount).fill(rootGetters.priceById(accountItem.price.toString()))),
+        paymentMethod: paymentMethod,
+      })
+      await transaction.save()
+      let t = transaction.toObject({ virtuals: true })
+      commit('addTransaction', t)
+      return t
+    },
   },
 
   getters: {

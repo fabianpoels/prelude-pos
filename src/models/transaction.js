@@ -12,6 +12,7 @@ let TransactionSchema = new Schema(
     gym: { type: Schema.Types.ObjectId, ref: 'Gym', required: true },
     pos: { type: Schema.Types.ObjectId, ref: 'Pos', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    customer: { type: Schema.Types.ObjectId, ref: 'Customer' },
     priceIds: [{ type: String, ref: 'Price', required: true }],
     prices: [PriceSchema],
     paymentMethod: { type: String, enum: Object.values(config.transaction.paymentMethods), required: true },

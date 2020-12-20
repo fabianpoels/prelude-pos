@@ -38,9 +38,9 @@
         <b-row>
           <b-col cols="12" lg="12">
             <template v-for="token in customer.entryTokens">
-              <punchcard-card :token="token" :customer="customer" v-if="token.item.tokenType === 'punchcard'" :key="`${customer.id}-token-${token.id}`" />
-              <subscription-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer.id}-token-${token.id}`" />
-              <single-entry-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'single'" :key="`${customer.id}-token-${token.id}`" />
+              <punchcard-card :token="token" :customer="customer" v-if="token.item.tokenType === 'punchcard'" :key="`${customer.id}-token-${token._id.toString()}`" />
+              <subscription-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'subscription'" :key="`${customer.id}-token-${token._id.toString()}`" />
+              <single-entry-card :token="token" :customer="customer" v-else-if="token.item.tokenType === 'single'" :key="`${customer.id}-token-${token._id.toString()}`" />
             </template>
           </b-col>
         </b-row>
